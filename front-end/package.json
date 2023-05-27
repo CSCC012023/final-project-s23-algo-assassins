@@ -1,6 +1,7 @@
 {
   "name": "BinBuddy",
   "version": "0.0.1",
+  "license": "UNLICENSED",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -16,6 +17,7 @@
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
     "axios": "^1.4.0",
+    "ios-deploy": "^1.12.2",
     "react": "18.2.0",
     "react-native": "0.71.7",
     "react-native-animated-styles": "^0.9.0",
@@ -45,7 +47,8 @@
     "postcss": "^8.4.23",
     "prettier": "^2.4.1",
     "react-test-renderer": "18.2.0",
-    "typescript": "4.8.4"
+    "typescript": "4.8.4",
+    "ios-deploy": "^1.12.2"
   },
   "jest": {
     "preset": "react-native"
