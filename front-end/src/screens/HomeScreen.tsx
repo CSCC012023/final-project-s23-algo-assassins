@@ -14,6 +14,7 @@ const HomeScreen = ({navigation: {navigate}}: Props) => {
         title="Go to BottomSheet"
         onPress={() => navigate('BottomSheet')}
       />
+      <Button title="Go to Signup" onPress={() => navigate('SignUp')}/>
     </View>
   );
 };
