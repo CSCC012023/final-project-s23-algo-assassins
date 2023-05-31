@@ -57,7 +57,9 @@ We also use GitHub issues for specific tasks when required.
 
 ### Pull Requests
 
-Pull requests are managed on GitHub and should be opened when merging code into the main branch of the application. The pull request should include a description of the changes made to the code and a brief explanation of why they were necessary. Each pull request must receive at least one review from a peer before it can be merged into the main branch.
+Pull requests are managed on GitHub and should be opened when merging code into the main branch of the application. The pull request should include a prefix of either `fix` or `feature`, and should comprise of a brief overview of the changes implemented in the PR. The PR should also include a description of the changes made to the code and a brief explanation of why they were necessary, as well as a link to the corresponding JIRA ticket(s). The PR description should follow the PR description template as close as possible. The PR should be tested by the programmer before it is marked as `ready for review`. Each pull request must receive at least one review from a peer, and the code must then also be tested by the reviewer as well before it can be merged into the main branch.
+
+Github Classroom does not permit opening of draft PR's, but they can be helpful to visualize changes to the codebase and commit histories. Therefore, we will loosely follow the convention of tagging open draft PR's as \[DRAFT]. PR's tagged with \[DRAFT] in the prefix are not to be merged. Conversely, PR's marked as \[READY FOR REVIEW] or \[ROR] are PR's that are ready for review and potentially merged onto the main branch.
 
 ---
 
