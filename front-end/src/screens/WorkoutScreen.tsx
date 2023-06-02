@@ -1,9 +1,10 @@
-import {StyleSheet, View, Pressable,} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {
   TextInput,
   Text,
   Button,
   Divider,
+  Pressable,
 } from '@react-native-material/core';
 import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -14,7 +15,7 @@ import Octicons from 'react-native-vector-icons/Octicons';
 const ProgramButton = (props: any) => {
   return (
     <View style={[styles.btn_program_container]}>
-      <Pressable style={[styles.btn_program_body]}>
+      <Pressable pressEffectColor="#FB8E40" style={[styles.btn_program_body]}>
         <Octicons name={props.icon} size={40} color={'#000000B3'} />
         <Text
           style={[styles.mg_t_8, styles.font_inter_input, styles.text_center]}>
@@ -29,17 +30,10 @@ const WorkoutScreen = () => {
   return (
     <View style={styles.bg_white}>
       <View style={[styles.mg_h_16, styles.mg_v_8]}>
-        <View>
-          <Pressable
-            style={({ pressed }: {pressed: any}) => [
-              {
-                backgroundColor: pressed
-                  ? 'rgb(210, 230, 255)'
-                  : 'white'
-              },
-              styles.wrapperCustom
-            ]}>
-            <Text style={[styles.mg_v_16, styles.font_inter_input]}>
+        <View style={[styles.btn_new_workout]}>
+          <Pressable pressEffectColor="#FB8E40">
+            <Text
+              style={[styles.mg_v_16, styles.pd_h_4, styles.font_inter_input]}>
               <Fontisto name={'plus-a'} size={20} color={'#0561F880'} /> Start
               New Workout
             </Text>
@@ -84,6 +78,9 @@ const styles = StyleSheet.create({
   mg_t_16: {
     marginTop: 16,
   },
+  pd_h_4: {
+    paddingHorizontal: 4,
+  },
   bg_white: {
     backgroundColor: 'white',
     flex: 1,
@@ -127,6 +124,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#bbb',
     borderRadius: 8,
+    overflow: 'hidden',
   },
   btn_program_body: {
     paddingHorizontal: 16,
@@ -135,8 +133,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  wrapperCustom: {
+  btn_new_workout: {
+    borderWidth: 2,
+    borderColor: 'transparent',
     borderRadius: 8,
-    padding: 6
+    overflow: 'hidden',
   },
 });
