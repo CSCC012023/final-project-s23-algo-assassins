@@ -12,6 +12,7 @@ const HomeScreen = ({navigation: {navigate}}: Props) => {
       <Text>Home Screen</Text>
       <Button title="Go to Details" onPress={() => navigate('Details')} />
       <Button title="Go to Login Screen" onPress={() => navigate('Login')} />
+      <Button title="Go to Workout Screen" onPress={() => navigate('Workout')} />
       <Button
         title="Go to BottomSheet"
         onPress={() => navigate('BottomSheet')}
