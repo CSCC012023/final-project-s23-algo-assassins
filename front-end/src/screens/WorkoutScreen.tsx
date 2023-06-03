@@ -1,4 +1,4 @@
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, ScrollView} from 'react-native';
 import {
   TextInput,
   Text,
@@ -43,10 +43,12 @@ const WorkoutScreen = () => {
         <Text style={[styles.mg_v_16, styles.font_inter_semi_bold]}>
           Programs:
         </Text>
+
         <View style={[styles.mg_v_16, styles.flex_row]}>
           <ProgramButton icon="sun" text="New Routine"></ProgramButton>
           <ProgramButton icon="file" text="Saved Routine"></ProgramButton>
         </View>
+
         <TextInput
           label="Search Programs"
           style={[styles.mg_v_8]}
@@ -116,7 +118,7 @@ const styles = StyleSheet.create({
   flex_row: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
     gap: 8,
   },
   btn_program_container: {
@@ -138,5 +140,8 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
     borderRadius: 8,
     overflow: 'hidden',
+  },
+  routine_scroll: {
+    height: '40%',
   },
 });
