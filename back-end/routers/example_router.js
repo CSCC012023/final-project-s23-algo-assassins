@@ -53,15 +53,15 @@ exports.exampleRouter.post('/login', (req, res) => __awaiter(void 0, void 0, voi
         // console.log(data);
         // console.log("Stored password: ", data.password);
         // console.log("Stored name: ", data.name);
-        //console.log("Received");
-        //console.log("stoered email: " + data.email + "input email: " + email)
+        // console.log("Received");
+        // console.log("stoered email: " + data.email + "input email: " + email)
         // console.log("Stored email: ", data.email);
         // console.log("Stored age: ", data.age);
         // console.log("Stored weight: ", data.weight);
         // console.log("Stored height: ", data.height);
         // console.log("Stored _v: ", data.__v);
         // console.log("stored password: " + data.password + ", input password: " + password);
-        if (data.password == password) {
+        if (data != null && data.password == password) {
             // return object ID
             res.json({ success: true });
         }
@@ -70,9 +70,8 @@ exports.exampleRouter.post('/login', (req, res) => __awaiter(void 0, void 0, voi
             res.json({ success: false });
         }
     })
+        // Error
         .catch((err) => {
-        // invalid email
-        console.log("Error in receving req");
         res.json({ message: err });
     });
 }));
