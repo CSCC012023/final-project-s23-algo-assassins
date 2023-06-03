@@ -1,0 +1,10 @@
+PORT = 3000
+
+# DATABASE
+DB_USER = Root
+DB_PASSWORD = JykZwSOi3umLiyna
+DB_NAME = Test
+DB_CLUSTER = cluster0
+
+#Session
+SECRET_KEY = qYjDzHgR

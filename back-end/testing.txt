@@ -1,0 +1,13 @@
+curl -X POST -H "Content-Type: application/json" -d @data.json http://localhost:3000/getuser
+
+curl -X POST -H "Content-Type: application/json" --data-raw '{"name": "Jeremy"}' http://localhost:3000/getuser
+
+curl -X POST -H --data-raw '{"name": "Jeremy"}' http://localhost:3000/getuser
+
+curl -X POST -H --data-raw "name=Jeremy" http://localhost:3000/getuser
+
+curl http://localhost:3000/getuser
+
+curl -X POST -H "Content-Type: application/json" --data-raw 'name=Jeremy' http://localhost:3000/getuser
+
+curl -X POST -H 'Content-Type: application/json' --data-raw 'name=Jeremy' http://localhost:3000/api/users/getuser
