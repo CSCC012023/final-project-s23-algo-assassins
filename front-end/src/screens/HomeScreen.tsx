@@ -1,4 +1,5 @@
-import {Button, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
+import {Button} from '@react-native-material/core';
 import * as React from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigation';
@@ -10,6 +11,7 @@ const HomeScreen = ({navigation: {navigate}}: Props) => {
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>Home Screen</Text>
       <Button title="Go to Details" onPress={() => navigate('Details')} />
+      <Button title="Go to Login Screen" onPress={() => navigate('Login')} />
       <Button
         title="Go to BottomSheet"
         onPress={() => navigate('BottomSheet')}
