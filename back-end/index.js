@@ -8,7 +8,7 @@ const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const body_parser_1 = __importDefault(require("body-parser"));
-const example_router_1 = require("./routers/example_router");
+const user_router_1 = require("./routers/user_router");
 const express_session_1 = __importDefault(require("express-session"));
 const cors_1 = __importDefault(require("cors"));
 dotenv_1.default.config();
@@ -39,7 +39,7 @@ exports.app.use((0, express_session_1.default)({
     cookie: { secure: false },
 }));
 // Routes
-exports.app.use("/api/example", example_router_1.exampleRouter);
+exports.app.use("/api/users", user_router_1.userRouter);
 const port = process.env.PORT;
 exports.app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
