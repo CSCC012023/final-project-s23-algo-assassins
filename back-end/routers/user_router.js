@@ -53,8 +53,8 @@ exports.userRouter.post('/signup', (req, res) => __awaiter(void 0, void 0, void 
     });
 }));
 // Requires email and password to identify
-// Signin the user and creates a session
-exports.userRouter.post('/signin', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+// Log in the user and creates a session
+exports.userRouter.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (req.body.password === undefined) {
         res.status(400).json({ message: "Password is required" });
         return;
@@ -69,6 +69,9 @@ exports.userRouter.post('/signin', (req, res) => __awaiter(void 0, void 0, void 
         return;
     }
     const password = bcrypt_1.default.compareSync(req.body.password, user.password);
+    console.log("password input: " + user.password);
+    console.log("db password: " + req.body.password);
+    console.log("bcrypt: " + password);
     if (!password) {
         res.status(400).json({ message: "Password incorrect" });
         return;

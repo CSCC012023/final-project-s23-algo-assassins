@@ -3,8 +3,15 @@ import {TextInput, Text, Button, Divider} from '@react-native-material/core';
 import React from 'react';
 import {GoogleSigninButton} from '@react-native-google-signin/google-signin';
 //import React, { useState } from 'react';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-const LoginScreen = () => {
+type RootStackParamList = {
+  Login: undefined;
+  Home: undefined;
+};
+type LoginScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
+
+const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) =>  {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
@@ -14,7 +21,7 @@ const LoginScreen = () => {
   // when Login button is pressed
 const handleLogin = async () => {
   try {
-    const response = await fetch('http://10.0.0.106:3000/api/example/login?', {
+    const response = await fetch('http://10.0.0.106:3000/api/users/login?', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -27,18 +34,27 @@ const handleLogin = async () => {
 
     const data = await response.json();
 
+    
     // Check the response from the backend
-    if (data.success) {
+    if (response.ok) {
       // Successful login, proceed to the next screen
       setLoginStatus('Login Success');
+      // Navigate to HomeScreen
+       navigation.navigate('Home');
+
     } else {
       // Login failed, display an error message
-      setLoginStatus('Login Failed');
+      const errorMessage = data.message || 'Login Failed';
+      setLoginStatus(errorMessage);
     }
   } catch (error) {
     // Handle any error that occurred during the request
-    setLoginStatus('Login Error' + error);
+    if (error instanceof Error) {
+      setLoginStatus('Login Error: ' + error.message);
+    } else {
+      setLoginStatus('Login Error');
   }
+}
 };
 
   return (

@@ -28,26 +28,6 @@ const UserSchema = new mongoose_1.default.Schema({
     height: {
         type: Number,
     },
-    password: {
-        type: String,
-        required: true,
-    },
-    email: {
-        type: String,
-        required: true,
-    },
-    weight: {
-        type: Number,
-        required: true,
-    },
-    height: {
-        type: Number,
-        required: true,
-    },
-    __v: {
-        type: Number,
-        required: true,
-    },
 });
 exports.User = mongoose_1.default.model("User", UserSchema);
 module.exports = { User: exports.User };

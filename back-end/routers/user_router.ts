@@ -41,8 +41,8 @@ userRouter.post('/signup', async (req, res) => {
 });
 
 // Requires email and password to identify
-// Signin the user and creates a session
-userRouter.post('/signin', async (req, res) => {
+// Log in the user and creates a session
+userRouter.post('/login', async (req, res) => {
     if (req.body.password === undefined) {
         res.status(400).json({ message: "Password is required" });
         return;
@@ -57,6 +57,9 @@ userRouter.post('/signin', async (req, res) => {
         return;
     }
     const password = bcrypt.compareSync(req.body.password, user.password);
+    console.log("password input: " + user.password);
+    console.log("db password: " + req.body.password);
+    console.log("bcrypt: " + password);
     if (!password) {
         res.status(400).json({ message: "Password incorrect" });
         return;
