@@ -54,13 +54,14 @@ exports.userRouter.post('/signup', (req, res) => __awaiter(void 0, void 0, void 
 }));
 // Requires email and password to identify
 // Log in the user and creates a session
+// check if null = undefined, could be empty stringss
 exports.userRouter.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (req.body.password === undefined) {
-        res.status(400).json({ message: "Password is required" });
+        res.status(400).json({ message: "Password Required" });
         return;
     }
     if (req.body.email === undefined) {
-        res.status(400).json({ message: "Email is required" });
+        res.status(400).json({ message: "Email Required" });
         return;
     }
     const user = yield User_1.User.findOne({ email: req.body.email });
@@ -69,11 +70,8 @@ exports.userRouter.post('/login', (req, res) => __awaiter(void 0, void 0, void 0
         return;
     }
     const password = bcrypt_1.default.compareSync(req.body.password, user.password);
-    console.log("password input: " + user.password);
-    console.log("db password: " + req.body.password);
-    console.log("bcrypt: " + password);
     if (!password) {
-        res.status(400).json({ message: "Password incorrect" });
+        res.status(400).json({ message: "Password Incorrect" });
         return;
     }
     req.session.user_email = user.email;

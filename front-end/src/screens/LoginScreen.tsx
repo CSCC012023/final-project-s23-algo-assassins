@@ -7,7 +7,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 type RootStackParamList = {
   Login: undefined;
-  Home: undefined;
+  Home: undefined; // change to other screen to navigate to
 };
 type LoginScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -39,7 +39,7 @@ const handleLogin = async () => {
     if (response.ok) {
       // Successful login, proceed to the next screen
       setLoginStatus('Login Success');
-      // Navigate to HomeScreen
+      // Navigate to Home Screen
        navigation.navigate('Home');
 
     } else {
@@ -50,6 +50,7 @@ const handleLogin = async () => {
   } catch (error) {
     // Handle any error that occurred during the request
     if (error instanceof Error) {
+      // Display error message
       setLoginStatus('Login Error: ' + error.message);
     } else {
       setLoginStatus('Login Error');
