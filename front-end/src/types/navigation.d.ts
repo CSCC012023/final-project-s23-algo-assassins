@@ -4,4 +4,5 @@ export type RootStackParamList = {
   BottomSheet: undefined;
   Login: undefined;
   Workout: undefined;
+  StartWorkout: undefined;
 };

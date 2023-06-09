@@ -11,6 +11,11 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5, {FA5Style} from 'react-native-vector-icons/FontAwesome5';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Octicons from 'react-native-vector-icons/Octicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../types/navigation';
+
+type Props = NativeStackScreenProps<RootStackParamList, 'Workout'>;
 
 const ProgramButton = (props: any) => {
   return (
@@ -26,12 +31,12 @@ const ProgramButton = (props: any) => {
   );
 };
 
-const WorkoutScreen = () => {
+const WorkoutScreen = ({ navigation: { navigate } }: Props) => {
   return (
     <View style={styles.bg_white}>
       <View style={[styles.mg_h_16, styles.mg_v_8]}>
         <View style={[styles.btn_new_workout]}>
-          <Pressable pressEffectColor="#FB8E40">
+          <Pressable pressEffectColor="#FB8E40" onPress={() => navigate('StartWorkout')}>
             <Text
               style={[styles.mg_v_16, styles.pd_h_4, styles.font_inter_input]}>
               <Fontisto name={'plus-a'} size={20} color={'#0561F880'} /> Start
@@ -51,10 +56,9 @@ const WorkoutScreen = () => {
 
         <TextInput
           label="Search Programs"
-          style={[styles.mg_v_8]}
           color="rgba(0, 0, 0, 0.3)"
           leading={props => (
-            <Octicons name={'search'} size={24} color={'#00000080'} />
+            <MaterialIcons name={'search'} size={28} color={'#00000080'} />
           )}
         />
       </View>
@@ -124,7 +128,7 @@ const styles = StyleSheet.create({
   btn_program_container: {
     width: 151,
     borderWidth: 2,
-    borderColor: '#bbb',
+    borderColor: '#ddd',
     borderRadius: 8,
     overflow: 'hidden',
   },
@@ -140,8 +144,5 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
     borderRadius: 8,
     overflow: 'hidden',
-  },
-  routine_scroll: {
-    height: '40%',
   },
 });
