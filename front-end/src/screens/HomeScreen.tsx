@@ -1,29 +1,41 @@
-import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 import * as React from 'react';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../types/navigation';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../types/navigation';
 import LinearGradient from 'react-native-linear-gradient';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
-const HomeScreen = ({ navigation: { navigate } }: Props) => {
+const HomeScreen = ({navigation: {navigate}}: Props) => {
   return (
     <LinearGradient
-      start={{ x: 1, y: 0 }}
-      end={{ x: 0, y: 1 }}
+      start={{x: 1, y: 0}}
+      end={{x: 0, y: 1}}
       colors={['#f5dada', '#f88044']}
-      style={styles.gradient}
-    >
+      style={styles.gradient}>
       <View style={styles.container}>
         <Image
           source={require('../assets/images/FitBook_logo2.png')}
           style={styles.logo}
         />
 
-        <TouchableOpacity style={[styles.button, { top: height * 0.225 }]} onPress={() => navigate('Details')}>
-          <View style={[styles.buttonContent, { backgroundColor: 'white', flexDirection: 'row' }]}>
+        <TouchableOpacity
+          style={[styles.button, {top: height * 0.225}]}
+          onPress={() => navigate('Details')}>
+          <View
+            style={[
+              styles.buttonContent,
+              {backgroundColor: 'white', flexDirection: 'row'},
+            ]}>
             <Text style={styles.buttonFont}>Sign up with Google</Text>
             <Image
               source={require('../assets/images/google_logo.png')}
@@ -32,17 +44,23 @@ const HomeScreen = ({ navigation: { navigate } }: Props) => {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity style={[styles.button, { top: height * 0.245 }]} onPress={() => navigate('BottomSheet')}>
-          <View style={[styles.buttonContent, { backgroundColor: '#3761F8' }]}>
+        <TouchableOpacity
+          style={[styles.button, {top: height * 0.245}]}
+          onPress={() => navigate('BottomSheet')}>
+          <View style={[styles.buttonContent, {backgroundColor: '#3761F8'}]}>
             <Text style={styles.buttonFont}>Sign up with Email</Text>
           </View>
         </TouchableOpacity>
 
-        <Text style={[styles.logInFont, { top: height * 0.29 }]}>Already have an account?</Text>
-        <TouchableOpacity style={{ top: height * 0.3 }} onPress={() => navigate('Login')}>
-          <Text style={[styles.logInFont, { fontWeight: 'bold' }]}>Log In</Text>
+        <Text style={[styles.logInFont, {top: height * 0.29}]}>
+          Already have an account?
+        </Text>
+        <TouchableOpacity
+          style={{top: height * 0.3}}
+          onPress={() => navigate('Login')}>
+          <Text style={[styles.logInFont, {fontWeight: 'bold'}]}>Log In</Text>
         </TouchableOpacity>
-      </View >
+      </View>
     </LinearGradient>
   );
 };
@@ -63,7 +81,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: width * 0.4,
-    height: (width * 0.4) * (228 / 188),
+    height: width * 0.4 * (228 / 188),
     position: 'absolute',
     top: height * 0.18,
   },
@@ -78,7 +96,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonFont: {
-    fontSize: Math.round(width * 0.04)
+    fontSize: Math.round(width * 0.04),
   },
   googleLogo: {
     width: width * 0.05,

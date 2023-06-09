@@ -1,15 +1,26 @@
-import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../types/navigation';
 
-const DetailsScreen = () => {
+type Props = NativeStackScreenProps<RootStackParamList, 'Details'>;
+
+const DetailsScreen = ({navigation: {navigate}}: Props) => {
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Details Screen</Text>
+    <View style={styles.container}>
+      <TouchableOpacity onPress={() => navigate('Profile')}>
+        <Text>Go to Profile</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
-export default DetailsScreen;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const styles = StyleSheet.create({});
+export default DetailsScreen;
