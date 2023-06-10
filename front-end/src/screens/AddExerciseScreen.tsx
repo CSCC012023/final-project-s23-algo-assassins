@@ -1,4 +1,11 @@
-import {StyleSheet, View, ScrollView, FlatList, Image, LayoutAnimation} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  FlatList,
+  Image,
+  LayoutAnimation,
+} from 'react-native';
 import {
   TextInput,
   Text,
@@ -16,6 +23,17 @@ const ExerciseDropdown = (props: any) => {
     setVisible(!visible);
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   };
+
+  const exerciselist: any[] = [];
+
+  for (var exercise in props.exercises) {
+    exerciselist.push(
+      <ExerciseItem
+        name={props.exercises[exercise].name}
+        musclegroup={props.exercises[exercise].muscle_group}
+        equipment={props.exercises[exercise].equipment}></ExerciseItem>,
+    );
+  }
 
   return (
     <View>
@@ -36,33 +54,18 @@ const ExerciseDropdown = (props: any) => {
         }
         pressEffectColor="#FB8E40"
         onPress={() => {
-          toggleDropdown()
+          toggleDropdown();
         }}>
         <Image
           source={require('../assets/images/google_logo.png')}
-          style={styles.exercise_icon}
+          style={[styles.exercise_icon]}
         />
         <View style={[styles.pd_8, styles.flex_justify_between]}>
           <Text style={[styles.font_inter_category]}>{props.category}</Text>
         </View>
       </Pressable>
-      <View style = {[visible ? undefined : styles.exercise_category_collapsed]}>
-        <ExerciseItem
-          name="Exercise #1"
-          bodygroup="Compunds"
-          equipment="Barbell"></ExerciseItem>
-        <ExerciseItem
-          name="Exercise #1"
-          bodygroup="Compunds"
-          equipment="Barbell"></ExerciseItem>
-        <ExerciseItem
-          name="Exercise #1"
-          bodygroup="Compunds"
-          equipment="Barbell"></ExerciseItem>
-        <ExerciseItem
-          name="Exercise #1"
-          bodygroup="Compunds"
-          equipment="Barbell"></ExerciseItem>
+      <View style={[visible ? undefined : styles.exercise_category_collapsed]}>
+        {exerciselist}
       </View>
     </View>
   );
@@ -71,15 +74,22 @@ const ExerciseDropdown = (props: any) => {
 const ExerciseItem = (props: any) => {
   return (
     <Pressable
-      style={[styles.mg_l_16, styles.exercise_item_container, styles.flex_row]}>
+      style={[
+        styles.mg_l_16,
+        styles.exercise_item_container,
+        styles.flex_row_nowrap,
+        styles.flex_align_center,
+      ]}>
       <Image
         source={require('../assets/images/google_logo.png')}
-        style={styles.exercise_icon}
+        style={[styles.exercise_icon]}
       />
-      <View style={[styles.pd_8, styles.flex_justify_between]}>
-        <Text style={[styles.font_inter_exercise]}>{props.name}</Text>
+      <View style={[styles.pd_8, styles.flex_justify_between, {width: '90%'}]}>
+        <Text style={[styles.font_inter_exercise]}>
+          {props.name}
+        </Text>
         <Text style={[styles.font_inter_exercise, {color: '#555'}]}>
-          {props.bodygroup}
+          {props.musclegroup}
         </Text>
         <Text style={[styles.font_inter_exercise, {color: '#555'}]}>
           {props.equipment}
@@ -90,6 +100,131 @@ const ExerciseItem = (props: any) => {
 };
 
 const AddExerciseScreen = () => {
+  const exerciseData: any = {
+    'Chest exercises': [
+      {
+        name: 'Example Exercise (with a lot of text)',
+        muscle_group: 'Chest',
+        equipment: 'Barbbells',
+      },
+      {
+        name: 'Example Exercise (with a lot of text)',
+        muscle_group: 'Chest',
+        equipment: 'Barbbells',
+      },
+      {
+        name: 'Example Exercise (with a lot of text)',
+        muscle_group: 'Chest',
+        equipment: 'Barbbells',
+      },
+      {
+        name: 'Example Exercise (with a lot of text)',
+        muscle_group: 'Chest',
+        equipment: 'Barbbells',
+      },
+    ],
+    'Back exercises': [
+      {
+        name: 'Example Exercise (with a lot of text)',
+        muscle_group: 'Back',
+        equipment: 'Barbbells',
+      },
+      {
+        name: 'Example Exercise (with a lot of text)',
+        muscle_group: 'Back',
+        equipment: 'Barbbells',
+      },
+      {
+        name: 'Example Exercise (with a lot of text)',
+        muscle_group: 'Back',
+        equipment: 'Barbbells',
+      },
+      {
+        name: 'Example Exercise (with a lot of text)',
+        muscle_group: 'Back',
+        equipment: 'Barbbells',
+      },
+    ],
+    'Leg exercises': [
+      {
+        name: 'Example Exercise (with a lot of text)',
+        muscle_group: 'Leg',
+        equipment: 'Barbbells',
+      },
+      {
+        name: 'Example Exercise (with a lot of text)',
+        muscle_group: 'Leg',
+        equipment: 'Barbbells',
+      },
+      {
+        name: 'Example Exercise (with a lot of text)',
+        muscle_group: 'Leg',
+        equipment: 'Barbbells',
+      },
+      {
+        name: 'Example Exercise (with a lot of text)',
+        muscle_group: 'Leg',
+        equipment: 'Barbbells',
+      },
+    ],
+    'Arm exercises': [
+      {
+        name: 'Example Exercise (with a lot of text)',
+        muscle_group: 'Arm',
+        equipment: 'Barbbells',
+      },
+      {
+        name: 'Example Exercise (with a lot of text)',
+        muscle_group: 'Arm',
+        equipment: 'Barbbells',
+      },
+      {
+        name: 'Example Exercise (with a lot of text)',
+        muscle_group: 'Arm',
+        equipment: 'Barbbells',
+      },
+      {
+        name: 'Example Exercise (with a lot of text)',
+        muscle_group: 'Arm',
+        equipment: 'Barbbells',
+      },
+    ],
+    Compounds: [
+      {
+        name: 'Example Exercise (with a lot of text)',
+        muscle_group: 'Compounds',
+        equipment: 'Barbbells',
+      },
+      {
+        name: 'Example Exercise (with a lot of text)',
+        muscle_group: 'Compounds',
+        equipment: 'Barbbells',
+      },
+      {
+        name: 'Example Exercise (with a lot of text)',
+        muscle_group: 'Compounds',
+        equipment: 'Barbbells',
+      },
+      {
+        name: 'Example Exercise (with a lot of text)',
+        muscle_group: 'Compounds',
+        equipment: 'Barbbells',
+      },
+    ],
+  };
+
+  const dropdown: any[] = [];
+
+  for (var key in exerciseData) {
+    if (exerciseData.hasOwnProperty(key)) {
+      dropdown.push(
+        <ExerciseDropdown
+          category={key}
+          exercises={exerciseData[key]}></ExerciseDropdown>,
+      );
+    }
+  }
+
   return (
     <View style={styles.bg_white}>
       <View style={[styles.mg_h_16, styles.mg_v_16]}>
@@ -101,13 +236,7 @@ const AddExerciseScreen = () => {
           )}
         />
         <ScrollView style={[styles.mg_v_8]}>
-          <View style={[styles.pd_b_100]}>
-            <ExerciseDropdown category="Chest exercises"></ExerciseDropdown>
-            <ExerciseDropdown category="Back exercises"></ExerciseDropdown>
-            <ExerciseDropdown category="Leg exercises"></ExerciseDropdown>
-            <ExerciseDropdown category="Arm exercises"></ExerciseDropdown>
-            <ExerciseDropdown category="Compunds"></ExerciseDropdown>
-          </View>
+          <View style={[styles.pd_b_100]}>{dropdown}</View>
         </ScrollView>
       </View>
     </View>
@@ -183,6 +312,11 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: 8,
   },
+  flex_row_nowrap: {
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    gap: 8,
+  },
   flex_justify_between: {
     justifyContent: 'space-between',
   },
@@ -202,11 +336,11 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ddd',
   },
   exercise_icon: {
-    margin: 14,
-    padding: 14,
-    height: 72,
-    width: 72,
-    borderRadius: 36,
+    marginVertical: 22,
+    marginLeft: 8,
+    height: 56,
+    width: 56,
+    borderRadius: 28,
     borderWidth: 1,
     borderColor: '#000',
     resizeMode: 'contain',
