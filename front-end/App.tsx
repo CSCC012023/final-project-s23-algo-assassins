@@ -13,6 +13,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import LoginScreen from './src/screens/LoginScreen';
 import WorkoutScreen from './src/screens/WorkoutScreen';
 import StartWorkoutScreen from './src/screens/StartWorkoutScreen';
+import AddExerciseScreen from './src/screens/AddExerciseScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -36,6 +37,11 @@ function App() {
           <Stack.Screen
             name="StartWorkout"
             component={StartWorkoutScreen}
+            options={{headerShown: true, title: 'Workout'}}
+          />
+          <Stack.Screen
+            name="AddExercise"
+            component={AddExerciseScreen}
             options={{headerShown: true, title: 'Workout'}}
           />
           <Stack.Screen name="BottomSheet" component={BottomSheetScreen} />

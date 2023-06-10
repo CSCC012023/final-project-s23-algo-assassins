@@ -7,8 +7,12 @@ import {
   Pressable,
 } from '@react-native-material/core';
 import React, {useState} from 'react';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../types/navigation';
 
-const StartWorkoutScreen = () => {
+type Props = NativeStackScreenProps<RootStackParamList, 'StartWorkout'>;
+
+const StartWorkoutScreen = ({ navigation: { navigate } }: Props) => {
   return (
     <View style={styles.bg_white}>
       <View style={[styles.mg_h_16, styles.mg_v_8]}>
@@ -27,6 +31,7 @@ const StartWorkoutScreen = () => {
           variant="contained"
           color="primary"
           uppercase={false}
+          onPress={() => navigate('AddExercise')}
         />
         <Button
           title="Options"
@@ -36,12 +41,12 @@ const StartWorkoutScreen = () => {
           uppercase={false}
         />
       </View>
-      <View style={[styles.mg_h_16, styles.mg_b_64, styles.flex_row]}>
-        <View style={[styles.mg_h_16, styles.mg_v_8, {width: '35%'}]}>
+      <View style={[styles.mg_h_32, styles.mg_b_64, styles.flex_row]}>
+        <View style={[styles.mg_v_8]}>
           <Text style={[styles.text_center]}>Duration</Text>
           <Text style={[styles.text_center]}>02:01:56</Text>
         </View>
-        <View style={[styles.mg_h_16, styles.mg_v_8, {width: '35%'}]}>
+        <View style={[styles.mg_v_8]}>
           <Text style={[styles.text_center]}>Total Volume</Text>
           <Text style={[styles.text_center]}>3235 lbs</Text>
         </View>
@@ -55,6 +60,9 @@ export default StartWorkoutScreen;
 const styles = StyleSheet.create({
   mg_h_16: {
     marginHorizontal: 16,
+  },
+  mg_h_32: {
+    marginHorizontal: 32,
   },
   mg_v_8: {
     marginVertical: 8,
@@ -118,25 +126,5 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     gap: 8,
-  },
-  btn_program_container: {
-    width: 151,
-    borderWidth: 2,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    overflow: 'hidden',
-  },
-  btn_program_body: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  btn_new_workout: {
-    borderWidth: 2,
-    borderColor: 'transparent',
-    borderRadius: 8,
-    overflow: 'hidden',
   },
 });
