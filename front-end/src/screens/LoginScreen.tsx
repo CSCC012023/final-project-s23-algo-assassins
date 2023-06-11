@@ -3,7 +3,7 @@ import {TextInput, Text, Button, Divider} from '@react-native-material/core';
 import React from 'react';
 import {GoogleSigninButton} from '@react-native-google-signin/google-signin';
 //import React, { useState } from 'react';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 type RootStackParamList = {
   Login: undefined;
@@ -11,7 +11,7 @@ type RootStackParamList = {
 };
 type LoginScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
-const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) =>  {
+const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
@@ -19,51 +19,46 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) =>  {
   const [loginStatus, setLoginStatus] = React.useState('');
 
   // when Login button is pressed
-const handleLogin = async () => {
-  try {
-    const response = await fetch('http://10.0.0.106:3000/api/users/login?', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-    });
+  const handleLogin = async () => {
+    try {
+      const response = await fetch('http://10.0.0.106:3000/api/users/login?', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    
-    // Check the response from the backend
-    if (response.ok) {
-      // Successful login, proceed to the next screen
-      setLoginStatus('Login Success');
-      // Navigate to Home Screen
-       navigation.navigate('Home');
-
-    } else {
-      // Login failed, display an error message
-      const errorMessage = data.message || 'Login Failed';
-      setLoginStatus(errorMessage);
+      // Check the response from the backend
+      if (response.ok) {
+        // Successful login, proceed to the next screen
+        setLoginStatus('Login Success');
+        // Navigate to HomeScreen
+        navigation.navigate('Home');
+      } else {
+        // Login failed, display an error message
+        const errorMessage = data.message || 'Login Failed';
+        setLoginStatus(errorMessage);
+      }
+    } catch (error) {
+      // Handle any error that occurred during the request
+      if (error instanceof Error) {
+        setLoginStatus('Login Error: ' + error.message);
+      } else {
+        setLoginStatus('Login Error');
+      }
     }
-  } catch (error) {
-    // Handle any error that occurred during the request
-    if (error instanceof Error) {
-      // Display error message
-      setLoginStatus('Login Error: ' + error.message);
-    } else {
-      setLoginStatus('Login Error');
-  }
-}
-};
+  };
 
   return (
     <View style={styles.bg_white}>
       <View style={[styles.mg_h_16, styles.mg_v_8]}>
-        <Text style={[styles.mg_t_8, styles.font_inter_input]}>
-          Username
-        </Text>
+        <Text style={[styles.mg_t_8, styles.font_inter_input]}>Username</Text>
         <TextInput
           label="Email"
           style={[styles.mg_v_8]}
@@ -73,21 +68,22 @@ const handleLogin = async () => {
           onChangeText={text => setEmail(text)}
         />
         <Text style={[styles.mg_t_8, styles.font_inter_input]}>Password</Text>
-        <TextInput label="Password" 
-        style={styles.mg_v_8} 
-        variant="standard" 
-        value={password} // Bind the value to the 'password' state
-        onChangeText={text => setPassword(text)}/>
+        <TextInput
+          label="Password"
+          style={styles.mg_v_8}
+          variant="standard"
+          value={password} // Bind the value to the 'password' state
+          onChangeText={text => setPassword(text)}
+        />
         <Text style={[styles.mg_v_8, styles.font_inter_forgot]}>
           Forgot password?
         </Text>
         <Button
-         title="Login!"
+          title="Login!"
           style={styles.mg_v_8}
           variant="contained"
-         color="primary"
-            onPress={handleLogin} // Connect handleLogin function to the onPress event
-
+          color="primary"
+          onPress={handleLogin} // Connect handleLogin function to the onPress event
         />
         <View
           style={{
@@ -152,5 +148,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginTop: 10,
-  }
+  },
 });
