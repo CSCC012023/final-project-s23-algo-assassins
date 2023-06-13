@@ -5,6 +5,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types/navigation';
 import { CheckBox } from 'react-native-elements';
 import AntDesign from "react-native-vector-icons/AntDesign";
+import Toast from "react-native-toast-message";
 
 const { width, height } = Dimensions.get('window');
 
@@ -26,8 +27,9 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
   };
 
   const handleSignUp = async () => {
+    console.log("Signup button pressed. Handling signup...");
     try {
-      const response = await fetch('http://10.0.0.106:3000/api/users/signup?', {
+      const response = await fetch('http://localhost:3000/api/users/signup?', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,6 +53,12 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
         console.log("Endpoint rejected");
         const errorMessage = data.message || 'SignUp Failed';
         setSignUpStatus(errorMessage);
+        Toast.show({
+          type: 'success',
+          position: 'bottom',
+          text1: 'Signup failed',
+          text2: errorMessage,
+        });
       }
     }
     catch (error) {
@@ -65,6 +73,7 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
 
   return (
     <View style={styles.bg_white}>
+      <Toast ref={(ref) => Toast.setRef(ref)} />
       <TouchableOpacity 
         style={{marginTop: 0.05 * height, marginHorizontal: 0.05 * width}}
         onPress={() => navigation.navigate('Home')}
@@ -78,24 +87,27 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
         <TextInput
           placeholder="Username"
           style={[styles.mg_v_8, styles.text_input]}
-          color="rgba(251, 174, 64, 0.5)"
+          color="rgba(251, 142, 64, 0.5)"
           variant="standard"
+          onChangeText={text => setUsername(text)}
         />
         <Text style={[styles.mg_t_8, styles.font_inter_input]}>Password</Text>
         <TextInput 
           secureTextEntry={true}
-          placeholder="Password" 
+          placeholder="Must be at least 6 characters" 
           style={[styles.mg_v_8, styles.text_input]} 
-          color="rgba(251, 174, 64, 0.5)" 
+          color="rgba(251, 142, 64, 0.5)" 
           variant="standard"
+          onChangeText={text => setPassword(text)}
         />
         
         <Text style={[styles.mg_t_8, styles.font_inter_input]}>Email</Text>
         <TextInput 
-          placeholder="Must be at least 6 characters" 
+          placeholder="Email" 
           style={[styles.mg_v_8, styles.text_input]} 
-          color="rgba(251, 174, 64, 0.5)" 
+          color="rgba(251, 142, 64, 0.5)" 
           variant="standard" 
+          onChangeText={text => setEmail(text)}
         />
 
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', marginHorizontal: -20}}>
@@ -103,15 +115,15 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
             style={[{marginLeft: 0, paddingLeft: 0}]}
             checked={isChecked}
             onPress={handleCheck}
-            checkedColor='rgba(251, 174, 64, 1)'
+            checkedColor='rgba(251, 142, 64, 0.5)'
           />
           <Text style={{ marginLeft: -6, fontSize: 12, color: 'gray' }}>
             I agree to the terms and conditions of use.
           </Text>
         </View>
 
-        <TouchableOpacity style={[styles.button, styles.mg_t_8]} onPress={() => handleSignUp} disabled={!isChecked}>
-          <View style={[styles.buttonContent, { backgroundColor: 'rgba(251, 174, 64, 0.5)' }]}>
+        <TouchableOpacity style={[styles.button, styles.mg_t_8]} onPress={() => handleSignUp()} disabled={!isChecked}>
+          <View style={[styles.buttonContent, {backgroundColor: isChecked ? 'rgba(251, 142, 64, 0.5)' : 'rgba(251, 142, 64, 0.1)'} ]}>
             <Text style={styles.buttonFont}>Sign Up</Text>
           </View>
         </TouchableOpacity>
