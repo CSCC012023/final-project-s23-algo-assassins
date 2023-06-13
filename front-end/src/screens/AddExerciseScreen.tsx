@@ -24,17 +24,6 @@ const ExerciseDropdown = (props: any) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   };
 
-  const exerciselist: any[] = [];
-
-  for (var exercise in props.exercises) {
-    exerciselist.push(
-      <ExerciseItem
-        name={props.exercises[exercise].name}
-        musclegroup={props.exercises[exercise].muscle_group}
-        equipment={props.exercises[exercise].equipment}></ExerciseItem>,
-    );
-  }
-
   return (
     <View>
       <Pressable
@@ -65,7 +54,15 @@ const ExerciseDropdown = (props: any) => {
         </View>
       </Pressable>
       <View style={[visible ? undefined : styles.exercise_category_collapsed]}>
-        {exerciselist}
+        {props.exercises.map((exercise: any) => {
+          return (
+            <ExerciseItem
+              key={exercise.exerciseid}
+              name={exercise.name}
+              muscleGroup={exercise.muscleGroup}
+              equipment={exercise.equipment}></ExerciseItem>
+          );
+        })}
       </View>
     </View>
   );
@@ -85,11 +82,9 @@ const ExerciseItem = (props: any) => {
         style={[styles.exercise_icon]}
       />
       <View style={[styles.pd_8, styles.flex_justify_between, {width: '90%'}]}>
-        <Text style={[styles.font_inter_exercise]}>
-          {props.name}
-        </Text>
+        <Text style={[styles.font_inter_exercise]}>{props.name}</Text>
         <Text style={[styles.font_inter_exercise, {color: '#555'}]}>
-          {props.musclegroup}
+          {props.muscleGroup}
         </Text>
         <Text style={[styles.font_inter_exercise, {color: '#555'}]}>
           {props.equipment}
@@ -100,130 +95,153 @@ const ExerciseItem = (props: any) => {
 };
 
 const AddExerciseScreen = () => {
-  const exerciseData: any = {
-    'Chest exercises': [
-      {
-        name: 'Example Exercise (with a lot of text)',
-        muscle_group: 'Chest',
-        equipment: 'Barbbells',
-      },
-      {
-        name: 'Example Exercise (with a lot of text)',
-        muscle_group: 'Chest',
-        equipment: 'Barbbells',
-      },
-      {
-        name: 'Example Exercise (with a lot of text)',
-        muscle_group: 'Chest',
-        equipment: 'Barbbells',
-      },
-      {
-        name: 'Example Exercise (with a lot of text)',
-        muscle_group: 'Chest',
-        equipment: 'Barbbells',
-      },
-    ],
-    'Back exercises': [
-      {
-        name: 'Example Exercise (with a lot of text)',
-        muscle_group: 'Back',
-        equipment: 'Barbbells',
-      },
-      {
-        name: 'Example Exercise (with a lot of text)',
-        muscle_group: 'Back',
-        equipment: 'Barbbells',
-      },
-      {
-        name: 'Example Exercise (with a lot of text)',
-        muscle_group: 'Back',
-        equipment: 'Barbbells',
-      },
-      {
-        name: 'Example Exercise (with a lot of text)',
-        muscle_group: 'Back',
-        equipment: 'Barbbells',
-      },
-    ],
-    'Leg exercises': [
-      {
-        name: 'Example Exercise (with a lot of text)',
-        muscle_group: 'Leg',
-        equipment: 'Barbbells',
-      },
-      {
-        name: 'Example Exercise (with a lot of text)',
-        muscle_group: 'Leg',
-        equipment: 'Barbbells',
-      },
-      {
-        name: 'Example Exercise (with a lot of text)',
-        muscle_group: 'Leg',
-        equipment: 'Barbbells',
-      },
-      {
-        name: 'Example Exercise (with a lot of text)',
-        muscle_group: 'Leg',
-        equipment: 'Barbbells',
-      },
-    ],
-    'Arm exercises': [
-      {
-        name: 'Example Exercise (with a lot of text)',
-        muscle_group: 'Arm',
-        equipment: 'Barbbells',
-      },
-      {
-        name: 'Example Exercise (with a lot of text)',
-        muscle_group: 'Arm',
-        equipment: 'Barbbells',
-      },
-      {
-        name: 'Example Exercise (with a lot of text)',
-        muscle_group: 'Arm',
-        equipment: 'Barbbells',
-      },
-      {
-        name: 'Example Exercise (with a lot of text)',
-        muscle_group: 'Arm',
-        equipment: 'Barbbells',
-      },
-    ],
-    Compounds: [
-      {
-        name: 'Example Exercise (with a lot of text)',
-        muscle_group: 'Compounds',
-        equipment: 'Barbbells',
-      },
-      {
-        name: 'Example Exercise (with a lot of text)',
-        muscle_group: 'Compounds',
-        equipment: 'Barbbells',
-      },
-      {
-        name: 'Example Exercise (with a lot of text)',
-        muscle_group: 'Compounds',
-        equipment: 'Barbbells',
-      },
-      {
-        name: 'Example Exercise (with a lot of text)',
-        muscle_group: 'Compounds',
-        equipment: 'Barbbells',
-      },
-    ],
-  };
-
-  const dropdown: any[] = [];
-
-  for (var key in exerciseData) {
-    if (exerciseData.hasOwnProperty(key)) {
-      dropdown.push(
-        <ExerciseDropdown
-          category={key}
-          exercises={exerciseData[key]}></ExerciseDropdown>,
-      );
-    }
-  }
+  const exerciseData: any = [
+    {
+      muscleGroup: 'Chest exercises',
+      exercises: [
+        {
+          exerciseid: '1',
+          name: 'Example Exercise (with a lot of text)',
+          muscleGroup: 'Chest',
+          equipment: 'Barbbells',
+        },
+        {
+          exerciseid: '2',
+          name: 'Example Exercise (with a lot of text)',
+          muscleGroup: 'Chest',
+          equipment: 'Barbbells',
+        },
+        {
+          exerciseid: '3',
+          name: 'Example Exercise (with a lot of text)',
+          muscleGroup: 'Chest',
+          equipment: 'Barbbells',
+        },
+        {
+          exerciseid: '4',
+          name: 'Example Exercise (with a lot of text)',
+          muscleGroup: 'Chest',
+          equipment: 'Barbbells',
+        },
+      ],
+    },
+    {
+      muscleGroup: 'Back exercises',
+      exercises: [
+        {
+          exerciseid: '5',
+          name: 'Example Exercise (with a lot of text)',
+          muscleGroup: 'Back',
+          equipment: 'Barbbells',
+        },
+        {
+          exerciseid: '6',
+          name: 'Example Exercise (with a lot of text)',
+          muscleGroup: 'Back',
+          equipment: 'Barbbells',
+        },
+        {
+          exerciseid: '7',
+          name: 'Example Exercise (with a lot of text)',
+          muscleGroup: 'Back',
+          equipment: 'Barbbells',
+        },
+        {
+          exerciseid: '8',
+          name: 'Example Exercise (with a lot of text)',
+          muscleGroup: 'Back',
+          equipment: 'Barbbells',
+        },
+      ],
+    },
+    {
+      muscleGroup: 'Leg exercises',
+      exercises: [
+        {
+          exerciseid: '9',
+          name: 'Example Exercise (with a lot of text)',
+          muscleGroup: 'Leg',
+          equipment: 'Barbbells',
+        },
+        {
+          exerciseid: '10',
+          name: 'Example Exercise (with a lot of text)',
+          muscleGroup: 'Leg',
+          equipment: 'Barbbells',
+        },
+        {
+          exerciseid: '11',
+          name: 'Example Exercise (with a lot of text)',
+          muscleGroup: 'Leg',
+          equipment: 'Barbbells',
+        },
+        {
+          exerciseid: '12',
+          name: 'Example Exercise (with a lot of text)',
+          muscleGroup: 'Leg',
+          equipment: 'Barbbells',
+        },
+      ],
+    },
+    {
+      muscleGroup: 'Arm exercises',
+      exercises: [
+        {
+          exerciseid: '13',
+          name: 'Example Exercise (with a lot of text)',
+          muscleGroup: 'Arm',
+          equipment: 'Barbbells',
+        },
+        {
+          exerciseid: '14',
+          name: 'Example Exercise (with a lot of text)',
+          muscleGroup: 'Arm',
+          equipment: 'Barbbells',
+        },
+        {
+          exerciseid: '15',
+          name: 'Example Exercise (with a lot of text)',
+          muscleGroup: 'Arm',
+          equipment: 'Barbbells',
+        },
+        {
+          exerciseid: '16',
+          name: 'Example Exercise (with a lot of text)',
+          muscleGroup: 'Arm',
+          equipment: 'Barbbells',
+        },
+      ],
+    },
+    {
+      muscleGroup: 'Compunds',
+      exercises: [
+        {
+          exerciseid: '17',
+          name: 'Example Exercise (with a lot of text)',
+          muscleGroup: 'Compounds',
+          equipment: 'Barbbells',
+        },
+        {
+          exerciseid: '18',
+          name: 'Example Exercise (with a lot of text)',
+          muscleGroup: 'Compounds',
+          equipment: 'Barbbells',
+        },
+        {
+          exerciseid: '19',
+          name: 'Example Exercise (with a lot of text)',
+          muscleGroup: 'Compounds',
+          equipment: 'Barbbells',
+        },
+        {
+          exerciseid: '20',
+          name: 'Example Exercise (with a lot of text)',
+          muscleGroup: 'Compounds',
+          equipment: 'Barbbells',
+        },
+      ],
+    },
+  ];
 
   return (
     <View style={styles.bg_white}>
@@ -236,7 +254,16 @@ const AddExerciseScreen = () => {
           )}
         />
         <ScrollView style={[styles.mg_v_8]}>
-          <View style={[styles.pd_b_100]}>{dropdown}</View>
+          <View style={[styles.pd_b_100]}>
+            {exerciseData.map((muscleGroup: any) => {
+              return (
+                <ExerciseDropdown
+                  key={muscleGroup.muscleGroup}
+                  category={muscleGroup.muscleGroup}
+                  exercises={muscleGroup.exercises}></ExerciseDropdown>
+              );
+            })}
+          </View>
         </ScrollView>
       </View>
     </View>
