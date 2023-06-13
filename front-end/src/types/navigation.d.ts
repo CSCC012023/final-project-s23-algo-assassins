@@ -6,4 +6,6 @@ export type RootStackParamList = {
   Workout: undefined;
   StartWorkout: undefined;
   AddExercise: undefined;
+  Profile: undefined;
+  EditProfile: undefined;
 };
