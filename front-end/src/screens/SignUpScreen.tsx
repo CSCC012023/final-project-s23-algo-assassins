@@ -7,19 +7,67 @@ import { CheckBox } from 'react-native-elements';
 import AntDesign from "react-native-vector-icons/AntDesign";
 
 const { width, height } = Dimensions.get('window');
-type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
-const SignUpScreen = ({ navigation: { navigate } }: Props) => {
-  const [isChecked, setIsChecked] = useState(false);
+type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
+
+const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
+
+  const [isChecked, setIsChecked] = React.useState(false);
+  const [userName, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [email, setEmail] = React.useState('');
+
+  // Signup status
+
+  const [signUpStatus, setSignUpStatus] = React.useState('');
 
   const handleCheck = () => {
-    setIsChecked(!isChecked);
+    setIsChecked(!isChecked);  
   };
+
+  const handleSignUp = async () => {
+    try {
+      const response = await fetch('http://10.0.0.106:3000/api/users/signup?', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: userName,
+          email: email,
+          password: password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Handler for successful response
+        console.log("Success");
+        setSignUpStatus("Signup success");
+        navigation.navigate("Profile");
+      } else {
+        // Handler for signup failure
+        console.log("Endpoint rejected");
+        const errorMessage = data.message || 'SignUp Failed';
+        setSignUpStatus(errorMessage);
+      }
+    }
+    catch (error) {
+      if (error instanceof Error) {
+        setSignUpStatus("Signup Error: " + error.message);
+      } else {
+        setSignUpStatus("Signup Error");
+      }
+      console.log("Error");
+    }
+  }
+
   return (
     <View style={styles.bg_white}>
       <TouchableOpacity 
         style={{marginTop: 0.05 * height, marginHorizontal: 0.05 * width}}
-        onPress={() => navigate('Home')}
+        onPress={() => navigation.navigate('Home')}
       >
         <AntDesign name="left" size={30} color="grey" />
       </TouchableOpacity>
@@ -35,6 +83,7 @@ const SignUpScreen = ({ navigation: { navigate } }: Props) => {
         />
         <Text style={[styles.mg_t_8, styles.font_inter_input]}>Password</Text>
         <TextInput 
+          secureTextEntry={true}
           placeholder="Password" 
           style={[styles.mg_v_8, styles.text_input]} 
           color="rgba(251, 174, 64, 0.5)" 
@@ -61,12 +110,11 @@ const SignUpScreen = ({ navigation: { navigate } }: Props) => {
           </Text>
         </View>
 
-        <TouchableOpacity style={[styles.button, styles.mg_t_8]}>
+        <TouchableOpacity style={[styles.button, styles.mg_t_8]} onPress={() => handleSignUp} disabled={!isChecked}>
           <View style={[styles.buttonContent, { backgroundColor: 'rgba(251, 174, 64, 0.5)' }]}>
             <Text style={styles.buttonFont}>Sign Up</Text>
           </View>
         </TouchableOpacity>
-
       </View>
     </View>
   );

@@ -4,4 +4,6 @@ export type RootStackParamList = {
   BottomSheet: undefined;
   SignUp: undefined;
   Login: undefined;
+  Profile: undefined;
+  EditProfile: undefined;
 };
