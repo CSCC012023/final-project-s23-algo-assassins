@@ -26,8 +26,29 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
     setIsChecked(!isChecked);  
   };
 
+  const isValidEmail = (email: string): boolean => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  }
+
+  const isValidPassword = (password: string): boolean => {
+    const regex = /^.{6,}$/;
+    return regex.test(password);
+  }
+
   const handleSignUp = async () => {
     console.log("Signup button pressed. Handling signup...");
+
+    if (!isValidEmail(email) || !isValidPassword(password)) {
+      Toast.show({
+        type: 'error',
+        position: 'bottom',
+        text1: 'Signup failed',
+        text2: 'Please check your email and password input.',
+      });
+      return;
+    }
+
     try {
       const response = await fetch('http://localhost:3000/api/users/signup?', {
         method: 'POST',
@@ -50,22 +71,39 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
         navigation.navigate("Profile");
       } else {
         // Handler for signup failure
-        console.log("Endpoint rejected");
-        const errorMessage = data.message || 'SignUp Failed';
+        const errorMessage = data.message; //|| 'SignUp Failed';
+        let errorMessageInfo = "Unknown Error";
         setSignUpStatus(errorMessage);
+        console.log("Endpoint rejected, ", errorMessage.code);
+        if(errorMessage.code == "11000") {
+          // catch 11000 error
+          errorMessageInfo = "Email is already in use.";
+        }
         Toast.show({
-          type: 'success',
+          type: 'error',
           position: 'bottom',
           text1: 'Signup failed',
-          text2: errorMessage,
+          text2: errorMessageInfo,
         });
       }
     }
     catch (error) {
       if (error instanceof Error) {
         setSignUpStatus("Signup Error: " + error.message);
+        Toast.show({
+          type: 'error',
+          position: 'bottom',
+          text1: 'Signup failed',
+          text2: error.message,
+        });
       } else {
         setSignUpStatus("Signup Error");
+        Toast.show({
+          type: 'error',
+          position: 'bottom',
+          text1: 'Signup failed',
+          text2: 'Unknown error',
+        });
       }
       console.log("Error");
     }
