@@ -5,6 +5,7 @@ import * as React from 'react';
 import Home from './src/screens/HomeScreen';
 import DetailsScreen from './src/screens/DetailsScreen';
 import BottomSheetScreen from './src/screens/BottomSheetScreen';
+import SignUpScreen from './src/screens/SignUpScreen';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -16,6 +17,7 @@ import StartWorkoutScreen from './src/screens/StartWorkoutScreen';
 import AddExerciseScreen from './src/screens/AddExerciseScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import EditProfileScreen from './src/screens/EditProfileScreen';
+import Toast from 'react-native-toast-message';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -47,10 +49,12 @@ function App() {
             options={{headerShown: true, title: 'Workout'}}
           />
           <Stack.Screen name="BottomSheet" component={BottomSheetScreen} />
+          <Stack.Screen name="SignUp" component={SignUpScreen} />
           <Stack.Screen name="Profile" component={ProfileScreen} />
           <Stack.Screen name="EditProfile" component={EditProfileScreen} />
         </Stack.Navigator>
       </NavigationContainer>
+      <Toast />
     </GestureHandlerRootView>
   );
 }
