@@ -111,7 +111,6 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
 
   return (
     <View style={styles.bg_white}>
-      <Toast ref={(ref) => Toast.setRef(ref)} />
       <TouchableOpacity 
         style={{marginTop: 0.05 * height, marginHorizontal: 0.05 * width}}
         onPress={() => navigation.navigate('Home')}
