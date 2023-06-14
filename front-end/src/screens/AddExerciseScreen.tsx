@@ -13,11 +13,11 @@ import {
   Divider,
   Pressable,
 } from '@react-native-material/core';
-import React, {useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const ExerciseDropdown = (props: any) => {
-  const [visible, setVisible] = React.useState(false);
+  const [visible, setVisible] = React.useState(props.expanded);
 
   const toggleDropdown = () => {
     setVisible(!visible);
@@ -50,16 +50,18 @@ const ExerciseDropdown = (props: any) => {
           style={[styles.exercise_icon]}
         />
         <View style={[styles.pd_8, styles.flex_justify_between]}>
-          <Text style={[styles.font_inter_category]}>{props.category}</Text>
+          <Text style={[styles.font_inter_category]}>
+            {props.category} Exercises
+          </Text>
         </View>
       </Pressable>
       <View style={[visible ? undefined : styles.exercise_category_collapsed]}>
         {props.exercises.map((exercise: any) => {
           return (
             <ExerciseItem
-              key={exercise.exerciseid}
+              key={exercise._id}
               name={exercise.name}
-              muscleGroup={exercise.muscleGroup}
+              muscle={exercise.muscle}
               equipment={exercise.equipment}></ExerciseItem>
           );
         })}
@@ -83,11 +85,11 @@ const ExerciseItem = (props: any) => {
       />
       <View style={[styles.pd_8, styles.flex_justify_between, {width: '90%'}]}>
         <Text style={[styles.font_inter_exercise]}>{props.name}</Text>
+        {/* <Text style={[styles.font_inter_exercise, {color: '#555'}]}>
+          {props.muscle}
+        </Text> */}
         <Text style={[styles.font_inter_exercise, {color: '#555'}]}>
-          {props.muscleGroup}
-        </Text>
-        <Text style={[styles.font_inter_exercise, {color: '#555'}]}>
-          {props.equipment}
+          {props.equipment == '' ? 'No equipment' : props.equipment}
         </Text>
       </View>
     </Pressable>
@@ -95,174 +97,61 @@ const ExerciseItem = (props: any) => {
 };
 
 const AddExerciseScreen = () => {
-  const exerciseData: any = [
-    {
-      muscleGroup: 'Chest exercises',
-      exercises: [
-        {
-          exerciseid: '1',
-          name: 'Example Exercise (with a lot of text)',
-          muscleGroup: 'Chest',
-          equipment: 'Barbbells',
-        },
-        {
-          exerciseid: '2',
-          name: 'Example Exercise (with a lot of text)',
-          muscleGroup: 'Chest',
-          equipment: 'Barbbells',
-        },
-        {
-          exerciseid: '3',
-          name: 'Example Exercise (with a lot of text)',
-          muscleGroup: 'Chest',
-          equipment: 'Barbbells',
-        },
-        {
-          exerciseid: '4',
-          name: 'Example Exercise (with a lot of text)',
-          muscleGroup: 'Chest',
-          equipment: 'Barbbells',
-        },
-      ],
-    },
-    {
-      muscleGroup: 'Back exercises',
-      exercises: [
-        {
-          exerciseid: '5',
-          name: 'Example Exercise (with a lot of text)',
-          muscleGroup: 'Back',
-          equipment: 'Barbbells',
-        },
-        {
-          exerciseid: '6',
-          name: 'Example Exercise (with a lot of text)',
-          muscleGroup: 'Back',
-          equipment: 'Barbbells',
-        },
-        {
-          exerciseid: '7',
-          name: 'Example Exercise (with a lot of text)',
-          muscleGroup: 'Back',
-          equipment: 'Barbbells',
-        },
-        {
-          exerciseid: '8',
-          name: 'Example Exercise (with a lot of text)',
-          muscleGroup: 'Back',
-          equipment: 'Barbbells',
-        },
-      ],
-    },
-    {
-      muscleGroup: 'Leg exercises',
-      exercises: [
-        {
-          exerciseid: '9',
-          name: 'Example Exercise (with a lot of text)',
-          muscleGroup: 'Leg',
-          equipment: 'Barbbells',
-        },
-        {
-          exerciseid: '10',
-          name: 'Example Exercise (with a lot of text)',
-          muscleGroup: 'Leg',
-          equipment: 'Barbbells',
-        },
-        {
-          exerciseid: '11',
-          name: 'Example Exercise (with a lot of text)',
-          muscleGroup: 'Leg',
-          equipment: 'Barbbells',
-        },
-        {
-          exerciseid: '12',
-          name: 'Example Exercise (with a lot of text)',
-          muscleGroup: 'Leg',
-          equipment: 'Barbbells',
-        },
-      ],
-    },
-    {
-      muscleGroup: 'Arm exercises',
-      exercises: [
-        {
-          exerciseid: '13',
-          name: 'Example Exercise (with a lot of text)',
-          muscleGroup: 'Arm',
-          equipment: 'Barbbells',
-        },
-        {
-          exerciseid: '14',
-          name: 'Example Exercise (with a lot of text)',
-          muscleGroup: 'Arm',
-          equipment: 'Barbbells',
-        },
-        {
-          exerciseid: '15',
-          name: 'Example Exercise (with a lot of text)',
-          muscleGroup: 'Arm',
-          equipment: 'Barbbells',
-        },
-        {
-          exerciseid: '16',
-          name: 'Example Exercise (with a lot of text)',
-          muscleGroup: 'Arm',
-          equipment: 'Barbbells',
-        },
-      ],
-    },
-    {
-      muscleGroup: 'Compunds',
-      exercises: [
-        {
-          exerciseid: '17',
-          name: 'Example Exercise (with a lot of text)',
-          muscleGroup: 'Compounds',
-          equipment: 'Barbbells',
-        },
-        {
-          exerciseid: '18',
-          name: 'Example Exercise (with a lot of text)',
-          muscleGroup: 'Compounds',
-          equipment: 'Barbbells',
-        },
-        {
-          exerciseid: '19',
-          name: 'Example Exercise (with a lot of text)',
-          muscleGroup: 'Compounds',
-          equipment: 'Barbbells',
-        },
-        {
-          exerciseid: '20',
-          name: 'Example Exercise (with a lot of text)',
-          muscleGroup: 'Compounds',
-          equipment: 'Barbbells',
-        },
-      ],
-    },
-  ];
+  const [exerciseData, setData] = useState([]);
+  const [filterableData, setFilter] = useState([]);
+  const [isReady, setReady] = useState(false);
+  const url = 'http://10.0.0.25:3000/api/exercises/groupedExercises';
+
+  useEffect(() => {
+    fetch(url)
+      .then(res => res.json())
+      .then(json => {
+        setData(json);
+        setFilter(json);
+      })
+      .catch(error => console.error(error))
+      .finally(() => setReady(true));
+  }, []);
+
+  const [isExpanded, setExpanded] = useState(false)
+
+  const filterExercises = (e: any) => {
+    setExpanded(true);
+    setReady(false);
+    setFilter(
+      exerciseData.filter((group: any) => {
+        return (
+          group.exercises.filter((exercise: any) =>
+            (exercise.name.toLowerCase()).includes(e.toLowerCase())
+          ).length > 0
+        );
+      }),
+    );
+    setReady(true);
+  };
 
   return (
     <View style={styles.bg_white}>
       <View style={[styles.mg_h_16, styles.mg_v_16]}>
         <TextInput
-          label="Search Programs"
+          label="Search Exercises"
           color="rgba(0, 0, 0, 0.3)"
           leading={props => (
             <MaterialIcons name={'search'} size={28} color={'#00000080'} />
           )}
+          onSubmitEditing={(text) => filterExercises(text.nativeEvent.text)}
         />
         <ScrollView style={[styles.mg_v_8]}>
           <View style={[styles.pd_b_100]}>
-            {exerciseData.map((muscleGroup: any) => {
+            {isReady ? filterableData.map((muscle: any) => {
               return (
                 <ExerciseDropdown
-                  key={muscleGroup.muscleGroup}
-                  category={muscleGroup.muscleGroup}
-                  exercises={muscleGroup.exercises}></ExerciseDropdown>
+                  key={muscle.muscle}
+                  category={muscle.muscle}
+                  exercises={muscle.exercises}
+                  expanded={isExpanded}></ExerciseDropdown>
               );
-            })}
+            }) : undefined}
           </View>
         </ScrollView>
       </View>
