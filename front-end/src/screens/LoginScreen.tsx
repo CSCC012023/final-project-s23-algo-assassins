@@ -8,6 +8,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 type RootStackParamList = {
   Login: undefined;
   Home: undefined; // change to other screen to navigate to
+  ResetLogin: undefined;
 };
 type LoginScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -55,6 +56,12 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
     }
   };
 
+  const handleForgotPass = async () => {
+      // navigate to ResetLoginScreen
+      navigation.navigate('ResetLogin');
+
+  };
+
   return (
     <View style={styles.bg_white}>
       <View style={[styles.mg_h_16, styles.mg_v_8]}>
@@ -72,19 +79,23 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
           label="Password"
           style={styles.mg_v_8}
           variant="standard"
-          value={password} // Bind the value to the 'password' state
+          value={password} // Bind the value to the 'password' state 
           onChangeText={text => setPassword(text)}
         />
-        <Text style={[styles.mg_v_8, styles.font_inter_forgot]}>
-          Forgot password?
-        </Text>
+
         <Button
           title="Login!"
           style={styles.mg_v_8}
           variant="contained"
-          color="primary"
+          color="#FFA500" // Set the color to orange (#FFA500)
           onPress={handleLogin} // Connect handleLogin function to the onPress event
         />
+          <Button
+         title="Forgot Password?"
+          style={styles.mg_v_8}
+          color="#FFA500" // Set the color to orange (#FFA500)
+          onPress={handleForgotPass}
+          />
         <View
           style={{
             flexDirection: 'row',
