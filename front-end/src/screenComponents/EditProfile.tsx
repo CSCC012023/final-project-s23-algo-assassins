@@ -7,6 +7,7 @@ import {
   TextInput,
   StyleSheet,
 } from 'react-native';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Toast from 'react-native-toast-message';
 import {useState} from 'react';
@@ -75,8 +76,8 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
       <View style={styles.settingsContainer}>
         <Text style={styles.settingsOption}>Show badge on profile</Text>
         <TouchableOpacity onPress={handleToggle} style={styles.toggleButton}>
-          <Ionicons
-            name={isToggled ? 'toggle-sharp' : 'toggle-off'}
+          <Fontisto
+            name={isToggled ? 'toggle-on' : 'toggle-off'}
             size={30}
             color={isToggled ? '#3761F8CC' : 'gray'}
           />
