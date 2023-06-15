@@ -46,7 +46,7 @@ const HomeScreen = ({navigation: {navigate}}: Props) => {
 
         <TouchableOpacity
           style={[styles.button, {top: height * 0.245}]}
-          onPress={() => navigate('BottomSheet')}>
+          onPress={() => navigate('SignUp')}>
           <View style={[styles.buttonContent, {backgroundColor: '#3761F8'}]}>
             <Text style={styles.buttonFont}>Sign up with Email</Text>
           </View>
