@@ -12,7 +12,8 @@ import {RootStackParamList} from './src/types/navigation';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import LoginScreen from './src/screens/LoginScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
-import EditProfileScreen from './src/screens/EditProfileScreen';
+import EditProfile from './src/screenComponents/EditProfile';
+import Toast from 'react-native-toast-message';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -30,7 +31,7 @@ function App() {
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="BottomSheet" component={BottomSheetScreen} />
           <Stack.Screen name="Profile" component={ProfileScreen} />
-          <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+          <Stack.Screen name="EditProfile" component={EditProfile} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>
