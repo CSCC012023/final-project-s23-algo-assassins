@@ -5,6 +5,7 @@ import * as React from 'react';
 import Home from './src/screens/HomeScreen';
 import DetailsScreen from './src/screens/DetailsScreen';
 import BottomSheetScreen from './src/screens/BottomSheetScreen';
+import SignUpScreen from './src/screens/SignUpScreen';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -32,8 +33,11 @@ function App() {
           <Stack.Screen name="BottomSheet" component={BottomSheetScreen} />
           <Stack.Screen name="Profile" component={ProfileScreen} />
           <Stack.Screen name="EditProfile" component={EditProfile} />
+          <Stack.Screen name="SignUp" component={SignUpScreen} />
+          <Stack.Screen name="Profile" component={ProfileScreen} />
         </Stack.Navigator>
       </NavigationContainer>
+      <Toast />
     </GestureHandlerRootView>
   );
 }
