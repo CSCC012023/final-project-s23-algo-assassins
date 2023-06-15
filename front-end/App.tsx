@@ -33,21 +33,9 @@ function App() {
           />
           <Stack.Screen name="Details" component={DetailsScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen
-            name="Workout"
-            component={WorkoutScreen}
-            options={{headerShown: true}}
-          />
-          <Stack.Screen
-            name="StartWorkout"
-            component={StartWorkoutScreen}
-            options={{headerShown: true, title: 'Workout'}}
-          />
-          <Stack.Screen
-            name="AddExercise"
-            component={AddExerciseScreen}
-            options={{headerShown: true, title: 'Workout'}}
-          />
+          <Stack.Screen name="Workout" component={WorkoutScreen} />
+          <Stack.Screen name="StartWorkout" component={StartWorkoutScreen} />
+          <Stack.Screen name="AddExercise" component={AddExerciseScreen} />
           <Stack.Screen name="BottomSheet" component={BottomSheetScreen} />
           <Stack.Screen name="SignUp" component={SignUpScreen} />
           <Stack.Screen name="Profile" component={ProfileScreen} />

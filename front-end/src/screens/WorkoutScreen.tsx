@@ -1,19 +1,11 @@
-import {StyleSheet, View, ScrollView} from 'react-native';
-import {
-  TextInput,
-  Text,
-  Button,
-  Divider,
-  Pressable,
-} from '@react-native-material/core';
-import React, {useState} from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import FontAwesome5, {FA5Style} from 'react-native-vector-icons/FontAwesome5';
+import {StyleSheet, View} from 'react-native';
+import {TextInput, Text, Pressable} from '@react-native-material/core';
+import React from 'react';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../types/navigation';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../types/navigation';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Workout'>;
 
@@ -22,8 +14,7 @@ const ProgramButton = (props: any) => {
     <View style={[styles.btn_program_container]}>
       <Pressable pressEffectColor="#FB8E40" style={[styles.btn_program_body]}>
         <Octicons name={props.icon} size={40} color={'#000000B3'} />
-        <Text
-          style={[styles.mg_t_8, styles.font_inter_input, styles.text_center]}>
+        <Text style={[styles.mg_t_8, styles.font_inter_20, styles.text_center]}>
           {props.text}
         </Text>
       </Pressable>
@@ -31,25 +22,35 @@ const ProgramButton = (props: any) => {
   );
 };
 
-const WorkoutScreen = ({ navigation: { navigate } }: Props) => {
+const WorkoutScreen = ({navigation: {navigate}}: Props) => {
   return (
     <View style={styles.bg_white}>
+      <View
+        style={[styles.flex_row, styles.flex_wrap, styles.flex_align_center]}>
+        <Text style={[styles.mg_16, styles.pd_8, styles.font_inter_20]}>
+          Workout
+        </Text>
+      </View>
       <View style={[styles.mg_h_16, styles.mg_v_8]}>
         <View style={[styles.btn_new_workout]}>
-          <Pressable pressEffectColor="#FB8E40" onPress={() => navigate('StartWorkout')}>
-            <Text
-              style={[styles.mg_v_16, styles.pd_h_4, styles.font_inter_input]}>
+          <Pressable
+            pressEffectColor="#FB8E40"
+            onPress={() => navigate('StartWorkout')}>
+            <Text style={[styles.mg_v_16, styles.font_inter_20]}>
               <Fontisto name={'plus-a'} size={20} color={'#0561F880'} /> Start
               New Workout
             </Text>
           </Pressable>
         </View>
 
-        <Text style={[styles.mg_v_16, styles.font_inter_semi_bold]}>
-          Programs:
-        </Text>
+        <Text style={[styles.mg_v_16, styles.font_inter_sb_20]}>Programs:</Text>
 
-        <View style={[styles.mg_v_16, styles.flex_row]}>
+        <View
+          style={[
+            styles.mg_v_16,
+            styles.flex_row,
+            styles.flex_justify_between,
+          ]}>
           <ProgramButton icon="sun" text="New Routine"></ProgramButton>
           <ProgramButton icon="file" text="Saved Routine"></ProgramButton>
         </View>
@@ -69,8 +70,21 @@ const WorkoutScreen = ({ navigation: { navigate } }: Props) => {
 export default WorkoutScreen;
 
 const styles = StyleSheet.create({
+  // Margins
+  mg_8: {
+    margin: 8,
+  },
+  mg_16: {
+    margin: 16,
+  },
+  mg_h_8: {
+    marginHorizontal: 8,
+  },
   mg_h_16: {
     marginHorizontal: 16,
+  },
+  mg_h_32: {
+    marginHorizontal: 32,
   },
   mg_v_8: {
     marginVertical: 8,
@@ -84,47 +98,90 @@ const styles = StyleSheet.create({
   mg_t_16: {
     marginTop: 16,
   },
+  mg_b_64: {
+    marginBottom: 64,
+  },
+  mg_l_16: {
+    marginLeft: 16,
+  },
+  // Padding
+  pd_4: {
+    padding: 4,
+  },
+  pd_8: {
+    padding: 8,
+  },
   pd_h_4: {
     paddingHorizontal: 4,
   },
+  pd_b_100: {
+    paddingBottom: 100,
+  },
+  // Background
   bg_white: {
     backgroundColor: 'white',
     flex: 1,
   },
+  // Text
   text_input: {
     color: 'rgba(0, 0, 0, 0.3)',
   },
-  font_inter_input: {
+  text_center: {
+    textAlign: 'center',
+  },
+  font_inter_16: {
+    fontFamily: 'Inter-Regular',
+    fontStyle: 'normal',
+    fontWeight: '300',
+    fontSize: 16,
+    lineHeight: 22,
+  },
+  font_inter_sb_16: {
+    fontFamily: 'Inter-SemiBold',
+    fontStyle: 'normal',
+    fontWeight: '300',
+    fontSize: 16,
+    lineHeight: 22,
+  },
+  font_inter_20: {
     fontFamily: 'Inter-Regular',
     fontStyle: 'normal',
     fontWeight: '300',
     fontSize: 20,
     lineHeight: 22,
   },
-  font_inter_forgot: {
-    fontFamily: 'Inter-Regular',
-    fontStyle: 'normal',
-    fontWeight: '300',
-    fontSize: 15,
-    lineHeight: 20,
-    color: '#FB8E40',
-  },
-  font_inter_semi_bold: {
+  font_inter_sb_20: {
     fontFamily: 'Inter-SemiBold',
     fontStyle: 'normal',
     fontWeight: '300',
     fontSize: 20,
     lineHeight: 22,
   },
-  text_center: {
-    textAlign: 'center',
+  // flex
+  flex: {
+    display: 'flex',
+    flex: 1,
+    gap: 8,
   },
   flex_row: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    gap: 8,
   },
+  flex_wrap: {
+    flexWrap: 'wrap',
+  },
+  flex_nowrap: {
+    flexWrap: 'nowrap',
+  },
+  flex_justify_between: {
+    justifyContent: 'space-between',
+  },
+  flex_justify_center: {
+    justifyContent: 'center',
+  },
+  flex_align_center: {
+    alignItems: 'center',
+  },
+  // WorkoutScreen Related
   btn_program_container: {
     width: 151,
     borderWidth: 2,
@@ -145,4 +202,43 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     overflow: 'hidden',
   },
+  // StartWorkoutScreen Related
+  btn_container: {
+    borderWidth: 2,
+    borderColor: 'transparent',
+    borderRadius: 8,
+    overflow: 'hidden',
+  },
+  btn: {
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  // AddExerciseScreen Related
+  exercise_category_highlighted: {
+    backgroundColor: '#FB8E4030',
+  },
+  exercise_category_collapsed: {
+    height: 0,
+    overflow: 'hidden',
+  },
+  exercise_item_container: {
+    height: 100,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+  },
+  exercise_icon: {
+    marginVertical: 22,
+    marginLeft: 8,
+    height: 56,
+    width: 56,
+    borderRadius: 28,
+    borderWidth: 1,
+    borderColor: '#000',
+    resizeMode: 'contain',
+  },
 });
+
+export {styles};
