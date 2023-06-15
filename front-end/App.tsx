@@ -34,7 +34,6 @@ function App() {
           <Stack.Screen name="Profile" component={ProfileScreen} />
           <Stack.Screen name="EditProfile" component={EditProfile} />
           <Stack.Screen name="SignUp" component={SignUpScreen} />
-          <Stack.Screen name="Profile" component={ProfileScreen} />
         </Stack.Navigator>
       </NavigationContainer>
       <Toast />
