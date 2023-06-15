@@ -7,7 +7,17 @@ import {styles} from './WorkoutScreen';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'StartWorkout'>;
 
-const StartWorkoutScreen = ({navigation: {navigate}}: Props) => {
+const StartWorkoutScreen = ({route, navigation: {navigate}}: Props) => {
+  // Related to passing data between AddExercise and StartWorkoutScreen
+  const navData = route.params?.navData;
+  const data: any = navData != undefined ? navData : {};
+  const formatted = [];
+  for (const [key, value] of Object.entries(data)) {
+    if (data[key] != undefined) {
+      formatted.push(value);
+    }
+  }
+
   return (
     <View style={styles.bg_white}>
       <View
@@ -24,6 +34,18 @@ const StartWorkoutScreen = ({navigation: {navigate}}: Props) => {
           styles.flex_justify_between,
         ]}>
         <View>
+          {formatted.map((exercise: any) => {
+            return (<Text
+            key={exercise.name}
+              style={[
+                styles.mg_t_16,
+                styles.pd_h_4,
+                styles.font_inter_20,
+                styles.text_center,
+              ]}>
+              {exercise.name}
+            </Text>)
+          })}
           <Text
             style={[
               styles.mg_t_16,
@@ -37,7 +59,7 @@ const StartWorkoutScreen = ({navigation: {navigate}}: Props) => {
             <Pressable
               pressEffectColor="#fff"
               style={[styles.btn, {backgroundColor: '#3761F880'}]}
-              onPress={() => navigate('AddExercise')}>
+              onPress={() => navigate('AddExercise', {navData: data})}>
               <Text
                 style={[
                   styles.font_inter_sb_16,

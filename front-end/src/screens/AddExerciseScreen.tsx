@@ -3,6 +3,10 @@ import {TextInput, Text, Pressable} from '@react-native-material/core';
 import React, {useEffect, useState} from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {styles} from './WorkoutScreen';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../types/navigation';
+
+type Props = NativeStackScreenProps<RootStackParamList, 'AddExercise'>;
 
 const ExerciseDropdown = (props: any) => {
   const [visible, setVisible] = React.useState(props.expanded);
@@ -15,12 +19,8 @@ const ExerciseDropdown = (props: any) => {
   return (
     <View>
       <Pressable
-        style={[
-          styles.exercise_item_container,
-          styles.flex_justify_center,
-          visible ? styles.exercise_category_highlighted : undefined,
-        ]}
-        pressEffectColor="#FB8E40"
+        style={[styles.exercise_item_container, styles.flex_justify_center]}
+        pressEffectColor="#3761F880"
         onPress={() => {
           toggleDropdown();
         }}>
@@ -36,8 +36,9 @@ const ExerciseDropdown = (props: any) => {
               name={exercise.name}
               muscle={exercise.muscle}
               equipment={exercise.equipment}
-              data={exercise}
-              function={props.function}></ExerciseItem>
+              exercise={exercise}
+              function={props.function}
+              data={props.data}></ExerciseItem>
           );
         })}
       </View>
@@ -46,11 +47,12 @@ const ExerciseDropdown = (props: any) => {
 };
 
 const ExerciseItem = (props: any) => {
-  const [selected, setSelected] = React.useState(props.selected);
+  const [selected, setSelected] = React.useState(
+    props.selected || props.data[props.name] != undefined,
+  );
 
-  const toggleDropdown = () => {
+  const toggleExercise = () => {
     setSelected(!selected);
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   };
 
   return (
@@ -63,9 +65,12 @@ const ExerciseItem = (props: any) => {
         styles.flex_align_center,
         selected ? styles.exercise_category_highlighted : undefined,
       ]}
-      onPress={() => props.function(this, props.data)}>
+      onPress={() => {
+        props.function(props.exercise);
+        toggleExercise();
+      }}>
       <Image
-        source={require('../assets/images/google_logo.png')}
+        source={require('../assets/images/FitBook_logo3.png')}
         style={[styles.exercise_icon]}
       />
       <View style={[styles.pd_8, styles.flex_justify_between, {width: '90%'}]}>
@@ -78,11 +83,26 @@ const ExerciseItem = (props: any) => {
   );
 };
 
-const AddExerciseScreen = () => {
+interface exercise {
+  img: any;
+  _id: any;
+  name: any;
+  description: any;
+  muscle: any;
+  equipment: any;
+  difficulty: any;
+  __v: any;
+}
+const AddExerciseScreen = ({route, navigation: {navigate}}: Props) => {
   // Related to passing data between AddExercise and StartWorkoutScreen
-  const data = {};
-  const toggleExercise = () => {
-    setReady(true);
+  const navData = route.params?.navData;
+  const data: any = navData != undefined ? navData : {};
+  const toggleExercise = (info: exercise) => {
+    if (data[info.name] == undefined) {
+      data[info.name] = info;
+    } else {
+      delete data[info.name];
+    }
   };
 
   // Get exercises from db
@@ -135,6 +155,21 @@ const AddExerciseScreen = () => {
           )}
           onChangeText={text => filterExercises(text)}
         />
+        <View style={[styles.mg_v_8, styles.btn_container]}>
+          <Pressable
+            pressEffectColor="#fff"
+            style={[styles.btn, {backgroundColor: '#3761F880'}]}
+            onPress={() => navigate('StartWorkout', {navData: data})}>
+            <Text
+              style={[
+                styles.font_inter_sb_16,
+                styles.text_center,
+                {color: '#fff'},
+              ]}>
+              Add
+            </Text>
+          </Pressable>
+        </View>
         <ScrollView style={[styles.mg_v_8]}>
           <View style={[styles.pd_b_100]}>
             {isReady
@@ -145,7 +180,8 @@ const AddExerciseScreen = () => {
                       category={muscle.muscle}
                       exercises={muscle.exercises}
                       expanded={isExpanded}
-                      function={toggleExercise}></ExerciseDropdown>
+                      function={toggleExercise}
+                      data={data}></ExerciseDropdown>
                   );
                 })
               : undefined}

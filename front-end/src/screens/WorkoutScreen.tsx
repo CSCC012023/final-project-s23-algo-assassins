@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
   },
   // AddExerciseScreen Related
   exercise_category_highlighted: {
-    backgroundColor: '#FB8E4030',
+    backgroundColor: '#3761F850',
   },
   exercise_category_collapsed: {
     height: 0,
