@@ -139,6 +139,7 @@ const AddExerciseScreen = ({route, navigation: {navigate}}: Props) => {
   }, []);
 
   // Related to search functionality
+  const [input, setInput] = React.useState<string>('');
   const [isExpanded, setExpanded] = React.useState<boolean>(false);
 
   const filterExercises = (text: string) => {
@@ -152,6 +153,7 @@ const AddExerciseScreen = ({route, navigation: {navigate}}: Props) => {
         return group.exercises.length > 0;
       }),
     );
+    setInput(text);
     setReady(true);
   };
   return (
@@ -168,6 +170,7 @@ const AddExerciseScreen = ({route, navigation: {navigate}}: Props) => {
           leading={props => (
             <MaterialIcons name={'search'} size={28} color={'#00000080'} />
           )}
+          value={input}
           onChangeText={text => filterExercises(text)}
         />
         <View style={[styles.mg_v_8, styles.btn_container]}>
@@ -191,7 +194,10 @@ const AddExerciseScreen = ({route, navigation: {navigate}}: Props) => {
             </Text>
           </Pressable>
         </View>
-        <ScrollView style={[styles.mg_v_8]}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          style={[styles.mg_v_8]}>
           <View style={[styles.mg_b_200]}>
             {isReady
               ? filterableData.map((muscle: any) => {

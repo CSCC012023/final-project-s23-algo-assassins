@@ -13,6 +13,7 @@ export type Exercise = {
   name: string;
   img: any;
   description: string;
+  notes: string;
   muscle: string;
   equipment: string;
   difficulty: number;

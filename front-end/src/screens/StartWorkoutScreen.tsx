@@ -11,11 +11,18 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigation';
 import {styles} from './WorkoutScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Dictionary, Exercise, Set } from '../types/workout';
+import {Dictionary, Exercise, Set} from '../types/workout';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'StartWorkout'>;
 
 const ExerciseEntry = (props: any) => {
+  const [input, setInput] = React.useState<string>(props.exercise.notes);
+
+  const updateNoteInput = (text: string) => {
+    props.navData[props.exercise.name].notes = text;
+    setInput(text);
+  };
+
   return (
     <View style={[styles.mg_v_16]}>
       <View style={[{height: 72}]}>
@@ -58,7 +65,9 @@ const ExerciseEntry = (props: any) => {
         label="Add notes here..."
         color="rgba(0, 0, 0, 0.3)"
         variant="standard"
-        style={[styles.mg_v_8]}></TextInput>
+        value={input}
+        style={[styles.mg_v_8]}
+        onChangeText={text => updateNoteInput(text)}></TextInput>
       <View style={[{height: 48}]}>
         <View
           style={[
@@ -158,12 +167,14 @@ const ExerciseSets = (props: any) => {
             <TextInput
               color="rgba(0, 0, 0, 0.3)"
               variant="standard"
-              style={[styles.mg_v_8, {flex: 1}]}></TextInput>
+              style={[styles.mg_v_8, {flex: 1}]}
+              keyboardType="numeric"></TextInput>
           ) : undefined}
           <TextInput
             color="rgba(0, 0, 0, 0.3)"
             variant="standard"
-            style={[styles.mg_v_8, {flex: 1}]}></TextInput>
+            style={[styles.mg_v_8, {flex: 1}]}
+            keyboardType="numeric"></TextInput>
           <Ionicons name={'checkmark-circle'} size={28} color={'#d9d9d9'} />
         </View>
       </View>
@@ -202,7 +213,10 @@ const StartWorkoutScreen = ({route, navigation: {navigate}}: Props) => {
           Workout
         </Text>
       </View>
-      <ScrollView style={[styles.mg_h_16, styles.mg_v_8]}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        style={[styles.mg_h_16, styles.mg_v_8]}>
         <View>
           {Object.keys(navData).length ? (
             Object.keys(navData).map((key: string) => {
@@ -210,6 +224,7 @@ const StartWorkoutScreen = ({route, navigation: {navigate}}: Props) => {
                 <ExerciseEntry
                   key={navData[key]._id}
                   exercise={navData[key]}
+                  navData={navData}
                   pushFunc={PushSet}
                   popFunc={PopSet}></ExerciseEntry>
               );
