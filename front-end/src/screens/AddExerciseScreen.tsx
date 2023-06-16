@@ -125,7 +125,7 @@ const AddExerciseScreen = ({route, navigation: {navigate}}: Props) => {
   const [exerciseData, setData] = React.useState<MuscleGroup[]>([]);
   const [filterableData, setFilter] = React.useState<MuscleGroup[]>([]);
   const [isReady, setReady] = useState(false);
-  const url = 'http://10.0.0.25:3000/api/exercises/groupedExercises';
+  const url = 'http://localhost:3000/api/exercises/groupedExercises';
 
   useEffect(() => {
     fetch(url)
