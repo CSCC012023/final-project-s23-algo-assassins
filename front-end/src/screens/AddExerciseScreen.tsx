@@ -11,11 +11,12 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {styles} from './WorkoutScreen';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigation';
+import {Dictionary, Exercise, MuscleGroup} from '../types/workout';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'AddExercise'>;
 
 const ExerciseDropdown = (props: any) => {
-  const [visible, setVisible] = React.useState(props.expanded);
+  const [visible, setVisible] = React.useState<boolean>(props.expanded);
 
   const toggleDropdown = () => {
     setVisible(!visible);
@@ -37,7 +38,7 @@ const ExerciseDropdown = (props: any) => {
         </View>
       </Pressable>
       <View style={[visible ? undefined : styles.exercise_category_collapsed]}>
-        {props.muscle.exercises.map((exercise: any) => {
+        {props.muscle.exercises.map((exercise: Exercise) => {
           return (
             <ExerciseItem
               key={exercise._id}
@@ -52,7 +53,7 @@ const ExerciseDropdown = (props: any) => {
 };
 
 const ExerciseItem = (props: any) => {
-  const [selected, setSelected] = React.useState(
+  const [selected, setSelected] = React.useState<boolean>(
     props.selected || props.navData[props.exercise.name] != undefined,
   );
 
@@ -90,23 +91,13 @@ const ExerciseItem = (props: any) => {
   );
 };
 
-interface exercise {
-  img: any;
-  _id: any;
-  name: any;
-  description: any;
-  muscle: any;
-  equipment: any;
-  difficulty: any;
-  __v: any;
-}
 const AddExerciseScreen = ({route, navigation: {navigate}}: Props) => {
   // Related to passing data between AddExercise and StartWorkoutScreen
-  const navData =
+  const navData: Dictionary<Exercise> =
     route.params?.navData != undefined ? route.params?.navData : {};
   const oldData = {...navData};
-  const [count, setCount] = React.useState(Object.keys(navData).length);
-  const toggleExercise = (info: exercise) => {
+  const [count, setCount] = React.useState<number>(Object.keys(navData).length);
+  const toggleExercise = (info: Exercise) => {
     if (navData[info.name] == undefined) {
       navData[info.name] = info;
       setCount(count + 1);
@@ -131,10 +122,10 @@ const AddExerciseScreen = ({route, navigation: {navigate}}: Props) => {
   }, []);
 
   // Get exercises from db
-  const [exerciseData, setData] = React.useState([]);
-  const [filterableData, setFilter] = React.useState([]);
+  const [exerciseData, setData] = React.useState<MuscleGroup[]>([]);
+  const [filterableData, setFilter] = React.useState<MuscleGroup[]>([]);
   const [isReady, setReady] = useState(false);
-  const url = 'http://localhost:3000/api/exercises/groupedExercises';
+  const url = 'http://10.0.0.25:3000/api/exercises/groupedExercises';
 
   useEffect(() => {
     fetch(url)
@@ -148,18 +139,17 @@ const AddExerciseScreen = ({route, navigation: {navigate}}: Props) => {
   }, []);
 
   // Related to search functionality
-  const [isExpanded, setExpanded] = React.useState(false);
+  const [isExpanded, setExpanded] = React.useState<boolean>(false);
 
-  const filterExercises = (e: any) => {
+  const filterExercises = (text: string) => {
     setExpanded(true);
     setReady(false);
     setFilter(
-      exerciseData.filter((group: any) => {
-        return (
-          group.exercises.filter((exercise: any) =>
-            exercise.name.toLowerCase().includes(e.toLowerCase()),
-          ).length > 0
+      JSON.parse(JSON.stringify(exerciseData)).filter((group: MuscleGroup) => {
+        group.exercises = group.exercises.filter((exercise: Exercise) =>
+          exercise.name.toLowerCase().includes(text.toLowerCase()),
         );
+        return group.exercises.length > 0;
       }),
     );
     setReady(true);

@@ -1,3 +1,5 @@
+import {Dictionary, Exercise} from './workout';
+
 export type RootStackParamList = {
   Home: undefined;
   Details: undefined;
@@ -5,8 +7,12 @@ export type RootStackParamList = {
   SignUp: undefined;
   Login: undefined;
   Workout: undefined;
-  StartWorkout: any;
-  AddExercise: any;
+  StartWorkout: {
+    navData: Dictionary<Exercise>;
+  };
+  AddExercise: {
+    navData: Dictionary<Exercise>;
+  };
   Profile: undefined;
   EditProfile: undefined;
 };

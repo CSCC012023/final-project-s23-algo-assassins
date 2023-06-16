@@ -35,7 +35,7 @@ const WorkoutScreen = ({navigation: {navigate}}: Props) => {
         <View style={[styles.btn_new_workout]}>
           <Pressable
             pressEffectColor="#FB8E40"
-            onPress={() => navigate('StartWorkout')}
+            onPress={() => navigate('StartWorkout', {navData: {}})}
             style={[styles.pd_h_4]}>
             <Text style={[styles.mg_v_16, styles.font_inter_20]}>
               <Fontisto name={'plus-a'} size={20} color={'#0561F880'} /> Start

@@ -11,6 +11,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigation';
 import {styles} from './WorkoutScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Dictionary, Exercise, Set } from '../types/workout';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'StartWorkout'>;
 
@@ -75,7 +76,7 @@ const ExerciseEntry = (props: any) => {
           <Ionicons name={'checkmark-circle'} size={28} color={'#fff'} />
         </View>
       </View>
-      {props.exercise.sets.map((set: any) => {
+      {props.exercise.sets.map((set: Set) => {
         return (
           <ExerciseSets
             key={`${props.exercise._id}_${set.set}`}
@@ -172,11 +173,11 @@ const ExerciseSets = (props: any) => {
 
 const StartWorkoutScreen = ({route, navigation: {navigate}}: Props) => {
   // Related to passing data between AddExercise and StartWorkoutScreen
-  const navData =
+  const navData: Dictionary<Exercise> =
     route.params?.navData != undefined ? route.params?.navData : {};
-  const [exercise, setExercise] = useState(navData);
+  const [exercise, setExercise] = useState<Dictionary<Exercise>>(navData);
 
-  const PushSet = (name: any, count: any) => {
+  const PushSet = (name: string, count: number) => {
     navData[name].sets.push({
       set: count,
       lbs: 0,
@@ -186,7 +187,7 @@ const StartWorkoutScreen = ({route, navigation: {navigate}}: Props) => {
     setExercise({...navData});
   };
 
-  const PopSet = (name: any) => {
+  const PopSet = (name: string) => {
     if (navData[name].sets.length - 1) {
       navData[name].sets.pop();
 
@@ -204,7 +205,7 @@ const StartWorkoutScreen = ({route, navigation: {navigate}}: Props) => {
       <ScrollView style={[styles.mg_h_16, styles.mg_v_8]}>
         <View>
           {Object.keys(navData).length ? (
-            Object.keys(navData).map((key: any) => {
+            Object.keys(navData).map((key: string) => {
               return (
                 <ExerciseEntry
                   key={navData[key]._id}
