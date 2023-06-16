@@ -134,7 +134,7 @@ const AddExerciseScreen = ({route, navigation: {navigate}}: Props) => {
   const [exerciseData, setData] = React.useState([]);
   const [filterableData, setFilter] = React.useState([]);
   const [isReady, setReady] = useState(false);
-  const url = 'http://10.0.0.13:3000/api/exercises/groupedExercises';
+  const url = 'http://localhost:3000/api/exercises/groupedExercises';
 
   useEffect(() => {
     fetch(url)
