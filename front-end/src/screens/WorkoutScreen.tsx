@@ -102,6 +102,9 @@ const styles = StyleSheet.create({
   mg_b_64: {
     marginBottom: 64,
   },
+  mg_b_200: {
+    marginBottom: 200,
+  },
   mg_l_16: {
     marginLeft: 16,
   },

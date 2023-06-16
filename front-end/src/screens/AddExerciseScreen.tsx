@@ -202,7 +202,7 @@ const AddExerciseScreen = ({route, navigation: {navigate}}: Props) => {
           </Pressable>
         </View>
         <ScrollView style={[styles.mg_v_8]}>
-          <View style={[styles.pd_b_100]}>
+          <View style={[styles.mg_b_200]}>
             {isReady
               ? filterableData.map((muscle: any) => {
                   return (
