@@ -35,7 +35,8 @@ const WorkoutScreen = ({navigation: {navigate}}: Props) => {
         <View style={[styles.btn_new_workout]}>
           <Pressable
             pressEffectColor="#FB8E40"
-            onPress={() => navigate('StartWorkout')}>
+            onPress={() => navigate('StartWorkout')}
+            style={[styles.pd_h_4]}>
             <Text style={[styles.mg_v_16, styles.font_inter_20]}>
               <Fontisto name={'plus-a'} size={20} color={'#0561F880'} /> Start
               New Workout
@@ -104,6 +105,9 @@ const styles = StyleSheet.create({
   mg_l_16: {
     marginLeft: 16,
   },
+  mg_r_8: {
+    marginRight: 8,
+  },
   // Padding
   pd_4: {
     padding: 4,
@@ -113,6 +117,9 @@ const styles = StyleSheet.create({
   },
   pd_h_4: {
     paddingHorizontal: 4,
+  },
+  pd_v_4: {
+    paddingVertical: 4,
   },
   pd_b_100: {
     paddingBottom: 100,
@@ -230,7 +237,6 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ddd',
   },
   exercise_icon: {
-    marginVertical: 22,
     marginLeft: 8,
     height: 56,
     width: 56,

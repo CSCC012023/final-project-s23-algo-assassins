@@ -1,4 +1,10 @@
-import {View, ScrollView, Image, LayoutAnimation} from 'react-native';
+import {
+  View,
+  ScrollView,
+  Image,
+  LayoutAnimation,
+  BackHandler,
+} from 'react-native';
 import {TextInput, Text, Pressable} from '@react-native-material/core';
 import React, {useEffect, useState} from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -25,20 +31,19 @@ const ExerciseDropdown = (props: any) => {
           toggleDropdown();
         }}>
         <View style={[styles.pd_8]}>
-          <Text style={[styles.font_inter_20]}>{props.category} Exercises</Text>
+          <Text style={[styles.font_inter_20]}>
+            {props.muscle.muscle} Exercises
+          </Text>
         </View>
       </Pressable>
       <View style={[visible ? undefined : styles.exercise_category_collapsed]}>
-        {props.exercises.map((exercise: any) => {
+        {props.muscle.exercises.map((exercise: any) => {
           return (
             <ExerciseItem
               key={exercise._id}
-              name={exercise.name}
-              muscle={exercise.muscle}
-              equipment={exercise.equipment}
               exercise={exercise}
               function={props.function}
-              data={props.data}></ExerciseItem>
+              navData={props.navData}></ExerciseItem>
           );
         })}
       </View>
@@ -48,7 +53,7 @@ const ExerciseDropdown = (props: any) => {
 
 const ExerciseItem = (props: any) => {
   const [selected, setSelected] = React.useState(
-    props.selected || props.data[props.name] != undefined,
+    props.selected || props.navData[props.exercise.name] != undefined,
   );
 
   const toggleExercise = () => {
@@ -74,9 +79,11 @@ const ExerciseItem = (props: any) => {
         style={[styles.exercise_icon]}
       />
       <View style={[styles.pd_8, styles.flex_justify_between, {width: '90%'}]}>
-        <Text style={[styles.font_inter_16]}>{props.name}</Text>
+        <Text style={[styles.font_inter_16]}>{props.exercise.name}</Text>
         <Text style={[styles.font_inter_16, {color: '#555'}]}>
-          {props.equipment == '' ? 'No equipment' : props.equipment}
+          {props.exercise.equipment == ''
+            ? 'No equipment'
+            : props.exercise.equipment}
         </Text>
       </View>
     </Pressable>
@@ -95,19 +102,37 @@ interface exercise {
 }
 const AddExerciseScreen = ({route, navigation: {navigate}}: Props) => {
   // Related to passing data between AddExercise and StartWorkoutScreen
-  const navData = route.params?.navData;
-  const data: any = navData != undefined ? navData : {};
+  const navData =
+    route.params?.navData != undefined ? route.params?.navData : {};
+  const oldData = {...navData};
+  const [count, setCount] = React.useState(Object.keys(navData).length);
   const toggleExercise = (info: exercise) => {
-    if (data[info.name] == undefined) {
-      data[info.name] = info;
+    if (navData[info.name] == undefined) {
+      navData[info.name] = info;
+      setCount(count + 1);
     } else {
-      delete data[info.name];
+      delete navData[info.name];
+      setCount(count - 1);
     }
   };
 
+  useEffect(() => {
+    const backAction = () => {
+      navigate('StartWorkout', {navData: oldData});
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
   // Get exercises from db
-  const [exerciseData, setData] = useState([]);
-  const [filterableData, setFilter] = useState([]);
+  const [exerciseData, setData] = React.useState([]);
+  const [filterableData, setFilter] = React.useState([]);
   const [isReady, setReady] = useState(false);
   const url = 'http://10.0.0.13:3000/api/exercises/groupedExercises';
 
@@ -123,7 +148,7 @@ const AddExerciseScreen = ({route, navigation: {navigate}}: Props) => {
   }, []);
 
   // Related to search functionality
-  const [isExpanded, setExpanded] = useState(false);
+  const [isExpanded, setExpanded] = React.useState(false);
 
   const filterExercises = (e: any) => {
     setExpanded(true);
@@ -158,15 +183,21 @@ const AddExerciseScreen = ({route, navigation: {navigate}}: Props) => {
         <View style={[styles.mg_v_8, styles.btn_container]}>
           <Pressable
             pressEffectColor="#fff"
-            style={[styles.btn, {backgroundColor: '#3761F880'}]}
-            onPress={() => navigate('StartWorkout', {navData: data})}>
+            style={[
+              styles.btn,
+              {backgroundColor: count ? '#3761F880' : '#d9d9d9'},
+            ]}
+            onPress={() =>
+              count ? navigate('StartWorkout', {navData: navData}) : undefined
+            }
+            pressEffect={count ? 'ripple' : 'none'}>
             <Text
               style={[
                 styles.font_inter_sb_16,
                 styles.text_center,
                 {color: '#fff'},
               ]}>
-              Add
+              Add {count} exercise{count != 1 ? 's' : ''}
             </Text>
           </Pressable>
         </View>
@@ -177,11 +208,10 @@ const AddExerciseScreen = ({route, navigation: {navigate}}: Props) => {
                   return (
                     <ExerciseDropdown
                       key={muscle.muscle}
-                      category={muscle.muscle}
-                      exercises={muscle.exercises}
+                      muscle={muscle}
                       expanded={isExpanded}
                       function={toggleExercise}
-                      data={data}></ExerciseDropdown>
+                      navData={navData}></ExerciseDropdown>
                   );
                 })
               : undefined}
