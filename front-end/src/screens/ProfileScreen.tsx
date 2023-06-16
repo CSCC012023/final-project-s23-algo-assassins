@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {ProfileSetup, ProfileButtons} from '../screenComponents/ProfileSetup';
+import {ProfileSetup, ProfileButtons} from '../screenComponents/ProfileHeader';
 
 const ProfileScreen = () => {
   return (
@@ -13,6 +13,8 @@ const ProfileScreen = () => {
           workouts={70}
           followers={54}
           following={14}
+          biography="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua."
         />
         <ProfileButtons
           id={0}

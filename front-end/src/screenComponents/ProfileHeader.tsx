@@ -58,10 +58,7 @@ export const ProfileSetup: React.FC<ProfileSetupProps> = ({
         </View>
       </View>
       <View style={styles.bioContainer}>
-        <Text style={styles.bioText}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </Text>
+        <Text style={styles.bioText}>{biography}</Text>
       </View>
     </View>
   );

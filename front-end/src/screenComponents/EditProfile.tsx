@@ -10,6 +10,7 @@ import {
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Toast from 'react-native-toast-message';
+import ImagePicker from 'react-native-image-picker';
 import {useState} from 'react';
 
 interface EditProfileProps {
@@ -19,6 +20,19 @@ interface EditProfileProps {
 
 const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
   const {name, accountName, profileImage} = route.params;
+
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  const handleImagePicker = () => {
+    ImagePicker.showImagePicker(
+      {title: 'Select Profile Picture', mediaType: 'photo'},
+      response => {
+        if (!response.didCancel && !response.error) {
+          setSelectedImage(response.uri);
+        }
+      },
+    );
+  };
 
   const showToastMessage = () => {
     Toast.show({text1: 'Edit Sucess!'});
@@ -47,7 +61,9 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
       </View>
       <View style={styles.profileSection}>
         <Image source={profileImage} style={styles.profileImage} />
-        <Text style={styles.changePhotoText}>Change profile photo</Text>
+        <TouchableOpacity>
+          <Text style={styles.changePhotoText}>Change profile photo</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.inputSection}>
         <View>

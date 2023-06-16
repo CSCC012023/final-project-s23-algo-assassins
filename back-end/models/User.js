@@ -10,6 +10,10 @@ const UserSchema = new mongoose_1.default.Schema({
         type: String,
         required: true,
     },
+    username: {
+        type: String,
+        required: true,
+    },
     email: {
         type: String,
         required: true,
@@ -27,6 +31,9 @@ const UserSchema = new mongoose_1.default.Schema({
     },
     height: {
         type: Number,
+    },
+    biography: {
+        type: String,
     },
 });
 exports.User = mongoose_1.default.model("User", UserSchema);
