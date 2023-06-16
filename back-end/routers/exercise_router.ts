@@ -18,7 +18,7 @@ exerciseRouter.get('/find', async (req, res) => {
 // Used to get all exercises grouped by their muscle
 exerciseRouter.get('/groupedExercises', async (req, res) => {
   const group = 'muscle';
-  const exercises = (await Exercise.find()).filter((exercise) => {
+  const exercises = (await Exercise.find().sort({name: 'asc', muscle: 'asc'})).filter((exercise) => {
     return exercise.muscle != undefined;
   });
 
