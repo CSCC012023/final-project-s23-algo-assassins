@@ -16,10 +16,13 @@ const ProfileScreen = () => {
         />
         <ProfileButtons
           id={0}
-          name="Jerry Dang"
-          accountName="j.d_splash"
+          name=""
+          accountName=""
           profileImage={require('../assets/images/levi_pfp.png')}
         />
+      </View>
+      <View style={styles.bioContainer}>
+        <Text>Progress Data</Text>
       </View>
     </View>
   );
@@ -33,7 +36,12 @@ const styles = StyleSheet.create({
   },
   content: {
     width: '100%',
-    padding: 20,
+    paddingLeft: 20,
+    paddingTop: 20,
+    paddingRight: 20,
+  },
+  bioContainer: {
+    paddingLeft: 20,
   },
 });
 

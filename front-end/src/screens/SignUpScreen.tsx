@@ -1,18 +1,23 @@
-import { StyleSheet, View, Image, Dimensions, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Image,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 import {TextInput, Text, Button, Divider} from '@react-native-material/core';
-import React, { useState } from 'react';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../types/navigation';
-import { CheckBox } from 'react-native-elements';
-import AntDesign from "react-native-vector-icons/AntDesign";
-import Toast from "react-native-toast-message";
+import React, {useState} from 'react';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../types/navigation';
+import {CheckBox} from 'react-native-elements';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Toast from 'react-native-toast-message';
 
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
 const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
-
   const [isChecked, setIsChecked] = React.useState(false);
   const [userName, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -23,21 +28,21 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
   const [signUpStatus, setSignUpStatus] = React.useState('');
 
   const handleCheck = () => {
-    setIsChecked(!isChecked);  
+    setIsChecked(!isChecked);
   };
 
   const isValidEmail = (email: string): boolean => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
-  }
+  };
 
   const isValidPassword = (password: string): boolean => {
     const regex = /^.{6,}$/;
     return regex.test(password);
-  }
+  };
 
   const handleSignUp = async () => {
-    console.log("Signup button pressed. Handling signup...");
+    console.log('Signup button pressed. Handling signup...');
 
     if (!isValidEmail(email) || !isValidPassword(password)) {
       Toast.show({
@@ -66,18 +71,18 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
 
       if (response.ok) {
         // Handler for successful response
-        console.log("Success");
-        setSignUpStatus("Signup success");
-        navigation.navigate("Profile");
+        console.log('Success');
+        setSignUpStatus('Signup success');
+        navigation.navigate('Profile');
       } else {
         // Handler for signup failure
         const errorMessage = data.message; //|| 'SignUp Failed';
-        let errorMessageInfo = "Unknown Error";
+        let errorMessageInfo = 'Unknown Error';
         setSignUpStatus(errorMessage);
-        console.log("Endpoint rejected, ", errorMessage.code);
-        if(errorMessage.code == "11000") {
+        console.log('Endpoint rejected, ', errorMessage.code);
+        if (errorMessage.code == '11000') {
           // catch 11000 error
-          errorMessageInfo = "Email is already in use.";
+          errorMessageInfo = 'Email is already in use.';
         }
         Toast.show({
           type: 'error',
@@ -86,10 +91,9 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
           text2: errorMessageInfo,
         });
       }
-    }
-    catch (error) {
+    } catch (error) {
       if (error instanceof Error) {
-        setSignUpStatus("Signup Error: " + error.message);
+        setSignUpStatus('Signup Error: ' + error.message);
         Toast.show({
           type: 'error',
           position: 'bottom',
@@ -97,7 +101,7 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
           text2: error.message,
         });
       } else {
-        setSignUpStatus("Signup Error");
+        setSignUpStatus('Signup Error');
         Toast.show({
           type: 'error',
           position: 'bottom',
@@ -105,22 +109,19 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
           text2: 'Unknown error',
         });
       }
-      console.log("Error");
+      console.log('Error');
     }
-  }
+  };
 
   return (
     <View style={styles.bg_white}>
-      <TouchableOpacity 
+      <TouchableOpacity
         style={{marginTop: 0.05 * height, marginHorizontal: 0.05 * width}}
-        onPress={() => navigation.navigate('Home')}
-      >
+        onPress={() => navigation.navigate('Home')}>
         <AntDesign name="left" size={30} color="grey" />
       </TouchableOpacity>
       <View style={[styles.mg_v_8, styles.mg_h_16]}>
-        <Text style={[styles.mg_t_8, styles.font_inter_input]}>
-          Username
-        </Text>
+        <Text style={[styles.mg_t_8, styles.font_inter_input]}>Username</Text>
         <TextInput
           placeholder="Username"
           style={[styles.mg_v_8, styles.text_input]}
@@ -129,38 +130,55 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
           onChangeText={text => setUsername(text)}
         />
         <Text style={[styles.mg_t_8, styles.font_inter_input]}>Password</Text>
-        <TextInput 
+        <TextInput
           secureTextEntry={true}
-          placeholder="Must be at least 6 characters" 
-          style={[styles.mg_v_8, styles.text_input]} 
-          color="rgba(251, 142, 64, 0.5)" 
+          placeholder="Must be at least 6 characters"
+          style={[styles.mg_v_8, styles.text_input]}
+          color="rgba(251, 142, 64, 0.5)"
           variant="standard"
           onChangeText={text => setPassword(text)}
         />
-        
+
         <Text style={[styles.mg_t_8, styles.font_inter_input]}>Email</Text>
-        <TextInput 
-          placeholder="Email" 
-          style={[styles.mg_v_8, styles.text_input]} 
-          color="rgba(251, 142, 64, 0.5)" 
-          variant="standard" 
+        <TextInput
+          placeholder="Email"
+          style={[styles.mg_v_8, styles.text_input]}
+          color="rgba(251, 142, 64, 0.5)"
+          variant="standard"
           onChangeText={text => setEmail(text)}
         />
 
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', marginHorizontal: -20}}>
-          <CheckBox 
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            marginHorizontal: -20,
+          }}>
+          <CheckBox
             style={[{marginLeft: 0, paddingLeft: 0}]}
             checked={isChecked}
             onPress={handleCheck}
-            checkedColor='rgba(251, 142, 64, 0.5)'
+            checkedColor="rgba(251, 142, 64, 0.5)"
           />
-          <Text style={{ marginLeft: -6, fontSize: 12, color: 'gray' }}>
+          <Text style={{marginLeft: -6, fontSize: 12, color: 'gray'}}>
             I agree to the terms and conditions of use.
           </Text>
         </View>
 
-        <TouchableOpacity style={[styles.button, styles.mg_t_8]} onPress={() => handleSignUp()} disabled={!isChecked}>
-          <View style={[styles.buttonContent, {backgroundColor: isChecked ? 'rgba(251, 142, 64, 0.5)' : 'rgba(251, 142, 64, 0.1)'} ]}>
+        <TouchableOpacity
+          style={[styles.button, styles.mg_t_8]}
+          onPress={() => handleSignUp()}
+          disabled={!isChecked}>
+          <View
+            style={[
+              styles.buttonContent,
+              {
+                backgroundColor: isChecked
+                  ? 'rgba(251, 142, 64, 0.5)'
+                  : 'rgba(251, 142, 64, 0.1)',
+              },
+            ]}>
             <Text style={styles.buttonFont}>Sign Up</Text>
           </View>
         </TouchableOpacity>
@@ -187,7 +205,7 @@ const styles = StyleSheet.create({
   },
   text_input: {
     color: 'rgba(0, 0, 0, 0.3)',
-    width: width * 0.86
+    width: width * 0.86,
   },
   font_inter_input: {
     fontFamily: 'Inter-Regular',
@@ -215,6 +233,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonFont: {
-    fontSize: Math.round(width * 0.04)
+    fontSize: Math.round(width * 0.04),
   },
 });

@@ -11,6 +11,7 @@ interface ProfileSetupProps {
   workouts: number;
   followers: number;
   following: number;
+  biography: string;
 }
 
 export const ProfileSetup: React.FC<ProfileSetupProps> = ({
@@ -20,6 +21,7 @@ export const ProfileSetup: React.FC<ProfileSetupProps> = ({
   workouts,
   followers,
   following,
+  biography,
 }) => {
   return (
     <View>
@@ -55,6 +57,12 @@ export const ProfileSetup: React.FC<ProfileSetupProps> = ({
           </View>
         </View>
       </View>
+      <View style={styles.bioContainer}>
+        <Text style={styles.bioText}>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </Text>
+      </View>
     </View>
   );
 };
@@ -73,54 +81,24 @@ export const ProfileButtons: React.FC<ProfileButtonsProps> = ({
   profileImage,
 }) => {
   const navigation = useNavigation();
-  const [follow, setFollow] = useState<boolean>(false);
+  // const [follow, setFollow] = useState<boolean>(false);
 
   return (
-    <>
-      {id === 0 ? (
-        <View style={styles.editProfileContainer}>
-          <TouchableOpacity
-            onPress={() =>
-              navigation.push('EditProfile', {
-                name: name,
-                accountName: accountName,
-                profileImage: profileImage,
-              })
-            }
-            style={styles.editProfileButton}>
-            <View style={styles.editProfileButtonContainer}>
-              <Text style={styles.editProfileButtonText}>Edit Profile</Text>
-            </View>
-          </TouchableOpacity>
+    <View style={styles.editProfileContainer}>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.push('EditProfile', {
+            name: name,
+            accountName: accountName,
+            profileImage: profileImage,
+          })
+        }
+        style={styles.editProfileButton}>
+        <View style={styles.editProfileButtonContainer}>
+          <Text style={styles.editProfileButtonText}>Edit Profile</Text>
         </View>
-      ) : (
-        <View style={styles.profileButtonsContainer}>
-          <TouchableOpacity
-            onPress={() => setFollow(!follow)}
-            style={styles.followButton}>
-            <View
-              style={[
-                styles.followButtonContainer,
-                follow && styles.followingButtonContainer,
-              ]}>
-              <Text
-                style={[
-                  styles.followButtonText,
-                  follow && styles.followingButtonText,
-                ]}>
-                {follow ? 'Following' : 'Follow'}
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <View style={styles.messageButton}>
-            <Text>Message</Text>
-          </View>
-          <View style={styles.chevronButton}>
-            <Feather name="chevron-down" style={styles.chevronIcon} />
-          </View>
-        </View>
-      )}
-    </>
+      </TouchableOpacity>
+    </View>
   );
 };
 
@@ -137,6 +115,7 @@ const styles = StyleSheet.create({
   accountName: {
     fontSize: 18,
     fontWeight: 'bold',
+    fontFamily: 'Inter-Light',
     paddingLeft: 15,
   },
   chevronDownIcon: {
@@ -171,7 +150,8 @@ const styles = StyleSheet.create({
   },
   profileName: {
     paddingVertical: 5,
-    fontWeight: 'bold',
+    fontWeight: '500',
+    fontFamily: 'Inter-Regular',
   },
   infoContainer: {
     flexDirection: 'row',
@@ -185,6 +165,14 @@ const styles = StyleSheet.create({
   infoCount: {
     fontWeight: 'bold',
     fontSize: 18,
+    fontFamily: 'Inter-Regular',
+  },
+  bioContainer: {
+    alignItems: 'center',
+  },
+  bioText: {
+    fontFamily: 'Inter-Regular',
+    marginHorizontal: 5,
   },
   editProfileContainer: {
     width: '28%',
@@ -206,56 +194,61 @@ const styles = StyleSheet.create({
   },
   editProfileButtonText: {
     fontSize: 12,
+    fontFamily: 'Inter-Regular',
+    fontWeight: '500',
     letterSpacing: 1,
     opacity: 0.8,
   },
-  profileButtonsContainer: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
+  badgeContainer: {
+    paddingLeft: 10,
   },
-  followButton: {
-    width: '42%',
-  },
-  followButtonContainer: {
-    width: '100%',
-    height: 35,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: '#DEDEDE',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  followingButtonContainer: {
-    backgroundColor: '#3493D9',
-  },
-  followButtonText: {
-    color: 'black',
-  },
-  followingButtonText: {
-    color: 'white',
-  },
-  messageButton: {
-    width: '42%',
-    height: 35,
-    borderWidth: 1,
-    borderColor: '#DEDEDE',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-  },
-  chevronButton: {
-    width: '10%',
-    height: 35,
-    borderWidth: 1,
-    borderColor: '#DEDEDE',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-  },
-  chevronIcon: {
-    fontSize: 20,
-    color: 'black',
-  },
+  //   profileButtonsContainer: {
+  //     width: '100%',
+  //     flexDirection: 'row',
+  //     justifyContent: 'space-evenly',
+  //     alignItems: 'center',
+  //   },
+  //   followButton: {
+  //     width: '42%',
+  //   },
+  //   followButtonContainer: {
+  //     width: '100%',
+  //     height: 35,
+  //     borderRadius: 5,
+  //     borderWidth: 1,
+  //     borderColor: '#DEDEDE',
+  //     justifyContent: 'center',
+  //     alignItems: 'center',
+  //   },
+  //   followingButtonContainer: {
+  //     backgroundColor: '#3493D9',
+  //   },
+  //   followButtonText: {
+  //     color: 'black',
+  //   },
+  //   followingButtonText: {
+  //     color: 'white',
+  //   },
+  //   messageButton: {
+  //     width: '42%',
+  //     height: 35,
+  //     borderWidth: 1,
+  //     borderColor: '#DEDEDE',
+  //     justifyContent: 'center',
+  //     alignItems: 'center',
+  //     borderRadius: 5,
+  //   },
+  //   chevronButton: {
+  //     width: '10%',
+  //     height: 35,
+  //     borderWidth: 1,
+  //     borderColor: '#DEDEDE',
+  //     justifyContent: 'center',
+  //     alignItems: 'center',
+  //     borderRadius: 5,
+  //   },
+  //   chevronIcon: {
+  //     fontSize: 20,
+  //     color: 'black',
+  //   },
 });
