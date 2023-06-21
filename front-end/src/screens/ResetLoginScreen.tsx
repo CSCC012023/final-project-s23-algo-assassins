@@ -1,9 +1,19 @@
-import {StyleSheet, View} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Image,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
+//import {StyleSheet, View} from 'react-native';
 import {TextInput, Text, Button, Divider} from '@react-native-material/core';
 import React from 'react';
 import {GoogleSigninButton} from '@react-native-google-signin/google-signin';
 //import React, { useState } from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
+const {width, height} = Dimensions.get('window');
 
 type RootStackParamList = {
     Login: undefined;
@@ -26,6 +36,11 @@ const ResetLoginScreen: React.FC<ResetLoginScreenProps> = ({navigation}) => {
 
   return (
     <View style={styles.bg_white}>
+        <TouchableOpacity
+        style={{marginTop: 0.05 * height, marginHorizontal: 0.05 * width}}
+        onPress={() => navigation.navigate('Home')}>
+        <AntDesign name="left" size={30} color="grey" />
+      </TouchableOpacity>
       <View style={[styles.mg_h_16, styles.mg_v_8]}>
         <Text style={[styles.mg_t_8, styles.font_inter_input]}>Resetting your password</Text>
         <TextInput
@@ -50,15 +65,8 @@ const ResetLoginScreen: React.FC<ResetLoginScreenProps> = ({navigation}) => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Divider style={{flex: 1}} />
-          <Text style={(styles.mg_v_8, styles.mg_h_16)}>or</Text>
-          <Divider style={{flex: 1}} />
         </View>
-        <Button
-        title="Back"
-        color="#FFA500" // Set the color to orange (#FFA500)
-        onPress={() => navigation.goBack()} // Navigate back to the previous screen
-      />
+
         <Text style={styles.loginStatus}>{emailStatus}</Text>
       </View>
     </View>
