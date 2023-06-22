@@ -110,7 +110,6 @@ const AddExerciseScreen = ({route, navigation: {navigate}}: Props) => {
     }
   };
 
-  console.log(navData);
   useEffect(() => {
     const backAction = () => {
       navigate('StartWorkout', {navData: navData});
