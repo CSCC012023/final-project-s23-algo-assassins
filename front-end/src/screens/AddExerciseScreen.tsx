@@ -4,6 +4,7 @@ import {
   Image,
   LayoutAnimation,
   BackHandler,
+  TouchableOpacity,
 } from 'react-native';
 import {TextInput, Text, Pressable} from '@react-native-material/core';
 import React, {useEffect, useState} from 'react';
@@ -95,21 +96,23 @@ const AddExerciseScreen = ({route, navigation: {navigate}}: Props) => {
   // Related to passing data between AddExercise and StartWorkoutScreen
   const navData: Dictionary<Exercise> =
     route.params?.navData != undefined ? route.params?.navData : {};
-  const oldData = {...navData};
-  const [count, setCount] = React.useState<number>(Object.keys(navData).length);
+  const [newData, setNewData] = React.useState<Dictionary<Exercise>>(
+    JSON.parse(JSON.stringify(navData)),
+  );
   const toggleExercise = (info: Exercise) => {
-    if (navData[info.name] == undefined) {
-      navData[info.name] = info;
-      setCount(count + 1);
+    if (newData[info.name] == undefined) {
+      newData[info.name] = info;
+      setNewData({...newData});
     } else {
-      delete navData[info.name];
-      setCount(count - 1);
+      delete newData[info.name];
+      setNewData({...newData});
     }
   };
 
+  console.log(navData);
   useEffect(() => {
     const backAction = () => {
-      navigate('StartWorkout', {navData: oldData});
+      navigate('StartWorkout', {navData: navData});
       return true;
     };
 
@@ -158,10 +161,20 @@ const AddExerciseScreen = ({route, navigation: {navigate}}: Props) => {
   };
   return (
     <View style={styles.bg_white}>
-      <View style={[styles.flex_row, styles.flex_align_center]}>
-        <Text style={[styles.mg_16, styles.pd_8, styles.font_inter_20]}>
-          Workout
-        </Text>
+      <View
+        style={[
+          styles.mg_16,
+          styles.pd_8,
+          styles.flex_row,
+          styles.flex_align_center,
+        ]}>
+        <TouchableOpacity
+          onPress={() => {
+            navigate('StartWorkout', {navData: navData});
+          }}>
+          <MaterialIcons name={'arrow-back-ios'} size={20} color={'#000000'} />
+        </TouchableOpacity>
+        <Text style={[styles.font_inter_20]}>Workout</Text>
       </View>
       <View style={[styles.mg_h_16, styles.mg_v_16]}>
         <TextInput
@@ -178,19 +191,26 @@ const AddExerciseScreen = ({route, navigation: {navigate}}: Props) => {
             pressEffectColor="#fff"
             style={[
               styles.btn,
-              {backgroundColor: count ? '#3761F880' : '#d9d9d9'},
+              {
+                backgroundColor: Object.keys(newData).length
+                  ? '#3761F880'
+                  : '#d9d9d9',
+              },
             ]}
             onPress={() =>
-              count ? navigate('StartWorkout', {navData: navData}) : undefined
+              Object.keys(newData).length
+                ? navigate('StartWorkout', {navData: newData})
+                : undefined
             }
-            pressEffect={count ? 'ripple' : 'none'}>
+            pressEffect={Object.keys(newData).length ? 'ripple' : 'none'}>
             <Text
               style={[
                 styles.font_inter_sb_16,
                 styles.text_center,
                 {color: '#fff'},
               ]}>
-              Add {count} exercise{count != 1 ? 's' : ''}
+              Add {Object.keys(newData).length} exercise
+              {Object.keys(newData).length != 1 ? 's' : ''}
             </Text>
           </Pressable>
         </View>

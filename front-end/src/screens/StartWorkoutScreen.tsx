@@ -1,4 +1,10 @@
-import {StyleSheet, View, Image, ScrollView} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import {
   Pressable,
   Text,
@@ -12,6 +18,7 @@ import {RootStackParamList} from '../types/navigation';
 import {styles} from './WorkoutScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Dictionary, Exercise, Set} from '../types/workout';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'StartWorkout'>;
 
@@ -208,10 +215,19 @@ const StartWorkoutScreen = ({route, navigation: {navigate}}: Props) => {
   return (
     <View style={styles.bg_white}>
       <View
-        style={[styles.flex_row, styles.flex_wrap, styles.flex_align_center]}>
-        <Text style={[styles.mg_16, styles.pd_8, styles.font_inter_20]}>
-          Workout
-        </Text>
+        style={[
+          styles.mg_16,
+          styles.pd_8,
+          styles.flex_row,
+          styles.flex_align_center,
+        ]}>
+        <TouchableOpacity
+          onPress={() => {
+            navigate('Workout');
+          }}>
+          <MaterialIcons name={'arrow-back-ios'} size={20} color={'#000000'} />
+        </TouchableOpacity>
+        <Text style={[styles.font_inter_20]}>Workout</Text>
       </View>
       <ScrollView
         showsVerticalScrollIndicator={false}
