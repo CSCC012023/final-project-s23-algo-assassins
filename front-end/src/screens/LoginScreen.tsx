@@ -49,20 +49,46 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
       // Check the response from the backend
       if (response.ok) {
         // Successful login, proceed to the next screen
-        setLoginStatus('Login Success');
+        //setLoginStatus('Login Success');
         // Navigate to HomeScreen
         navigation.navigate('Home');
-      } else {
+      } // Inside the else block of the if (response.ok) condition
+      else {
         // Login failed, display an error message
         const errorMessage = data.message || 'Login Failed';
-        setLoginStatus(errorMessage);
+        //setLoginStatus(errorMessage);
+      
+        // Display the error message as a toast message
+        Toast.show({
+          type: 'error',
+          text1: 'Login Error',
+          text2: errorMessage,
+          position: 'bottom',
+         // visibilityTime: 4000, // Adjust the duration as needed
+          autoHide: true,
+        });
       }
+      
     } catch (error) {
       // Handle any error that occurred during the request
       if (error instanceof Error) {
         setLoginStatus('Login Error: ' + error.message);
+        Toast.show({
+          type: 'error',
+          position: 'bottom',
+          text1: 'Login failed',
+          text2: error.message,
+        });
+
       } else {
         setLoginStatus('Login Error');
+        Toast.show({
+          type: 'error',
+          position: 'bottom',
+          text1: 'Login failed',
+          text2: 'Unknown error',
+        });
+
       }
     }
   };
