@@ -5,6 +5,7 @@ import {
   LayoutAnimation,
   BackHandler,
   TouchableOpacity,
+  SafeAreaView,
 } from 'react-native';
 import {TextInput, Text, Pressable} from '@react-native-material/core';
 import React, {useEffect, useState} from 'react';
@@ -160,7 +161,7 @@ const AddExerciseScreen = ({route, navigation: {navigate}}: Props) => {
     setReady(true);
   };
   return (
-    <View style={styles.bg_white}>
+    <SafeAreaView style={styles.bg_white}>
       <View
         style={[
           styles.mg_16,
@@ -234,7 +235,7 @@ const AddExerciseScreen = ({route, navigation: {navigate}}: Props) => {
           </View>
         </ScrollView>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

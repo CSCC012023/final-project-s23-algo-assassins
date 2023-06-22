@@ -4,6 +4,7 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  SafeAreaView,
 } from 'react-native';
 import {
   Pressable,
@@ -213,7 +214,7 @@ const StartWorkoutScreen = ({route, navigation: {navigate}}: Props) => {
     }
   };
   return (
-    <View style={styles.bg_white}>
+    <SafeAreaView style={styles.bg_white}>
       <View
         style={[
           styles.mg_16,
@@ -298,7 +299,7 @@ const StartWorkoutScreen = ({route, navigation: {navigate}}: Props) => {
           <Text style={[styles.text_center]}>0 lbs</Text>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

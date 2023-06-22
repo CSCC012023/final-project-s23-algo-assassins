@@ -1,4 +1,4 @@
-import {StyleSheet, View} from 'react-native';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {TextInput, Text, Pressable} from '@react-native-material/core';
 import React from 'react';
 import Fontisto from 'react-native-vector-icons/Fontisto';
@@ -24,7 +24,7 @@ const ProgramButton = (props: any) => {
 
 const WorkoutScreen = ({navigation: {navigate}}: Props) => {
   return (
-    <View style={styles.bg_white}>
+    <SafeAreaView style={styles.bg_white}>
       <View
         style={[styles.flex_row, styles.flex_wrap, styles.flex_align_center]}>
         <Text style={[styles.mg_16, styles.pd_8, styles.font_inter_20]}>
@@ -64,7 +64,7 @@ const WorkoutScreen = ({navigation: {navigate}}: Props) => {
           )}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
