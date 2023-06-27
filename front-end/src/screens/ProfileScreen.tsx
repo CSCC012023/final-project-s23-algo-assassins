@@ -1,10 +1,11 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {ProfileSetup, ProfileButtons} from '../screenComponents/ProfileSetup';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const ProfileScreen = () => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView>
       <View style={styles.content}>
         <ProfileSetup
           name="Jerry Dang"
@@ -24,7 +25,7 @@ const ProfileScreen = () => {
       <View style={styles.bioContainer}>
         <Text>Progress Data</Text>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -37,7 +38,6 @@ const styles = StyleSheet.create({
   content: {
     width: '100%',
     paddingLeft: 20,
-    paddingTop: 20,
     paddingRight: 20,
   },
   bioContainer: {

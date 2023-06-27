@@ -5,6 +5,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeScreen from './HomeScreen';
+import ProfileScreen from './ProfileScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -31,7 +32,7 @@ const HomeTabs = () => {
       />
       <Tab.Screen
         name="Profile"
-        component={DummyScreen}
+        component={ProfileScreen}
         options={{
           tabBarIcon: ({color, size}) => (
             <Ionicons name="ios-person" size={size} color={color} />
