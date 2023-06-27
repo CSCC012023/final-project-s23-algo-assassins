@@ -18,7 +18,6 @@ const HomeScreen = () => {
     <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
       <SearchBarHeader value={search} onChange={updateSearch} />
       <WelcomeCard />
-      <Text>HomeScreen</Text>
     </SafeAreaView>
   );
 };
