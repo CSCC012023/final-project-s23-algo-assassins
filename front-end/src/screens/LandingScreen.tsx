@@ -60,6 +60,12 @@ const LandingScreen = ({navigation: {navigate}}: Props) => {
           onPress={() => navigate('Login')}>
           <Text style={[styles.logInFont, {fontWeight: 'bold'}]}>Log In</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity
+          style={{top: height * 0.3}}
+          onPress={() => navigate('HomeTabs')}>
+          <Text style={[styles.logInFont, {fontWeight: 'bold'}]}>Home</Text>
+        </TouchableOpacity>
       </View>
     </LinearGradient>
   );
