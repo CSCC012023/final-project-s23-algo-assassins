@@ -1,10 +1,10 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import {SearchBar} from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Dimensions} from 'react-native';
 
-const {width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 type SearchBarComponentProps = {
   value: string;
@@ -17,13 +17,8 @@ const SearchBarHeader: React.FunctionComponent<SearchBarComponentProps> = ({
 }) => {
   return (
     <View>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <View style={{width: width - 70, marginLeft: 10}}>
+      <View style={styles.container}>
+        <View style={styles.searchBarContainer}>
           <SearchBar
             placeholder="Search users, posts..."
             onChange={e => onChange(e.nativeEvent.text)}
@@ -38,7 +33,7 @@ const SearchBarHeader: React.FunctionComponent<SearchBarComponentProps> = ({
             name="ios-paper-plane-outline"
             size={30}
             color="black"
-            style={{marginLeft: 10, marginRight: 20}}
+            style={styles.iconContainer}
           />
         </View>
       </View>
@@ -48,4 +43,12 @@ const SearchBarHeader: React.FunctionComponent<SearchBarComponentProps> = ({
 
 export default SearchBarHeader;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  searchBarContainer: {width: width - 70, marginLeft: 10},
+  iconContainer: {marginLeft: 10, marginRight: 20},
+});
