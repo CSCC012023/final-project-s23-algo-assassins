@@ -1,3 +1,5 @@
+import {Dictionary, Exercise} from './workout';
+
 export type RootStackParamList = {
   HomeTabs: any;
   HomeScreen: undefined;
@@ -5,6 +7,13 @@ export type RootStackParamList = {
   BottomSheet: undefined;
   SignUp: undefined;
   Login: undefined;
+  Workout: undefined;
+  StartWorkout: {
+    navData: Dictionary<Exercise>;
+  };
+  AddExercise: {
+    navData: Dictionary<Exercise>;
+  };
   Profile: undefined;
   EditProfile: undefined;
   LandingScreen: any;

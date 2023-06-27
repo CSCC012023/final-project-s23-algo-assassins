@@ -11,6 +11,10 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {RootStackParamList} from './src/types/navigation';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import LoginScreen from './src/screens/LoginScreen';
+import WorkoutScreen from './src/screens/WorkoutScreen';
+import StartWorkoutScreen from './src/screens/StartWorkoutScreen';
+import AddExerciseScreen from './src/screens/AddExerciseScreen';
+import ProfileScreen from './src/screens/ProfileScreen';
 import EditProfile from './src/screenComponents/EditProfile';
 import Toast from 'react-native-toast-message';
 import LandingScreen from './src/screens/LandingScreen';
@@ -31,6 +35,9 @@ function App() {
           <Stack.Screen name="HomeTabs" component={HomeTabs} />
           <Stack.Screen name="Details" component={DetailsScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Workout" component={WorkoutScreen} />
+          <Stack.Screen name="StartWorkout" component={StartWorkoutScreen} />
+          <Stack.Screen name="AddExercise" component={AddExerciseScreen} />
           <Stack.Screen name="BottomSheet" component={BottomSheetScreen} />
           {/* <Stack.Screen name="Profile" component={ProfileScreen} /> */}
           <Stack.Screen name="EditProfile" component={EditProfile} />

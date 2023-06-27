@@ -337,11 +337,13 @@ Graphic representation is clear and represents well indended user interface elem
 
 - 0 marks = missing or completely unclear
 
-Your mark: 0
+Your mark: 2
 
 > I do not see a figma or any proof that you have a temp UI to showcase what your app is going to look like.
 
-User experience Total Mark: 2 / 4
+> remarked
+
+User experience Total Mark: 4 / 4
 
 ---
 
@@ -359,4 +361,4 @@ Presentation quality Total Mark: 3 / 3
 
 ## Total Mark
 
-44 / 57
+46 / 57
