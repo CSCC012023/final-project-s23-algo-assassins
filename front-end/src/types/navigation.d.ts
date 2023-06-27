@@ -1,4 +1,5 @@
 export type RootStackParamList = {
+  HomeTabs: any;
   HomeScreen: undefined;
   Details: undefined;
   BottomSheet: undefined;
