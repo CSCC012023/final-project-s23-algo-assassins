@@ -1,4 +1,5 @@
 import {Dictionary, Exercise} from './workout';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 export type RootStackParamList = {
   HomeTabs: any;
@@ -7,7 +8,7 @@ export type RootStackParamList = {
   BottomSheet: undefined;
   SignUp: undefined;
   Login: undefined;
-  Workout: undefined;
+  Workout: NativeStackScreenProps;
   StartWorkout: {
     navData: Dictionary<Exercise>;
   };
