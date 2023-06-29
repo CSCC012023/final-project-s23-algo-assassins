@@ -1,12 +1,25 @@
-import { Router } from "express";
-import { User } from '../models/User';
-import bcrypt from 'bcrypt';
-
-export const userRouter = Router();
-
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.userRouter = void 0;
+const express_1 = require("express");
+const User_1 = require("../models/User");
+const bcrypt_1 = __importDefault(require("bcrypt"));
+exports.userRouter = (0, express_1.Router)();
 // Requires email, password, name of user
 // Signup the user but does not create session for user
-userRouter.post('/signup', async (req, res) => {
+exports.userRouter.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (req.body.password === undefined) {
         res.status(400).json({ message: "Password is required" });
         return;
@@ -21,9 +34,9 @@ userRouter.post('/signup', async (req, res) => {
     }
     // Hashing password here
     const saltRounds = 10;
-    const salt = bcrypt.genSaltSync(saltRounds);
-    const password = bcrypt.hashSync(req.body.password, salt);
-    const user = new User({
+    const salt = bcrypt_1.default.genSaltSync(saltRounds);
+    const password = bcrypt_1.default.hashSync(req.body.password, salt);
+    const user = new User_1.User({
         name: req.body.name,
         email: req.body.email,
         password: password,
@@ -32,18 +45,17 @@ userRouter.post('/signup', async (req, res) => {
         height: 0,
     });
     user.save()
-        .then((data: any) => {
-            return res.json(data);
-        })
-        .catch((err: any) => {
-            return res.status(500).json({ message: err });
-        });
-});
-
+        .then((data) => {
+        return res.json(data);
+    })
+        .catch((err) => {
+        return res.status(500).json({ message: err });
+    });
+}));
 // Requires email and password to identify
 // Log in the user and creates a session
 // check if null = undefined, could be empty stringss
-userRouter.post('/login', async (req, res) => {
+exports.userRouter.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (req.body.password === undefined) {
         res.status(400).json({ message: "Password Required" });
         return;
@@ -52,60 +64,55 @@ userRouter.post('/login', async (req, res) => {
         res.status(400).json({ message: "Email Required" });
         return;
     }
-    const user = await User.findOne({ email: req.body.email });
+    const user = yield User_1.User.findOne({ email: req.body.email });
     if (user === null) {
         res.status(400).json({ message: "User not found" });
         return;
     }
-    const password = bcrypt.compareSync(req.body.password, user.password);
+    const password = bcrypt_1.default.compareSync(req.body.password, user.password);
     if (!password) {
         res.status(400).json({ message: "Password Incorrect" });
         return;
     }
     req.session.user_email = user.email;
     return res.json(user);
-});
-
+}));
 // Removes the current user from session
-userRouter.post('/signout', async (req, res) => {
-    req.session.user_email = ""
-    return res.json({ "signout": "true" })
-});
-
+exports.userRouter.post('/signout', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    req.session.user_email = "";
+    return res.json({ "signout": "true" });
+}));
 // Current User logged in
-userRouter.get('/me', async (req, res) => {
-    const user = await User.findOne({ email: req.session.user_email });
+exports.userRouter.get('/me', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield User_1.User.findOne({ email: req.session.user_email });
     if (user === null) {
         res.status(400).json({ message: "User not found" });
         return;
     }
     return res.json(user);
-});
-
+}));
 // Used to find a user by email
-userRouter.get('/find', async (req, res) => {
+exports.userRouter.get('/find', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const email = req.query.email;
-    const user = await User.findOne({ email: email });
+    const user = yield User_1.User.findOne({ email: email });
     if (user === null) {
         res.status(400).json({ message: "User not found" });
         return;
     }
     return res.json(user);
-});
-
+}));
 // Used to delete a user by email
-userRouter.delete('/delete', async (req, res) => {
+exports.userRouter.delete('/delete', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const email = req.query.email;
-    const user = await User.deleteOne({ email: email });
+    const user = yield User_1.User.deleteOne({ email: email });
     if (user === null) {
         res.status(400).json({ message: "User not found" });
         return;
     }
     return res.json(user);
-});
-
+}));
 // Used to update current user's age
-userRouter.patch('/update/age', async (req, res) => {
+exports.userRouter.patch('/update/age', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (req.body.age === undefined) {
         res.status(400).json({ message: "Age is required" });
         return;
@@ -114,25 +121,22 @@ userRouter.patch('/update/age', async (req, res) => {
         res.status(400).json({ message: "User not found" });
         return;
     }
-    const user = await User.findOne({ email: req.session.user_email });
+    const user = yield User_1.User.findOne({ email: req.session.user_email });
     if (user === null) {
         res.status(400).json({ message: "User not found" });
         return;
     }
     user.age = req.body.age;
     user.save()
-        .then((data: any) => {
-            return res.json(data);
-        }
-        )
-        .catch((err: any) => {
-            return res.status(500).json({ message: err });
-        }
-        );
-});
-
+        .then((data) => {
+        return res.json(data);
+    })
+        .catch((err) => {
+        return res.status(500).json({ message: err });
+    });
+}));
 // Used to update current user's weight
-userRouter.patch('/update/weight', async (req, res) => {
+exports.userRouter.patch('/update/weight', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (req.body.weight === undefined) {
         res.status(400).json({ message: "Weight is required" });
         return;
@@ -141,25 +145,22 @@ userRouter.patch('/update/weight', async (req, res) => {
         res.status(400).json({ message: "User not found" });
         return;
     }
-    const user = await User.findOne({ email: req.session.user_email });
+    const user = yield User_1.User.findOne({ email: req.session.user_email });
     if (user === null) {
         res.status(400).json({ message: "User not found" });
         return;
     }
     user.weight = req.body.weight;
     user.save()
-        .then((data: any) => {
-            return res.json(data);
-        }
-        )
-        .catch((err: any) => {
-            return res.status(500).json({ message: err });
-        }
-        );
-});
-
+        .then((data) => {
+        return res.json(data);
+    })
+        .catch((err) => {
+        return res.status(500).json({ message: err });
+    });
+}));
 // Used to update current user's height
-userRouter.patch('/update/height', async (req, res) => {
+exports.userRouter.patch('/update/height', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (req.body.height === undefined) {
         res.status(400).json({ message: "Height is required" });
         return;
@@ -168,19 +169,17 @@ userRouter.patch('/update/height', async (req, res) => {
         res.status(400).json({ message: "User not found" });
         return;
     }
-    const user = await User.findOne({ email: req.session.user_email });
+    const user = yield User_1.User.findOne({ email: req.session.user_email });
     if (user === null) {
         res.status(400).json({ message: "User not found" });
         return;
     }
     user.height = req.body.height;
     user.save()
-        .then((data: any) => {
-            return res.json(data);
-        }
-        )
-        .catch((err: any) => {
-            return res.status(500).json({ message: err });
-        }
-        );
-});
+        .then((data) => {
+        return res.json(data);
+    })
+        .catch((err) => {
+        return res.status(500).json({ message: err });
+    });
+}));

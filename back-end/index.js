@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.app = void 0;
-const express_1 = __importDefault(require("express"));
+const express_2 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const body_parser_1 = __importDefault(require("body-parser"));
@@ -13,10 +13,10 @@ const express_session_1 = __importDefault(require("express-session"));
 const cors_1 = __importDefault(require("cors"));
 const exercise_router_1 = require("./routers/exercise_router");
 dotenv_1.default.config();
-exports.app = (0, express_1.default)();
+exports.app = (0, express_2.default)();
 exports.app.use(body_parser_1.default.json());
 // Serve static files
-exports.app.use(express_1.default.static("static"));
+exports.app.use(express_2.default.static("static"));
 // Allow CORS for all origins
 const corsOptions = {
     origin: "*",
