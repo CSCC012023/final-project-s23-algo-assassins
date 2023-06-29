@@ -6,6 +6,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeScreen from './HomeScreen';
 import ProfileScreen from './ProfileScreen';
+import WorkoutScreen from './WorkoutScreen'
 
 const Tab = createBottomTabNavigator();
 
@@ -23,7 +24,7 @@ const HomeTabs = () => {
       />
       <Tab.Screen
         name="Workout"
-        component={DummyScreen}
+        component={WorkoutScreen}
         options={{
           tabBarIcon: ({color, size}) => (
             <FontAwesome5 name="running" size={size} color={color} />

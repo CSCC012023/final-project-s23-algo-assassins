@@ -190,7 +190,7 @@ const ExerciseSets = (props: any) => {
   );
 };
 
-const StartWorkoutScreen = ({route, navigation: {navigate}}: Props) => {
+const StartWorkoutScreen = ({route, navigation}: Props) => {
   // Related to passing data between AddExercise and StartWorkoutScreen
   const navData: Dictionary<Exercise> =
     route.params?.navData != undefined ? route.params?.navData : {};
@@ -224,7 +224,7 @@ const StartWorkoutScreen = ({route, navigation: {navigate}}: Props) => {
         ]}>
         <TouchableOpacity
           onPress={() => {
-            navigate('Workout');
+            navigation.goBack();
           }}>
           <MaterialIcons name={'arrow-back-ios'} size={20} color={'#000000'} />
         </TouchableOpacity>
@@ -261,7 +261,7 @@ const StartWorkoutScreen = ({route, navigation: {navigate}}: Props) => {
             <Pressable
               pressEffectColor="#fff"
               style={[styles.btn, {backgroundColor: '#3761F880'}]}
-              onPress={() => navigate('AddExercise', {navData: navData})}>
+              onPress={() => navigation.navigate('AddExercise', {navData: navData})}>
               <Text
                 style={[
                   styles.font_inter_sb_16,
