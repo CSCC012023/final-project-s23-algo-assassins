@@ -33,7 +33,9 @@ export const ProfileSetup: React.FC<ProfileSetupProps> = ({
           </View>
           <View style={styles.headerIcons}>
             <Feather name="bell" style={styles.headerIcon} />
-            <Feather name="settings" style={styles.headerIcon} />
+            <TouchableOpacity>
+              <Feather name="settings" style={styles.headerIcon} />
+            </TouchableOpacity>
           </View>
         </View>
       ) : null}

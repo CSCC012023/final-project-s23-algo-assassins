@@ -6,6 +6,7 @@ import {
   Image,
   TextInput,
   StyleSheet,
+  SafeAreaView,
 } from 'react-native';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -45,7 +46,7 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="close-outline" style={styles.closeIcon} />
@@ -99,7 +100,7 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
           />
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -113,7 +114,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 10,
-    paddingTop: 50,
   },
   closeIcon: {
     fontSize: 35,

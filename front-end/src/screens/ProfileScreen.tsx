@@ -1,10 +1,10 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, SafeAreaView} from 'react-native';
 import {ProfileSetup, ProfileButtons} from '../screenComponents/ProfileHeader';
 
 const ProfileScreen = () => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         <ProfileSetup
           name="Jerry Dang"
@@ -26,7 +26,7 @@ const ProfileScreen = () => {
       <View style={styles.bioContainer}>
         <Text>Progress Data</Text>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
