@@ -128,51 +128,7 @@ const ImagePicker: React.FunctionComponent<ImagePickerComponentProps> = ({
         </View>
       </TouchableOpacity>
     </View>
-  );
-
-  /* Example of what to do in parent 
-  const [image, setImage] = React.useState<ImageOrVideo>();
-
-  const imageHandler = (res: ImageOrVideo) => {
-    console.log('Image Handler Called!');
-    setImage(res);
-  };
-
-  React.useEffect(() => {
-    console.log('Success');
-    console.log(image);
-  }, [image]);
-
-  ...
-
-  return (
-  ...
-  
-  <ImagePicker
-    handler={imageHandler}
-    circleOverlay={true}
-    buttonStyle={undefined}
-    containerStyle={undefined}
-    contentStyle={undefined}
-    label={'Edit Profile'}></ImagePicker>
-  <View>
-    <Image
-      source={
-        image != undefined
-          ? {
-              uri: image.path,
-              height: image.height,
-              width: image.width,
-              mime: image.mime,
-            }
-          : require('../assets/images/FitBook_logo3.png')
-      }
-      style={[{height: 100, width: 100}]}
-    />
-  </View>
-  */
-
-      
+  );      
 };
 
 export default ImagePicker;
