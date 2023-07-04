@@ -16,7 +16,73 @@ exports.userRouter = void 0;
 const express_1 = require("express");
 const User_1 = require("../models/User");
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const nodemailer_1 = __importDefault(require("nodemailer"));
 exports.userRouter = (0, express_1.Router)();
+exports.userRouter.post('/sendVerification', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // Generate token here and send an email
+    const { email, key } = req.body;
+    // Find user by email
+    const user = yield User_1.User.findOne({ email: email });
+    if (user === null) {
+        res.status(404).json({ message: "User not found" });
+        return;
+    }
+    // Create mail with options
+    const mailer = nodemailer_1.default.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: 'algoassassins@gmail.com',
+            pass: 'zchdrxzgkermwgah'
+        }
+    });
+    const mailOptions = {
+        from: 'algoassassins@gmail.com',
+        to: email,
+        subject: 'Email Verification',
+        text: 'Enter the following code to verify your email: ' + key
+    };
+    // Send the mail
+    mailer.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.error('Error sending email:', error);
+            res.status(500).json({ message: 'Failed to send verification email' });
+            return;
+        }
+        else {
+            res.status(200).json({ message: 'Verification email sent successfully' });
+            return;
+        }
+    });
+}));
+exports.userRouter.post('/password/reset', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, password, confirmPassword } = req.body;
+    // Password validation
+    if (password.length < 1 || password != confirmPassword) {
+        res.status(400).json({ message: "Invalid password content" });
+        return;
+    }
+    // Finding user by email
+    const user = yield User_1.User.findOne({ email: email });
+    if (user === null) {
+        res.status(404).json({ message: "User not found" });
+        return;
+    }
+    // Encrypting new password
+    const saltRounds = 10;
+    const salt = bcrypt_1.default.genSaltSync(saltRounds);
+    const pass = bcrypt_1.default.hashSync(password, salt);
+    user.password = pass;
+    user.save()
+        .then((data) => {
+        res.status(200).json({ message: "Password updated" });
+        return;
+    })
+        .catch((error) => {
+        res.status(500).json({ message: "Update failed" });
+        return;
+    });
+    return;
+}));
 // Requires email, password, name of user
 // Signup the user but does not create session for user
 exports.userRouter.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* () {

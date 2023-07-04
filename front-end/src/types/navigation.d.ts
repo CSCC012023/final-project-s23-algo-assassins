@@ -7,4 +7,5 @@ export type RootStackParamList = {
   Profile: undefined;
   EditProfile: undefined;
   ResetLogin: undefined;
+  NewPasswordScreen: { email: string, key: string };
 };
