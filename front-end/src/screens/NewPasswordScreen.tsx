@@ -38,6 +38,7 @@ const NewPasswordScreen = ({ route, navigation }: Props) => {
                         position: 'bottom',
                         text1: 'Password has been reset!'
                     });
+                    navigation.navigate('LandingScreen');
                 } else if (response.status == 400) {
                     Toast.show({
                         type: 'error',

@@ -1,6 +1,5 @@
 import * as React from 'react';
 // Screens
-import Home from './src/screens/HomeScreen';
 import DetailsScreen from './src/screens/DetailsScreen';
 import BottomSheetScreen from './src/screens/BottomSheetScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
@@ -11,10 +10,15 @@ import { RootStackParamList } from './src/types/navigation';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import LoginScreen from './src/screens/LoginScreen';
 import ResetLoginScreen from './src/screens/ResetLoginScreen';
+import WorkoutScreen from './src/screens/WorkoutScreen';
+import StartWorkoutScreen from './src/screens/StartWorkoutScreen';
+import AddExerciseScreen from './src/screens/AddExerciseScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import EditProfile from './src/screenComponents/EditProfile';
 import NewPasswordScreen from "./src/screens/NewPasswordScreen";
 import Toast from 'react-native-toast-message';
+import LandingScreen from './src/screens/LandingScreen';
+import HomeTabs from './src/screens/HomeTabs';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -24,15 +28,19 @@ function App() {
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen
-            name="Home"
-            component={Home}
+            name="LandingScreen"
+            component={LandingScreen}
             options={{ title: 'Overview' }}
           />
+          <Stack.Screen name="HomeTabs" component={HomeTabs} />
           <Stack.Screen name="Details" component={DetailsScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="ResetLogin" component={ResetLoginScreen} />
+          <Stack.Screen name="Workout" component={WorkoutScreen} />
+          <Stack.Screen name="StartWorkout" component={StartWorkoutScreen} />
+          <Stack.Screen name="AddExercise" component={AddExerciseScreen} />
           <Stack.Screen name="BottomSheet" component={BottomSheetScreen} />
-          <Stack.Screen name="Profile" component={ProfileScreen} />
+          {/* <Stack.Screen name="Profile" component={ProfileScreen} /> */}
           <Stack.Screen name="EditProfile" component={EditProfile} />
           <Stack.Screen name="SignUp" component={SignUpScreen} />
           <Stack.Screen name="NewPasswordScreen" component={NewPasswordScreen} />

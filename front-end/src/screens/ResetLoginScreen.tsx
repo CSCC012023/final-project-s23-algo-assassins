@@ -92,7 +92,7 @@ const ResetLoginScreen: React.FC<ResetLoginScreenProps> = ({ navigation }) => {
     <View style={styles.bg_white}>
       <TouchableOpacity
         style={{ marginTop: 0.05 * height, marginHorizontal: 0.05 * width }}
-        onPress={() => navigation.navigate('Home')}>
+        onPress={() => navigation.navigate('Login')}>
         <AntDesign name="left" size={30} color="grey" />
       </TouchableOpacity>
       <View style={[styles.mg_h_16, styles.mg_v_8]}>

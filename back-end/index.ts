@@ -8,6 +8,7 @@ import { userRouter } from './routers/user_router';
 import session from "express-session";
 
 import cors from 'cors';
+import { exerciseRouter } from './routers/exercise_router';
 
 dotenv.config();
 
@@ -52,6 +53,7 @@ declare module "express-session" {
 
 // Routes
 app.use("/api/users", userRouter);
+app.use("/api/exercises", exerciseRouter);
 
 const port = process.env.PORT;
 app.listen(port, () => {
