@@ -10,13 +10,12 @@ import {
   import React, {useState} from 'react';
   import {NativeStackScreenProps} from '@react-navigation/native-stack';
   import {RootStackParamList} from '../types/navigation';
-  import {CheckBox} from 'react-native-elements';
   import AntDesign from 'react-native-vector-icons/AntDesign';
   import Toast from 'react-native-toast-message';
   
   const {width, height} = Dimensions.get('window');
   
-  type SignUpIntroScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUpIntro'>;
+  type SignUpIntroScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUpIntroScreen'>;
   
   const SignUpScreen: React.FC<SignUpIntroScreenProps> = ({navigation}) => {
     const [isChecked, setIsChecked] = React.useState(true);
@@ -30,7 +29,7 @@ import {
     // update Age
     const updateAge = async (age: number) => {
         try {
-          const response = await fetch('http://10.0.0.106:3000/api/users/update/age?', {
+          const response = await fetch('http://10.0.0.106:3000/api/users/update/age', {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',
@@ -61,7 +60,7 @@ import {
       // update Height
       const updateHeight = async (user_height: number) => {
         try {
-          const response = await fetch('http://10.0.0.106:3000/api/users/update/height?', {
+          const response = await fetch('http://10.0.0.106:3000/api/users/update/height', {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',
@@ -92,7 +91,7 @@ import {
       // update Weight
       const updateWeight = async (weight: number) => {
         try {
-          const response = await fetch('http://10.0.0.106:3000/api/users/update/weight?', {
+          const response = await fetch('http://10.0.0.106:3000/api/users/update/weight', {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',
