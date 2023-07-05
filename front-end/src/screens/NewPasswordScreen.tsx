@@ -1,7 +1,7 @@
 import {
     StyleSheet,
     View,
-    Text,
+    TouchableOpacity,
     Dimensions,
     SafeAreaView
 } from 'react-native';
@@ -12,6 +12,7 @@ import * as React from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types/navigation';
 import Toast from 'react-native-toast-message';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'NewPasswordScreen'>;
 
@@ -72,54 +73,15 @@ const NewPasswordScreen = ({ route, navigation }: Props) => {
                 text1: 'Invalid verification code. Please try again.'
             });
         }
-        /*
-        if (verification == key) {
-            if (password == confirmPassword && password.length > 0) {
-                try {
-                    const response = await fetch('http://localhost:3000/api/users/password/reset', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ email, password }),
-                    });
-                    if (response.ok) {
-                        Toast.show({
-                            type: 'success',
-                            position: 'bottom',
-                            text1: 'Password has been reset!'
-                        });
-                    } else {
-                        Toast.show({
-                            type: 'error',
-                            position: 'bottom',
-                            text1: 'Password reset failed! Please try again.'
-                        });
-                    }
-                } catch (error) {
-                    console.error(error);
-                    Toast.show({
-                        type: 'error',
-                        position: 'bottom',
-                        text1: 'An error has occured. Please try again.'
-                    });
-                };
-            } else {
-                Toast.show({
-                    type: 'error',
-                    position: 'bottom',
-                    text1: 'Invalid password. Please try again.'
-                })
-            }
-        } else {
-            Toast.show({
-                type: 'error',
-                position: 'bottom',
-                text1: 'Invalid verification code. Please try again.'
-            });
-        }*/
     }
 
     return (
         <SafeAreaView style={styles.safeAreaViewContainer}>
+            <TouchableOpacity
+                style={{ alignSelf: 'flex-start', marginTop: 0.02 * height, marginHorizontal: 0.02 * width }}
+                onPress={() => navigation.navigate('ResetLogin')}>
+                <AntDesign name="left" size={30} color="grey" />
+            </TouchableOpacity>
             <View style={styles.viewContainer}>
                 <TextInput
                     style={[styles.textInputContainer]}
@@ -151,14 +113,8 @@ const NewPasswordScreen = ({ route, navigation }: Props) => {
                     title="Done"
                     onPress={handleDone}
                 />
-                <Button
-                    style={styles.buttonContainer}
-                    color="#FFA500"
-                    title="Back"
-                    onPress={() => navigation.navigate('ResetLogin')}
-                />
             </View>
-        </SafeAreaView>
+        </SafeAreaView >
     );
 };
 
