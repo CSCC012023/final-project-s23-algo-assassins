@@ -18,7 +18,7 @@ const User_1 = require("../models/User");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const nodemailer_1 = __importDefault(require("nodemailer"));
 exports.userRouter = (0, express_1.Router)();
-exports.userRouter.post('/sendVerification', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.userRouter.post('/send/verification', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // Generate token here and send an email
     const { email, key } = req.body;
     // Find user by email

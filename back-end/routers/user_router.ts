@@ -5,7 +5,7 @@ import nodemailer from 'nodemailer';
 
 export const userRouter = Router();
 
-userRouter.post('/sendVerification', async (req, res) => {
+userRouter.post('/send/verification', async (req, res) => {
     // Generate token here and send an email
     const { email, key } = req.body;
     // Find user by email

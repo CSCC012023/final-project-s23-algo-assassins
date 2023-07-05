@@ -44,7 +44,7 @@ const ResetLoginScreen: React.FC<ResetLoginScreenProps> = ({ navigation }) => {
     if (isValid) {
       const key = generateKey(10);
       try {
-        const response = await fetch('http://localhost:3000/api/users/sendVerification', {
+        const response = await fetch('http://localhost:3000/api/users/send/verification', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, key }),
