@@ -6,13 +6,13 @@ import {
   Image,
   TextInput,
   StyleSheet,
-  SafeAreaView,
 } from 'react-native';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Toast from 'react-native-toast-message';
-import ImagePicker from 'react-native-image-picker';
 import {useState} from 'react';
+import ImagePicker from '../components/imagePicker/ImagePicker';
+import {ImageOrVideo} from 'react-native-image-crop-picker';
 
 interface EditProfileProps {
   route: any;
@@ -21,19 +21,6 @@ interface EditProfileProps {
 
 const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
   const {name, accountName, profileImage} = route.params;
-
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
-
-  const handleImagePicker = () => {
-    ImagePicker.showImagePicker(
-      {title: 'Select Profile Picture', mediaType: 'photo'},
-      response => {
-        if (!response.didCancel && !response.error) {
-          setSelectedImage(response.uri);
-        }
-      },
-    );
-  };
 
   const showToastMessage = () => {
     Toast.show({text1: 'Edit Sucess!'});
@@ -45,8 +32,20 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
     setIsToggled(!isToggled);
   };
 
+  const [image, setImage] = React.useState<ImageOrVideo>();
+
+  const imageHandler = (res: ImageOrVideo) => {
+    console.log('Image Handler Called!');
+    setImage(res);
+  };
+
+  React.useEffect(() => {
+    console.log('Success');
+    console.log(image);
+  }, [image]);
+
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="close-outline" style={styles.closeIcon} />
@@ -61,10 +60,27 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
         </TouchableOpacity>
       </View>
       <View style={styles.profileSection}>
-        <Image source={profileImage} style={styles.profileImage} />
-        <TouchableOpacity>
-          <Text style={styles.changePhotoText}>Change profile photo</Text>
-        </TouchableOpacity>
+        <Image
+          style={styles.profileImage}
+          source={
+            image != undefined
+              ? {
+                  uri: image.path,
+                  height: image.height,
+                  width: image.width,
+                  mime: image.mime,
+                }
+              : profileImage
+          }
+        />
+        {/* <Text style={styles.changePhotoText}>Change profile photo</Text> */}
+        <ImagePicker
+          handler={imageHandler}
+          circleOverlay={true}
+          buttonStyle={[]}
+          containerStyle={[]}
+          contentStyle={[styles.changePhotoText]}
+          label={'Change profile photo'}></ImagePicker>
       </View>
       <View style={styles.inputSection}>
         <View>
@@ -100,7 +116,7 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
           />
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -114,6 +130,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 10,
+    paddingTop: 50,
   },
   closeIcon: {
     fontSize: 35,
@@ -139,7 +156,12 @@ const styles = StyleSheet.create({
   },
   changePhotoText: {
     color: '#3761F8CC',
-    paddingTop: 15,
+    // paddingTop: 15,
+    fontSize: 12,
+    fontFamily: 'Inter-Regular',
+    fontWeight: '500',
+    letterSpacing: 1,
+    opacity: 0.8,
   },
   inputSection: {
     padding: 10,

@@ -1,9 +1,18 @@
-import {StyleSheet, View} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  SafeAreaView,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
 import {TextInput, Text, Button, Divider} from '@react-native-material/core';
 import React from 'react';
 import {GoogleSigninButton} from '@react-native-google-signin/google-signin';
 //import React, { useState } from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
+const {width, height} = Dimensions.get('window');
 
 type RootStackParamList = {
   Login: undefined;
@@ -56,13 +65,19 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
   };
 
   return (
-    <View style={styles.bg_white}>
+    <SafeAreaView style={styles.bg_white}>
+      <TouchableOpacity
+        style={{marginHorizontal: 0.05 * width}}
+        onPress={() => navigation.navigate('Home')}>
+        <AntDesign name="left" size={30} color="grey" />
+      </TouchableOpacity>
       <View style={[styles.mg_h_16, styles.mg_v_8]}>
         <Text style={[styles.mg_t_8, styles.font_inter_input]}>Username</Text>
         <TextInput
           label="Email"
           style={[styles.mg_v_8]}
-          color="rgba(0, 0, 0, 0.3)"
+          color="rgba(251, 142, 64, 0.5)"
+          placeholderTextColor={'rgba(0, 0, 0, 0.3)'}
           variant="standard"
           value={email} // Bind the value to the 'email' state
           onChangeText={text => setEmail(text)}
@@ -70,7 +85,9 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
         <Text style={[styles.mg_t_8, styles.font_inter_input]}>Password</Text>
         <TextInput
           label="Password"
-          style={styles.mg_v_8}
+          style={[styles.mg_v_8]}
+          color="rgba(251, 142, 64, 0.5)"
+          placeholderTextColor={'rgba(0, 0, 0, 0.3)'}
           variant="standard"
           value={password} // Bind the value to the 'password' state
           onChangeText={text => setPassword(text)}
@@ -78,11 +95,12 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
         <Text style={[styles.mg_v_8, styles.font_inter_forgot]}>
           Forgot password?
         </Text>
+        <View style={styles.mg_v_8}></View>
         <Button
           title="Login!"
-          style={styles.mg_v_8}
+          style={[styles.mg_v_8]}
           variant="contained"
-          color="primary"
+          color="rgba(251, 142, 64, 0.5)"
           onPress={handleLogin} // Connect handleLogin function to the onPress event
         />
         <View
@@ -90,6 +108,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
+            marginVertical: 20,
           }}>
           <Divider style={{flex: 1}} />
           <Text style={(styles.mg_v_8, styles.mg_h_16)}>or</Text>
@@ -105,7 +124,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
         />
         <Text style={styles.loginStatus}>{loginStatus}</Text>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -120,6 +139,15 @@ const styles = StyleSheet.create({
   },
   mg_t_8: {
     marginTop: 8,
+  },
+  buttonContent: {
+    borderRadius: 5,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonFont: {
+    fontSize: Math.round(width * 0.04),
   },
   bg_white: {
     backgroundColor: 'white',

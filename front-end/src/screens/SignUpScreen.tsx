@@ -1,12 +1,6 @@
-import {
-  StyleSheet,
-  View,
-  Image,
-  Dimensions,
-  TouchableOpacity,
-} from 'react-native';
-import {TextInput, Text, Button, Divider} from '@react-native-material/core';
-import React, {useState} from 'react';
+import {StyleSheet, View, Dimensions, TouchableOpacity} from 'react-native';
+import {TextInput, Text} from '@react-native-material/core';
+import React from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigation';
 import {CheckBox} from 'react-native-elements';
