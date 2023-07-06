@@ -7,7 +7,7 @@ export type RootStackParamList = {
   BottomSheet: undefined;
   SignUp: undefined;
   Login: undefined;
-  Workout: undefined;
+  Workout: NativeStackScreenProps;
   StartWorkout: {
     navData: Dictionary<Exercise>;
   };

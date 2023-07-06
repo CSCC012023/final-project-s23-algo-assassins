@@ -26,7 +26,7 @@ exports.exerciseRouter.get('/find', (req, res) => __awaiter(void 0, void 0, void
 // Used to get all exercises grouped by their muscle
 exports.exerciseRouter.get('/groupedExercises', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const group = 'muscle';
-    const exercises = (yield Exercise_1.Exercise.find()).filter((exercise) => {
+    const exercises = (yield Exercise_1.Exercise.find().sort({ name: 'asc', muscle: 'asc' })).filter((exercise) => {
         return exercise.muscle != undefined;
     });
     const groupedExercisesObject = {};
