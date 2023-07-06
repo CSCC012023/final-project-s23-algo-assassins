@@ -111,7 +111,7 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
     <View style={styles.bg_white}>
       <TouchableOpacity
         style={{marginTop: 0.05 * height, marginHorizontal: 0.05 * width}}
-        onPress={() => navigation.navigate('Home')}>
+        onPress={() => navigation.goBack()}>
         <AntDesign name="left" size={30} color="grey" />
       </TouchableOpacity>
       <View style={[styles.mg_v_8, styles.mg_h_16]}>
