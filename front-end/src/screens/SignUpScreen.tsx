@@ -67,7 +67,7 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
         // Handler for successful response
         console.log('Success');
         setSignUpStatus('Signup success');
-        navigation.navigate('Profile');
+        navigation.navigate('HomeTabs');
       } else {
         // Handler for signup failure
         const errorMessage = data.message; //|| 'SignUp Failed';
@@ -122,7 +122,18 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
           color="rgba(251, 142, 64, 0.5)"
           variant="standard"
           onChangeText={text => setUsername(text)}
+          autoCapitalize="none"
         />
+        <Text style={[styles.mg_t_8, styles.font_inter_input]}>Email</Text>
+        <TextInput
+          placeholder="Email"
+          style={[styles.mg_v_8, styles.text_input]}
+          color="rgba(251, 142, 64, 0.5)"
+          variant="standard"
+          onChangeText={text => setEmail(text)}
+          autoCapitalize="none"
+        />
+
         <Text style={[styles.mg_t_8, styles.font_inter_input]}>Password</Text>
         <TextInput
           secureTextEntry={true}
@@ -131,15 +142,7 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
           color="rgba(251, 142, 64, 0.5)"
           variant="standard"
           onChangeText={text => setPassword(text)}
-        />
-
-        <Text style={[styles.mg_t_8, styles.font_inter_input]}>Email</Text>
-        <TextInput
-          placeholder="Email"
-          style={[styles.mg_v_8, styles.text_input]}
-          color="rgba(251, 142, 64, 0.5)"
-          variant="standard"
-          onChangeText={text => setEmail(text)}
+          autoCapitalize="none"
         />
 
         <View
