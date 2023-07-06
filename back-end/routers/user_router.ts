@@ -44,7 +44,7 @@ userRouter.post('/send/verification', async (req, res) => {
 userRouter.post('/password/reset', async (req, res) => {
     const { email, password, confirmPassword } = req.body;
     // Password validation
-    if (password.length < 1 || password != confirmPassword) {
+    if (password.length < 6 || password != confirmPassword) {
         res.status(400).json({ message: "Invalid password content" });
         return;
     }
