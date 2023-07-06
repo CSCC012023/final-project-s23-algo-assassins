@@ -68,7 +68,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
     <SafeAreaView style={styles.bg_white}>
       <TouchableOpacity
         style={{marginHorizontal: 0.05 * width}}
-        onPress={() => navigation.navigate('Home')}>
+        onPress={() => navigation.goBack()}>
         <AntDesign name="left" size={30} color="grey" />
       </TouchableOpacity>
       <View style={[styles.mg_h_16, styles.mg_v_8]}>
