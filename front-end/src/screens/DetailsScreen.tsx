@@ -14,6 +14,12 @@ const DetailsScreen = ({navigation: {navigate}}: Props) => {
       <TouchableOpacity onPress={() => navigate('Workout')}>
         <Text>Go to Workout</Text>
       </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigate('HomeTabs')}>
+        <Text>Go to HomeTabs</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigate('BottomSheet')}>
+        <Text>Go to BottomSheet</Text>
+      </TouchableOpacity>
     </View>
   );
 };
