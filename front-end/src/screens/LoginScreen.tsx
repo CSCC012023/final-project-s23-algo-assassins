@@ -15,11 +15,11 @@ import { RootStackParamList } from '../types/navigation';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Toast from 'react-native-toast-message';
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
-type LoginScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
+type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
-const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
+const LoginScreen = ({ navigation }: Props) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
@@ -29,7 +29,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   // when Login button is pressed
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://10.0.0.106:3000/api/users/login?', {
+      const response = await fetch('http://localhost:3000/api/users/login?', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -47,9 +47,9 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
         // Successful login, proceed to the next screen
         //setLoginStatus('Login Success');
         // Navigate to HomeScreen
-        navigation.navigate('Home');
-      } // Inside the else block of the if (response.ok) condition
-      else {
+
+        navigation.navigate('HomeTabs');
+      } else {
         // Login failed, display an error message
         const errorMessage = data.message || 'Login Failed';
         //setLoginStatus(errorMessage);
@@ -67,6 +67,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
     } catch (error) {
       // Handle any error that occurred during the request
+
       if (error instanceof Error) {
         setLoginStatus('Login Error: ' + error.message);
         Toast.show({
@@ -99,29 +100,30 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
     <SafeAreaView style={styles.bg_white}>
       <TouchableOpacity
         style={{ marginHorizontal: 0.05 * width }}
-        onPress={() => navigation.navigate('LandingScreen')}>
+        onPress={() => navigation.goBack()}>
         <AntDesign name="left" size={30} color="grey" />
       </TouchableOpacity>
       <View style={[styles.mg_h_16, styles.mg_v_8]}>
         <Text style={[styles.mg_t_8, styles.font_inter_input]}>Username</Text>
         <TextInput
-          label="Email"
-          style={[styles.mg_v_8]}
+          style={[styles.mg_b_8]}
           color="rgba(251, 142, 64, 0.5)"
           placeholderTextColor={'rgba(0, 0, 0, 0.3)'}
           variant="standard"
           value={email} // Bind the value to the 'email' state
           onChangeText={text => setEmail(text)}
+          autoCapitalize="none"
         />
         <Text style={[styles.mg_t_8, styles.font_inter_input]}>Password</Text>
         <TextInput
-          label="Password"
-          style={[styles.mg_v_8]}
+          style={[styles.mg_b_8]}
           color="rgba(251, 142, 64, 0.5)"
           placeholderTextColor={'rgba(0, 0, 0, 0.3)'}
           variant="standard"
           value={password} // Bind the value to the 'password' state 
           onChangeText={text => setPassword(text)}
+          autoCapitalize="none"
+          secureTextEntry={true}
         />
         <TouchableWithoutFeedback onPress={handleForgotPass}>
           <Text style={[styles.mg_v_8, styles.font_inter_forgot]}>
@@ -134,7 +136,9 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
           style={[styles.mg_v_8]}
           variant="contained"
           color="rgba(251, 142, 64, 0.5)"
-          onPress={handleLogin} // Connect handleLogin function to the onPress event
+          onPress={() => {
+            handleLogin();
+          }} // Connect handleLogin function to the onPress event
         />
         <View
           style={{
@@ -172,6 +176,9 @@ const styles = StyleSheet.create({
   },
   mg_t_8: {
     marginTop: 8,
+  },
+  mg_b_8: {
+    marginBottom: 8,
   },
   buttonContent: {
     borderRadius: 5,
