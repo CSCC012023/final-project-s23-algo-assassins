@@ -1,6 +1,12 @@
-import {StyleSheet, View, Dimensions, TouchableOpacity} from 'react-native';
-import {TextInput, Text} from '@react-native-material/core';
-import React from 'react';
+import {
+  StyleSheet,
+  View,
+  Image,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
+import {TextInput, Text, Button, Divider} from '@react-native-material/core';
+import React, {useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigation';
 import {CheckBox} from 'react-native-elements';
@@ -49,7 +55,7 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/api/users/signup?', {
+      const response = await fetch('http://10.0.0.106:3000/api/users/signup?', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -67,7 +73,7 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
         // Handler for successful response
         console.log('Success');
         setSignUpStatus('Signup success');
-        navigation.navigate('HomeTabs');
+        navigation.navigate('SignUpIntro');
       } else {
         // Handler for signup failure
         const errorMessage = data.message; //|| 'SignUp Failed';
