@@ -1,12 +1,9 @@
 import { Router } from "express";
 import { User } from '../models/User';
 import bcrypt from 'bcrypt';
-import multer from 'multer';
-import path from 'path';
 import nodemailer from 'nodemailer';
 
 export const userRouter = Router();
-const upload = multer({ dest: "uploads/" });
 
 userRouter.post('/send/verification', async (req, res) => {
     // Generate token here and send an email
@@ -76,7 +73,7 @@ userRouter.post('/password/reset', async (req, res) => {
 });
 
 // Requires email, password, name of user
-// Signup the user and create session for user
+// Signup the user but does not create session for user
 userRouter.post('/signup', async (req, res) => {
     if (req.body.password === undefined) {
         res.status(400).json({ message: "Password is required" });
@@ -98,15 +95,10 @@ userRouter.post('/signup', async (req, res) => {
         name: req.body.name,
         email: req.body.email,
         password: password,
-        img: { path: null, contentType: null },
         age: 0,
         weight: 0,
         height: 0,
-        followers: [],
-        following: [],
     });
-    req.session.user_email = user.email;
-    req.session.user_email = user.email;
     user.save()
         .then((data: any) => {
             return res.json(data);
@@ -253,128 +245,6 @@ userRouter.patch('/update/height', async (req, res) => {
     user.save()
         .then((data: any) => {
             return res.json(data);
-        }
-        )
-        .catch((err: any) => {
-            return res.status(500).json({ message: err });
-        }
-        );
-});
-
-// Used to update user's profile picture by email
-userRouter.post('/update/picture', upload.single("img"), (req, res) => {
-    const find = req.session.user_email;
-    if (find === undefined) {
-        res.status(400).json({ message: "User not found" });
-        return;
-    }
-    if (req.file === undefined) {
-        res.status(400).json({ message: "Image is required" });
-        return;
-    }
-    const user = User.findOne({ email: find })
-    user.then((data: any) => {
-        data.img = req.file;
-        data.save()
-            .then((data: any) => {
-                return res.json(data);
-            }
-            )
-            .catch((err: any) => {
-                return res.status(500).json({ message: err });
-            }
-            );
-    })
-}
-);
-
-// get user profile picture by email
-userRouter.get('/img', (req, res) => {
-    const email = req.query.email;
-    if (email === undefined) {
-        res.status(400).json({ message: "Email is required" });
-        return;
-    }
-    User.findOne({ email: email })
-        .then((u: any) => {
-            res.setHeader('Content-Type', u.img.mimetype);
-            res.sendFile(u.img.path, { root: path.resolve() });
-
-        })
-        .catch((err: any) => {
-            return res.status(500).json({ message: err });
-        }
-        );
-});
-
-// Used to create a user follow connection
-// Followed email is the user that is being followed
-// Follower email is the user that is following
-userRouter.patch('/create/follow', async (req, res) => {
-    const followed = req.body.followed_email;
-    const follower = req.body.follower_email;
-    if (followed === undefined || follower === undefined) {
-        res.status(400).json({ message: "Following email and Follower email are required" });
-        return;
-    }
-    const user1 = await User.findOne({ email: followed });
-    const user2 = await User.findOne({ email: follower });
-    if (user1 === null || user2 === null) {
-        res.status(400).json({ message: "A user is not found" });
-        return;
-    }
-    user1.followers.push(user2.email);
-    user2.following.push(user1.email);
-
-    user1.save()
-        .then((data: any) => {
-            user2.save()
-                .then((data: any) => {
-                    return res.json(data);
-                }
-                )
-                .catch((err: any) => {
-                    return res.status(500).json({ message: err });
-                }
-                );
-        }
-        )
-        .catch((err: any) => {
-            return res.status(500).json({ message: err });
-        }
-        );
-});
-
-// Used to remove a user follow connection
-// Followed email is the user that is being followed currently
-// Follower email is the user that is following currently
-userRouter.patch('/remove/follow', async (req, res) => {
-    const followed = req.body.followed_email;
-    const follower = req.body.follower_email;
-    if (followed === undefined || follower === undefined) {
-        res.status(400).json({ message: "Following email and Follower email are required" });
-        return;
-    }
-    const user1 = await User.findOne({ email: followed });
-    const user2 = await User.findOne({ email: follower });
-    if (user1 === null || user2 === null) {
-        res.status(400).json({ message: "A user is not found" });
-        return;
-    }
-    user1.followers = user1.followers.filter((email: string) => email !== user2.email);
-    user2.following = user2.following.filter((email: string) => email !== user1.email);
-
-    user1.save()
-        .then((data: any) => {
-            user2.save()
-                .then((data: any) => {
-                    return res.json(data);
-                }
-                )
-                .catch((err: any) => {
-                    return res.status(500).json({ message: err });
-                }
-                );
         }
         )
         .catch((err: any) => {

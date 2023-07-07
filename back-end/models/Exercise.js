@@ -25,8 +25,30 @@ const ExerciseSchema = new mongoose_1.default.Schema({
         required: true,
     },
     img: {
-        type: Object,
-        required: true,
+        fieldname: {
+            type: String,
+        },
+        originalname: {
+            type: String,
+        },
+        encoding: {
+            type: String,
+        },
+        mimetype: {
+            type: String,
+        },
+        destination: {
+            type: String,
+        },
+        filename: {
+            type: String,
+        },
+        path: {
+            type: String,
+        },
+        size: {
+            type: Number,
+        },
     },
     description: {
         type: String,
