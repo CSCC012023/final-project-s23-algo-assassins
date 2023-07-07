@@ -57,7 +57,7 @@ exports.userRouter.post('/send/verification', (req, res) => __awaiter(void 0, vo
 exports.userRouter.post('/password/reset', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password, confirmPassword } = req.body;
     // Password validation
-    if (password.length < 1 || password != confirmPassword) {
+    if (password.length < 6 || password != confirmPassword) {
         res.status(400).json({ message: "Invalid password content" });
         return;
     }

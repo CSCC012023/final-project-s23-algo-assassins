@@ -4,6 +4,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Dimensions,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import { TextInput, Text, Button, Divider } from '@react-native-material/core';
 import React from 'react';
@@ -122,9 +123,11 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
           value={password} // Bind the value to the 'password' state 
           onChangeText={text => setPassword(text)}
         />
-        <Text style={[styles.mg_v_8, styles.font_inter_forgot]}>
-          Forgot password?
-        </Text>
+        <TouchableWithoutFeedback onPress={handleForgotPass}>
+          <Text style={[styles.mg_v_8, styles.font_inter_forgot]}>
+            Forgot password?
+          </Text>
+        </TouchableWithoutFeedback>
         <View style={styles.mg_v_8}></View>
         <Button
           title="Login!"
@@ -132,12 +135,6 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
           variant="contained"
           color="rgba(251, 142, 64, 0.5)"
           onPress={handleLogin} // Connect handleLogin function to the onPress event
-        />
-        <Button
-          title="Forgot Password?"
-          style={styles.mg_v_8}
-          color="#FFA500" // Set the color to orange (#FFA500)
-          onPress={handleForgotPass}
         />
         <View
           style={{
@@ -160,7 +157,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
         />
         <Text style={styles.loginStatus}>{loginStatus}</Text>
       </View>
-    </SafeAreaView>
+    </SafeAreaView >
   );
 };
 
@@ -213,4 +210,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 10,
   },
+  touchOpacStyle: {
+    backgroundColor: 'lightblue',
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    borderRadius: 0,
+  }
 });

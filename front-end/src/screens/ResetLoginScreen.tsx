@@ -105,28 +105,12 @@ const ResetLoginScreen: React.FC<ResetLoginScreenProps> = ({ navigation }) => {
           value={email} // Bind the value to the 'email' state
           onChangeText={text => setEmail(text)}
         />
-
         <Button
           title="Send Password Reset"
           style={styles.mg_v_8}
           variant="contained"
           color="#FFA500" // Set the color to orange (#FFA500)
           onPress={handleReset} // Connect handleResend function to the onPress event
-        />
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <Divider style={{ flex: 1 }} />
-          <Text style={(styles.mg_v_8, styles.mg_h_16)}>or</Text>
-          <Divider style={{ flex: 1 }} />
-        </View>
-        <Button
-          title="Back"
-          color="#FFA500" // Set the color to orange (#FFA500)
-          onPress={() => navigation.navigate('Login')}
         />
         <Text style={styles.loginStatus}>{emailStatus}</Text>
       </View >
