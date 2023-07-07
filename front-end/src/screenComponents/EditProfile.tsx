@@ -11,6 +11,8 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Toast from 'react-native-toast-message';
 import {useState} from 'react';
+import ImagePicker from '../components/imagePicker/ImagePicker';
+import {ImageOrVideo} from 'react-native-image-crop-picker';
 
 interface EditProfileProps {
   route: any;
@@ -30,6 +32,18 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
     setIsToggled(!isToggled);
   };
 
+  const [image, setImage] = React.useState<ImageOrVideo>();
+
+  const imageHandler = (res: ImageOrVideo) => {
+    console.log('Image Handler Called!');
+    setImage(res);
+  };
+
+  React.useEffect(() => {
+    console.log('Success');
+    console.log(image);
+  }, [image]);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -46,8 +60,27 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
         </TouchableOpacity>
       </View>
       <View style={styles.profileSection}>
-        <Image source={profileImage} style={styles.profileImage} />
-        <Text style={styles.changePhotoText}>Change profile photo</Text>
+        <Image
+          style={styles.profileImage}
+          source={
+            image != undefined
+              ? {
+                  uri: image.path,
+                  height: image.height,
+                  width: image.width,
+                  mime: image.mime,
+                }
+              : profileImage
+          }
+        />
+        {/* <Text style={styles.changePhotoText}>Change profile photo</Text> */}
+        <ImagePicker
+          handler={imageHandler}
+          circleOverlay={true}
+          buttonStyle={[]}
+          containerStyle={[]}
+          contentStyle={[styles.changePhotoText]}
+          label={'Change profile photo'}></ImagePicker>
       </View>
       <View style={styles.inputSection}>
         <View>
@@ -123,7 +156,12 @@ const styles = StyleSheet.create({
   },
   changePhotoText: {
     color: '#3761F8CC',
-    paddingTop: 15,
+    // paddingTop: 15,
+    fontSize: 12,
+    fontFamily: 'Inter-Regular',
+    fontWeight: '500',
+    letterSpacing: 1,
+    opacity: 0.8,
   },
   inputSection: {
     padding: 10,
