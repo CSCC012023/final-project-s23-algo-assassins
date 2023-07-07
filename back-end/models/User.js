@@ -15,6 +15,10 @@ const UserSchema = new mongoose_1.default.Schema({
         required: true,
         unique: true
     },
+    img: {
+        type: Object,
+        required: true,
+    },
     password: {
         type: String,
         required: true
@@ -27,6 +31,12 @@ const UserSchema = new mongoose_1.default.Schema({
     },
     height: {
         type: Number,
+    },
+    followers: {
+        type: [String],
+    },
+    following: {
+        type: [String],
     },
 });
 exports.User = mongoose_1.default.model("User", UserSchema);

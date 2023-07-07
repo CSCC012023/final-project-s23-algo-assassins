@@ -117,7 +117,7 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
     <View style={styles.bg_white}>
       <TouchableOpacity
         style={{marginTop: 0.05 * height, marginHorizontal: 0.05 * width}}
-        onPress={() => navigation.navigate('Home')}>
+        onPress={() => navigation.goBack()}>
         <AntDesign name="left" size={30} color="grey" />
       </TouchableOpacity>
       <View style={[styles.mg_v_8, styles.mg_h_16]}>
@@ -128,7 +128,18 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
           color="rgba(251, 142, 64, 0.5)"
           variant="standard"
           onChangeText={text => setUsername(text)}
+          autoCapitalize="none"
         />
+        <Text style={[styles.mg_t_8, styles.font_inter_input]}>Email</Text>
+        <TextInput
+          placeholder="Email"
+          style={[styles.mg_v_8, styles.text_input]}
+          color="rgba(251, 142, 64, 0.5)"
+          variant="standard"
+          onChangeText={text => setEmail(text)}
+          autoCapitalize="none"
+        />
+
         <Text style={[styles.mg_t_8, styles.font_inter_input]}>Password</Text>
         <TextInput
           secureTextEntry={true}
@@ -137,15 +148,7 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
           color="rgba(251, 142, 64, 0.5)"
           variant="standard"
           onChangeText={text => setPassword(text)}
-        />
-
-        <Text style={[styles.mg_t_8, styles.font_inter_input]}>Email</Text>
-        <TextInput
-          placeholder="Email"
-          style={[styles.mg_v_8, styles.text_input]}
-          color="rgba(251, 142, 64, 0.5)"
-          variant="standard"
-          onChangeText={text => setEmail(text)}
+          autoCapitalize="none"
         />
 
         <View

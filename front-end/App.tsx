@@ -21,7 +21,6 @@ import Toast from 'react-native-toast-message';
 import LandingScreen from './src/screens/LandingScreen';
 import HomeTabs from './src/screens/HomeTabs';
 
-
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function App() {
@@ -42,7 +41,7 @@ function App() {
           <Stack.Screen name="AddExercise" component={AddExerciseScreen} />
           <Stack.Screen name="BottomSheet" component={BottomSheetScreen} />
           <Stack.Screen name="SignUpIntro" component={SignUpIntroScreen} />
-           <Stack.Screen name="Profile" component={ProfileScreen} />
+          <Stack.Screen name="Profile" component={ProfileScreen} />
           <Stack.Screen name="EditProfile" component={EditProfile} />
           <Stack.Screen name="SignUp" component={SignUpScreen} />
         </Stack.Navigator>

@@ -8,8 +8,7 @@ const WelcomeCard = () => (
     <View style={styles.cardContainer}>
       <Text>
         Welcome to fitbook, {/* Text bold */}
-        <Text style={styles.bold
-        }>firstName!</Text>
+        <Text style={styles.bold}>firstName!</Text>
       </Text>
       <TouchableOpacity
         onPress={() => {
