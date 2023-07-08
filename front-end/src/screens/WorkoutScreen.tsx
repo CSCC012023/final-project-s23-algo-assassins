@@ -1,4 +1,4 @@
-import {SafeAreaView, StyleSheet, View} from 'react-native';
+import {SafeAreaView, StyleSheet, View, TouchableOpacity} from 'react-native';
 import {TextInput, Text, Pressable} from '@react-native-material/core';
 import React from 'react';
 import Fontisto from 'react-native-vector-icons/Fontisto';
@@ -33,15 +33,14 @@ const WorkoutScreen = ({navigation: {navigate}}: Props) => {
       </View>
       <View style={[styles.mg_h_16, styles.mg_v_8]}>
         <View style={[styles.btn_new_workout]}>
-          <Pressable
-            pressEffectColor="#FB8E40"
+          <TouchableOpacity
             onPress={() => navigate('StartWorkout', {navData: {}})}
             style={[styles.pd_h_4]}>
             <Text style={[styles.mg_v_16, styles.font_inter_20]}>
               <Fontisto name={'plus-a'} size={20} color={'#0561F880'} /> Start
               New Workout
             </Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         <Text style={[styles.mg_v_16, styles.font_inter_sb_20]}>Programs:</Text>
@@ -220,6 +219,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   btn: {
+    borderRadius: 5,
     paddingHorizontal: 16,
     paddingVertical: 12,
     display: 'flex',

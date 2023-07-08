@@ -196,6 +196,19 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
     route.params?.navData != undefined ? route.params?.navData : {};
   const [exercise, setExercise] = useState<Dictionary<Exercise>>(navData);
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
+      // Prevent default behavior of navigation
+      e.preventDefault();
+
+      // Clear the exercise selection and go back to the previous screen
+      setExercise({});
+      navigation.dispatch(e.data.action);
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
   const PushSet = (name: string, count: number) => {
     navData[name].sets.push({
       set: count,
@@ -213,6 +226,7 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
       setExercise({...navData});
     }
   };
+
   return (
     <SafeAreaView style={styles.bg_white}>
       <View
@@ -258,28 +272,26 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
             </Text>
           )}
           <View style={[styles.mg_v_8, styles.btn_container]}>
-            <Pressable
-              pressEffectColor="#fff"
-              style={[styles.btn, {backgroundColor: '#3761F880'}]}
+            <TouchableOpacity
+              style={[styles.btn, {backgroundColor: 'rgba(55, 97, 248, 0.8)'}]}
               onPress={() => navigation.navigate('AddExercise', {navData: navData})}>
               <Text
                 style={[
                   styles.font_inter_sb_16,
                   styles.text_center,
-                  {color: '#fff'},
+                  {color: '#ffffff'},
                 ]}>
                 Add exercise
               </Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
           <View style={[styles.mg_v_8, styles.mg_b_64, styles.btn_container]}>
-            <Pressable
-              pressEffectColor="#fff"
-              style={[styles.btn, {backgroundColor: '#d9d9d9'}]}>
+            <TouchableOpacity
+              style={[styles.btn, {backgroundColor: 'rgba(217, 217, 217, 0.6)'}]}>
               <Text style={[styles.font_inter_sb_16, styles.text_center]}>
                 Options
               </Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
