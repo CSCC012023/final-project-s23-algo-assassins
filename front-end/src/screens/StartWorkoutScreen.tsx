@@ -20,16 +20,28 @@ import {styles} from './WorkoutScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Dictionary, Exercise, Set} from '../types/workout';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { Alert } from 'react-native';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'StartWorkout'>;
 
 const ExerciseEntry = (props: any) => {
+  const [weightRepArray, setWeightRepArray] = React.useState<Array<[number, number]>>([[0, 0]]);
   const [input, setInput] = React.useState<string>(props.exercise.notes);
 
   const updateNoteInput = (text: string) => {
     props.navData[props.exercise.name].notes = text;
     setInput(text);
   };
+
+  const handleNewSet = () => {
+    setWeightRepArray([...weightRepArray, [0, 0]]);
+  }
+
+  const handleRemoveSet = () => {
+    const updatedSets = [...weightRepArray];
+    updatedSets.pop();
+    setWeightRepArray(updatedSets);
+  }
 
   return (
     <View style={[styles.mg_v_16]}>
@@ -113,9 +125,10 @@ const ExerciseEntry = (props: any) => {
         <View style={[styles.mg_v_8, styles.btn_container, {width: 140}]}>
           <Pressable
             pressEffectColor="#fff"
-            style={[styles.btn, {backgroundColor: '#3761F880'}]}
+            style={[styles.btn, {backgroundColor: 'rgba(55, 97, 248, 0.8)'}]}
             onPress={() => {
               props.pushFunc(props.exercise.name, props.exercise.sets.length);
+              handleNewSet();
             }}>
             <Text
               style={[
@@ -128,16 +141,14 @@ const ExerciseEntry = (props: any) => {
           </Pressable>
         </View>
         <View style={[styles.mg_v_8, styles.btn_container, {width: 140}]}>
-          <Pressable
-            pressEffectColor="#fff"
+          <TouchableOpacity
             style={[
               styles.btn,
               {
                 backgroundColor:
-                  props.exercise.sets.length - 1 ? '#FB8E4090' : '#d9d9d9',
+                  props.exercise.sets.length - 1 ? '#FB8E40' : '#d9d9d9',
               },
             ]}
-            pressEffect={props.exercise.sets.length - 1 ? 'ripple' : 'none'}
             onPress={() => {
               props.popFunc(props.exercise.name);
             }}>
@@ -149,7 +160,7 @@ const ExerciseEntry = (props: any) => {
               ]}>
               Remove set
             </Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -157,6 +168,13 @@ const ExerciseEntry = (props: any) => {
 };
 
 const ExerciseSets = (props: any) => {
+
+  const [isChecked, setChecked] = useState(false);
+  
+  const handleCheck = () => {
+    setChecked(!isChecked);
+  };
+
   return (
     <View>
       <View style={[{height: 52}]}>
@@ -169,21 +187,26 @@ const ExerciseSets = (props: any) => {
             styles.flex_align_center,
           ]}>
           <Text style={[styles.font_inter_16, {flex: 1}]}>
-            {props.set.set ? props.set.set : 'Warm-up'}
+            {props.set.set + 1}
           </Text>
           {props.hasWeights ? (
             <TextInput
               color="rgba(0, 0, 0, 0.3)"
               variant="standard"
               style={[styles.mg_v_8, {flex: 1}]}
-              keyboardType="numeric"></TextInput>
+              keyboardType="numeric"
+              placeholder='0'></TextInput>
           ) : undefined}
           <TextInput
             color="rgba(0, 0, 0, 0.3)"
             variant="standard"
             style={[styles.mg_v_8, {flex: 1}]}
-            keyboardType="numeric"></TextInput>
-          <Ionicons name={'checkmark-circle'} size={28} color={'#d9d9d9'} />
+            keyboardType="numeric"
+            placeholder='0'></TextInput>
+          <TouchableOpacity
+            onPress={handleCheck}>
+            <Ionicons name={'checkmark-circle'} size={28} color={isChecked? '#34B233' : '#d9d9d9'} />
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -195,14 +218,27 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
   const navData: Dictionary<Exercise> =
     route.params?.navData != undefined ? route.params?.navData : {};
   const [exercise, setExercise] = useState<Dictionary<Exercise>>(navData);
-
   const [existingExercises, setExistingExercises] = useState<Dictionary<Exercise>>({});
-
   const mergedExercises = { ...existingExercises, ...navData };
+  const [seconds, setSeconds] = useState<number>(0);
 
   useEffect(() => {
     setExistingExercises(prevExercises => ({ ...prevExercises, ...navData }));
+    const timerID = setInterval(() => {
+      setSeconds((prevSeconds) => prevSeconds + 1);
+    }, 1000);
+
+    return () => clearInterval(timerID);
   }, [navData]);
+
+  const padWithZero = (number: number) => {
+    const stringNumber = number.toString();
+    return stringNumber.length < 2 ? '0' + stringNumber : stringNumber;
+  };
+
+  const hours = padWithZero(Math.floor(seconds / 3600));
+  const minutes = padWithZero(Math.floor((seconds % 3600) / 60));
+  const remainingSeconds = padWithZero(seconds % 60);
 
   const PushSet = (name: string, count: number) => {
     // Update the sets for the exercise in the mergedExercises object
@@ -236,7 +272,24 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
         ]}>
         <TouchableOpacity
           onPress={() => {
-            navigation.goBack();
+            Alert.alert(
+              "Discard your workout?",  // Alert title
+              "Are you sure you want to discard your workout? This action cannot be undone.", // Alert message
+              [
+                {
+                  text: "Cancel",
+                  onPress: () => {}, // If the user cancels, do nothing
+                  style: "cancel"
+                },
+                { 
+                  text: "Discard", 
+                  onPress: () => navigation.goBack(),
+                  style: "destructive"
+                }
+              ]
+            );
+          
+            return true; // By returning true, the default behavior of back button is overwritten
           }}>
           <MaterialIcons name={'arrow-back-ios'} size={20} color={'#000000'} />
         </TouchableOpacity>
@@ -272,7 +325,7 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
           <View style={[styles.mg_v_8, styles.btn_container]}>
             <Pressable
               pressEffectColor="#fff"
-              style={[styles.btn, {backgroundColor: '#3761F880'}]}
+              style={[styles.btn, {backgroundColor: 'rgba(55, 97, 248, 0.8)'}]}
               onPress={() => navigation.navigate('AddExercise', {navData: exercise})}>
               <Text
                 style={[
@@ -304,7 +357,7 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
         ]}>
         <View style={[styles.mg_v_8]}>
           <Text style={[styles.text_center]}>Duration</Text>
-          <Text style={[styles.text_center]}>00:00</Text>
+          <Text style={[styles.text_center]}>{hours}:{minutes}:{remainingSeconds}</Text>
         </View>
         <View style={[styles.mg_v_8]}>
           <Text style={[styles.text_center]}>Total Volume</Text>
