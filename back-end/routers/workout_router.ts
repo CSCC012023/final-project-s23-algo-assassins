@@ -18,7 +18,6 @@ workoutRouter.post('/create', async (req, res) => {
     createdAt: req.body.date,
     exercises: req.body.exercises,
   })
-  console.log(JSON.stringify(workout));
   workout.save()
       .then((data: any) => {
         return res.json(data);

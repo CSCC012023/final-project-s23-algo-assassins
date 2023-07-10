@@ -10,6 +10,7 @@ const WorkoutSchema = new mongoose_1.default.Schema({
     description: { type: String },
     duration: { type: Number, default: 0 },
     createdAt: { type: Date, default: Date.now },
-    exercises: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: 'Exercise' }]
+    updatedAt: { type: Date, default: Date.now },
+    exercises: [{ type: String }]
 });
 exports.Workout = mongoose_1.default.model("Workout", WorkoutSchema);

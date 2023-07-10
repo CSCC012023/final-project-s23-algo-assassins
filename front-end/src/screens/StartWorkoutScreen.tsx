@@ -267,7 +267,7 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
       duration: seconds,  // Duration in minutes.
       description: "",
       date: new Date(),
-      exercises: existingExercises
+      exercises: JSON.stringify(existingExercises)
     };
     try {
       const response = await fetch('http://localhost:3000/api/workouts/create',{
