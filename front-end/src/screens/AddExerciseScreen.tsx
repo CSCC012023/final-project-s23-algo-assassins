@@ -6,6 +6,7 @@ import {
   BackHandler,
   TouchableOpacity,
   SafeAreaView,
+  Alert,
 } from 'react-native';
 import {TextInput, Text, Pressable} from '@react-native-material/core';
 import React, {useEffect, useState} from 'react';
@@ -193,7 +194,7 @@ const AddExerciseScreen = ({route, navigation: {navigate}}: Props) => {
               styles.btn,
               {
                 backgroundColor: Object.keys(newData).length
-                  ? '#3761F880'
+                  ? 'rgba(55, 97, 248, 0.8)'
                   : '#d9d9d9',
               },
             ]}

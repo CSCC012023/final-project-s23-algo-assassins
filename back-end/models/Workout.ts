@@ -1,18 +1,20 @@
-import mongoose from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
+import { Exercise } from './Exercise';
 
-const Exercise = require('Exercise.ts');
+interface IWorkout extends Document {
+    userId: string,
+    description: string,
+    duration: number,
+    createdAt: Date,
+    exercises: typeof Exercise[]
+}
 
-const WorkoutSchema = new mongoose.Schema ({
-    _id: mongoose.Schema.Types.ObjectId,
-    userEmail: String,
-    name: { type: String, required: true },
+const WorkoutSchema: Schema = new mongoose.Schema ({
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     description: { type: String },
     duration: { type: Number, default: 0 },
     createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now },
-    exercises: [ Exercise ]
+    exercises: [ {type: mongoose.Schema.Types.ObjectId, ref: 'Exercise'} ]
 });
 
-export const Workout = mongoose.model("Workout", WorkoutSchema);
-
-module.exports = { Workout };
+export const Workout = mongoose.model<IWorkout>("Workout", WorkoutSchema);

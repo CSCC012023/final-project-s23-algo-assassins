@@ -5,14 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Workout = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
-const Exercise = require('Exercise.ts');
 const WorkoutSchema = new mongoose_1.default.Schema({
-    _id: mongoose_1.default.Schema.Types.ObjectId,
-    name: { type: String, required: true },
+    userId: { type: mongoose_1.default.Schema.Types.ObjectId, ref: 'User' },
     description: { type: String },
+    duration: { type: Number, default: 0 },
     createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now },
-    exercises: [Exercise]
+    exercises: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: 'Exercise' }]
 });
 exports.Workout = mongoose_1.default.model("Workout", WorkoutSchema);
-module.exports = { Workout: exports.Workout };

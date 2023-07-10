@@ -6,7 +6,7 @@ import { User } from '../models/User';
 export const workoutRouter = Router();
 
 // Post your workout
-workoutRouter.post('/', async (req, res) => {
+workoutRouter.post('/create', async (req, res) => {
   const user = await User.findOne({ email: req.session.user_email });
   if (!user) {
     return res.status(400).json({ message: "User not found" });
@@ -16,9 +16,9 @@ workoutRouter.post('/', async (req, res) => {
     description: req.body.description,
     duration: req.body.duration,
     createdAt: req.body.date,
-    updatedAt: req.body.date,
     exercises: req.body.exercises,
   })
+  console.log(JSON.stringify(workout));
   workout.save()
       .then((data: any) => {
         return res.json(data);
@@ -29,7 +29,7 @@ workoutRouter.post('/', async (req, res) => {
 });
 
 // Get array of workouts
-workoutRouter.get('/', async (req, res) => {
+workoutRouter.get('/get', async (req, res) => {
   const user = await User.findOne({ email: req.session.user_email });
   if (!user) {
     return res.status(400).json({ message: "User not found" });
@@ -42,5 +42,4 @@ workoutRouter.get('/', async (req, res) => {
       .catch((err: any) => {
         res.status(500).json({ message: err.message });
       });
-
 });

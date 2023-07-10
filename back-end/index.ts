@@ -10,6 +10,8 @@ import session from "express-session";
 import cors from 'cors';
 import { exerciseRouter } from './routers/exercise_router';
 
+import { workoutRouter } from './routers/workout_router';
+
 dotenv.config();
 
 export const app: Express = express();
@@ -54,6 +56,7 @@ declare module "express-session" {
 // Routes
 app.use("/api/users", userRouter);
 app.use("/api/exercises", exerciseRouter);
+app.use("/api/workouts", workoutRouter);
 
 const port = process.env.PORT;
 app.listen(port, () => {

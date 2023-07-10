@@ -21,6 +21,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Dictionary, Exercise, Set} from '../types/workout';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Alert } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'StartWorkout'>;
 
@@ -260,6 +261,81 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
       setExistingExercises({ ...mergedExercises });
     }
   };
+
+  const postWorkout = async () => {
+    const workout = {
+      duration: seconds,  // Duration in minutes.
+      description: "",
+      date: new Date(),
+      exercises: existingExercises
+    };
+    try {
+      const response = await fetch('http://localhost:3000/api/workouts/create',{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(workout),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        // Handler for successful response
+        console.log('Success');
+        navigation.goBack();
+      } else {
+        const errorMessage = data.message; //|| 'SignUp Failed';
+        let errorMessageInfo = 'Unknown Error';
+        console.log('Endpoint rejected, ', errorMessage.code);
+        Toast.show({
+          type: 'error',
+          position: 'bottom',
+          text1: 'Upload failed',
+          text2: errorMessageInfo,
+        });
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        Toast.show({
+          type: 'error',
+          position: 'bottom',
+          text1: 'Upload failed',
+          text2: error.message,
+        });
+      } else {
+        Toast.show({
+          type: 'error',
+          position: 'bottom',
+          text1: 'Upload failed',
+          text2: 'Unknown error',
+        });
+      }
+      console.log("Error");
+    }
+  }
+
+  const handleFinishWorkout = () => {
+    if (Object.keys(existingExercises).length == 0) {
+      Alert.alert("Please add an exercise first.")
+      return;
+    }
+
+    Alert.alert(
+      "Finish your workout?",  // Alert title
+      "Are you sure you want to finish your workout?", // Alert message
+      [
+        {
+          text: "Cancel",
+          onPress: () => {}, // If the user cancels, do nothing
+          style: "cancel"
+        },
+        { 
+          text: "Yes!", 
+          
+          onPress: () => postWorkout(),
+        }
+      ]
+    );
+  }
   
   return (
     <SafeAreaView style={styles.bg_white}>
@@ -294,6 +370,19 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
           <MaterialIcons name={'arrow-back-ios'} size={20} color={'#000000'} />
         </TouchableOpacity>
         <Text style={[styles.font_inter_20]}>Workout</Text>
+          <Pressable
+            pressEffectColor="#fff"
+            style={[styles.btn, {backgroundColor: 'rgba(55, 97, 248, 0.8)', display: 'flex', marginLeft: 135, width:'30%', padding:0}]}
+            onPress={handleFinishWorkout}>
+            <Text
+              style={[
+                styles.font_inter_sb_16,
+                styles.text_center,
+                {color: '#fff'},
+              ]}>
+              Finish
+            </Text>
+          </Pressable>
       </View>
       <ScrollView
         showsVerticalScrollIndicator={false}
