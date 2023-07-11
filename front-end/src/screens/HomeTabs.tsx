@@ -1,5 +1,4 @@
 import React from 'react';
-import DummyScreen from './DummyScreen';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
