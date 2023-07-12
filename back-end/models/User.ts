@@ -10,6 +10,10 @@ const UserSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    img: {
+        type: Object,
+        required: true,
+    },
     password: {
         type: String,
         required: true
@@ -22,6 +26,12 @@ const UserSchema = new mongoose.Schema({
     },
     height: {
         type: Number,
+    },
+    followers: {
+        type: [String],
+    },
+    following: {
+        type: [String],
     },
 });
 

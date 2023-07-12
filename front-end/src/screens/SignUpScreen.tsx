@@ -1,6 +1,12 @@
-import {StyleSheet, View, Dimensions, TouchableOpacity} from 'react-native';
-import {TextInput, Text} from '@react-native-material/core';
-import React from 'react';
+import {
+  StyleSheet,
+  View,
+  Image,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
+import {TextInput, Text, Button, Divider} from '@react-native-material/core';
+import React, {useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigation';
 import {CheckBox} from 'react-native-elements';
@@ -49,7 +55,7 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/api/users/signup?', {
+      const response = await fetch('http://10.0.0.106:3000/api/users/signup?', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -67,7 +73,7 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
         // Handler for successful response
         console.log('Success');
         setSignUpStatus('Signup success');
-        navigation.navigate('Profile');
+        navigation.navigate('SignUpIntro');
       } else {
         // Handler for signup failure
         const errorMessage = data.message; //|| 'SignUp Failed';
@@ -111,8 +117,7 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
     <View style={styles.bg_white}>
       <TouchableOpacity
         style={{marginTop: 0.05 * height, marginHorizontal: 0.05 * width}}
-        onPress={() => navigation.goBack()}
-        >
+        onPress={() => navigation.goBack()}>
         <AntDesign name="left" size={30} color="grey" />
       </TouchableOpacity>
       <View style={[styles.mg_v_8, styles.mg_h_16]}>
@@ -123,7 +128,18 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
           color="rgba(251, 142, 64, 0.5)"
           variant="standard"
           onChangeText={text => setUsername(text)}
+          autoCapitalize="none"
         />
+        <Text style={[styles.mg_t_8, styles.font_inter_input]}>Email</Text>
+        <TextInput
+          placeholder="Email"
+          style={[styles.mg_v_8, styles.text_input]}
+          color="rgba(251, 142, 64, 0.5)"
+          variant="standard"
+          onChangeText={text => setEmail(text)}
+          autoCapitalize="none"
+        />
+
         <Text style={[styles.mg_t_8, styles.font_inter_input]}>Password</Text>
         <TextInput
           secureTextEntry={true}
@@ -132,15 +148,7 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
           color="rgba(251, 142, 64, 0.5)"
           variant="standard"
           onChangeText={text => setPassword(text)}
-        />
-
-        <Text style={[styles.mg_t_8, styles.font_inter_input]}>Email</Text>
-        <TextInput
-          placeholder="Email"
-          style={[styles.mg_v_8, styles.text_input]}
-          color="rgba(251, 142, 64, 0.5)"
-          variant="standard"
-          onChangeText={text => setEmail(text)}
+          autoCapitalize="none"
         />
 
         <View
