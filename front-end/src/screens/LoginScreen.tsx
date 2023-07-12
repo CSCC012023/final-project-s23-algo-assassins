@@ -30,7 +30,8 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
   // when Login button is pressed
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://10.0.0.106:3000/api/users/login?', {
+      
+      const response = await fetch('http://localhost:3000/api/users/login?', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,9 +41,8 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
           password: password,
         }),
       });
-
+      console.log("wagwan");
       const data = await response.json();
-
       // Check the response from the backend
       if (response.ok) {
         // Successful login, proceed to the next screen

@@ -26,23 +26,12 @@ import Toast from 'react-native-toast-message';
 type Props = NativeStackScreenProps<RootStackParamList, 'StartWorkout'>;
 
 const ExerciseEntry = (props: any) => {
-  const [weightRepArray, setWeightRepArray] = React.useState<Array<[number, number]>>([[0, 0]]);
   const [input, setInput] = React.useState<string>(props.exercise.notes);
 
   const updateNoteInput = (text: string) => {
     props.navData[props.exercise.name].notes = text;
     setInput(text);
   };
-
-  const handleNewSet = () => {
-    setWeightRepArray([...weightRepArray, [0, 0]]);
-  }
-
-  const handleRemoveSet = () => {
-    const updatedSets = [...weightRepArray];
-    updatedSets.pop();
-    setWeightRepArray(updatedSets);
-  }
 
   return (
     <View style={[styles.mg_v_16]}>
@@ -112,7 +101,12 @@ const ExerciseEntry = (props: any) => {
             key={`${props.exercise._id}_${set.set}`}
             name={props.exercise.name}
             set={set}
-            hasWeights={props.exercise.hasWeights}></ExerciseSets>
+            hasWeights={props.exercise.hasWeights}
+            updateWeightReps={props.updateWeightReps}
+            setTotalVolume={props.setTotalVolume}
+            getTotalVolume={props.getTotalVolume}
+            toggleCheck={props.toggleCheck}
+            ></ExerciseSets>
         );
       })}
       <View
@@ -129,7 +123,6 @@ const ExerciseEntry = (props: any) => {
             style={[styles.btn, {backgroundColor: 'rgba(55, 97, 248, 0.8)'}]}
             onPress={() => {
               props.pushFunc(props.exercise.name, props.exercise.sets.length);
-              handleNewSet();
             }}>
             <Text
               style={[
@@ -151,7 +144,7 @@ const ExerciseEntry = (props: any) => {
               },
             ]}
             onPress={() => {
-              props.popFunc(props.exercise.name);
+              props.popFunc(props.exercise.name, props.exercise.sets.length);
             }}>
             <Text
               style={[
@@ -170,11 +163,8 @@ const ExerciseEntry = (props: any) => {
 
 const ExerciseSets = (props: any) => {
 
-  const [isChecked, setChecked] = useState(false);
-  
-  const handleCheck = () => {
-    setChecked(!isChecked);
-  };
+  const [weight, setWeight] = useState(0);
+  const [reps, setReps] = useState(0);
 
   return (
     <View>
@@ -196,17 +186,28 @@ const ExerciseSets = (props: any) => {
               variant="standard"
               style={[styles.mg_v_8, {flex: 1}]}
               keyboardType="numeric"
-              placeholder='0'></TextInput>
+              placeholder='0'
+              onChangeText={text => {
+                props.updateWeightReps(props.name, props.set.set, parseInt(text), reps),
+                setWeight(parseInt(text))}
+              }></TextInput>
           ) : undefined}
           <TextInput
             color="rgba(0, 0, 0, 0.3)"
             variant="standard"
             style={[styles.mg_v_8, {flex: 1}]}
             keyboardType="numeric"
-            placeholder='0'></TextInput>
+            placeholder='0'
+            onChangeText={
+              text => {props.updateWeightReps(props.name, props.set.set, weight, parseInt(text)),
+              setReps(parseInt(text))}
+              }></TextInput>
           <TouchableOpacity
-            onPress={handleCheck}>
-            <Ionicons name={'checkmark-circle'} size={28} color={isChecked? '#34B233' : '#d9d9d9'} />
+            onPress={() => {
+              props.toggleCheck(props.name, props.set.set)
+              props.getTotalVolume()
+              }}>
+            <Ionicons name={'checkmark-circle'} size={28} color={props.set.isComplete? '#34B233' : '#d9d9d9'} />
           </TouchableOpacity>
         </View>
       </View>
@@ -222,6 +223,7 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
   const [existingExercises, setExistingExercises] = useState<Dictionary<Exercise>>({});
   const mergedExercises = { ...existingExercises, ...navData };
   const [seconds, setSeconds] = useState<number>(0);
+  const [totalVolume, setTotalVolume] = useState<number>(0);
 
   useEffect(() => {
     setExistingExercises(prevExercises => ({ ...prevExercises, ...navData }));
@@ -230,7 +232,11 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
     }, 1000);
 
     return () => clearInterval(timerID);
+    return;
   }, [navData]);
+
+
+  // Time functions
 
   const padWithZero = (number: number) => {
     const stringNumber = number.toString();
@@ -241,12 +247,16 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
   const minutes = padWithZero(Math.floor((seconds % 3600) / 60));
   const remainingSeconds = padWithZero(seconds % 60);
 
+
+  // Set functions
+
   const PushSet = (name: string, count: number) => {
     // Update the sets for the exercise in the mergedExercises object
     mergedExercises[name].sets.push({
       set: count,
       lbs: 0,
       reps: 0,
+      isComplete: false
     });
 
     setExistingExercises({...mergedExercises});
@@ -262,12 +272,50 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
     }
   };
 
+  const updateWeightReps = (name: string, set: number, weight: number, reps: number) => {
+    const exercisesCopy = existingExercises;
+    exercisesCopy[name].sets[set] = {
+      set: exercisesCopy[name].sets[set].set,
+      lbs: weight,
+      reps: reps,
+      isComplete: exercisesCopy[name].sets[set].isComplete
+    }
+    setExistingExercises(exercisesCopy);
+  }
+
+  const toggleCheck = (name: string, set: number) => {
+    const exercisesCopy = existingExercises;
+    exercisesCopy[name].sets[set] = {
+      set: exercisesCopy[name].sets[set].set,
+      lbs: exercisesCopy[name].sets[set].lbs,
+      reps: exercisesCopy[name].sets[set].reps,
+      isComplete: !exercisesCopy[name].sets[set].isComplete
+    }
+    setExistingExercises(exercisesCopy);
+  }
+
+  const getTotalVolume = () => {
+    const exerciseCopy = existingExercises;
+    let result = 0;
+    for (let exercise in exerciseCopy) {
+      let value = exerciseCopy[exercise];
+      for (let set in value.sets) {
+        let setObject = exerciseCopy[exercise].sets[set];
+        result = result + (setObject.isComplete ? setObject.lbs * setObject.reps : 0);
+      }
+    }
+    setTotalVolume(result);
+  }
+
+  // API functions
+
   const postWorkout = async () => {
     const workout = {
       duration: seconds,  // Duration in minutes.
       description: "",
       date: new Date(),
-      exercises: JSON.stringify(existingExercises)
+      exercises: JSON.stringify(existingExercises),
+      totalVolume: totalVolume
     };
     try {
       const response = await fetch('http://localhost:3000/api/workouts/create',{
@@ -397,7 +445,12 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
                   exercise={existingExercises[key]}
                   navData={navData}
                   pushFunc={PushSet}
-                  popFunc={PopSet}></ExerciseEntry>
+                  popFunc={PopSet}
+                  updateWeightReps={updateWeightReps}
+                  getTotalVolume={getTotalVolume}
+                  setTotalVolume={setTotalVolume}
+                  toggleCheck={toggleCheck}
+                />
               );
             })
           ) : (
@@ -450,7 +503,7 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
         </View>
         <View style={[styles.mg_v_8]}>
           <Text style={[styles.text_center]}>Total Volume</Text>
-          <Text style={[styles.text_center]}>0 lbs</Text>
+          <Text style={[styles.text_center]}>{totalVolume} lbs</Text>
         </View>
       </View>
     </SafeAreaView>

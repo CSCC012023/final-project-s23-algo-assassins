@@ -26,6 +26,7 @@ exports.workoutRouter.post('/create', (req, res) => __awaiter(void 0, void 0, vo
         duration: req.body.duration,
         createdAt: req.body.date,
         exercises: req.body.exercises,
+        totalVolume: req.body.totalVolume,
     });
     workout.save()
         .then((data) => {

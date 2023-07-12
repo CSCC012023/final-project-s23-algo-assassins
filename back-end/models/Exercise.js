@@ -18,6 +18,10 @@ const ExerciseSetSchema = new mongoose_1.default.Schema({
         type: Number,
         required: true,
     },
+    isComplete: {
+        type: Boolean,
+        required: false,
+    },
 });
 const ExerciseSchema = new mongoose_1.default.Schema({
     name: {

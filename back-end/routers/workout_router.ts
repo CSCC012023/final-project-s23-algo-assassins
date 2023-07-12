@@ -17,6 +17,7 @@ workoutRouter.post('/create', async (req, res) => {
     duration: req.body.duration,
     createdAt: req.body.date,
     exercises: req.body.exercises,
+    totalVolume: req.body.totalVolume,
   })
   workout.save()
       .then((data: any) => {
