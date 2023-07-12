@@ -20,6 +20,12 @@ export type RootStackParamList = {
   ResetLogin: undefined;
   NewPasswordScreen: { email: string, key: string };
   LandingScreen: any;
+  CreateRoutine: {
+    navData: Dictionary<Exercise>;
+  };
+  RoutineAddExercise: {
+    navData: Dictionary<Exercise>;
+  };
 };
 
 export interface DummyScreenParams {

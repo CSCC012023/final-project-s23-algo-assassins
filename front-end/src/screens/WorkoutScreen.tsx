@@ -1,4 +1,4 @@
-import {SafeAreaView, StyleSheet, View, TouchableOpacity} from 'react-native';
+import {SafeAreaView, StyleSheet, View, TouchableOpacity, Dimensions} from 'react-native';
 import {TextInput, Text, Pressable} from '@react-native-material/core';
 import React from 'react';
 import Fontisto from 'react-native-vector-icons/Fontisto';
@@ -8,11 +8,15 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigation';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Workout'>;
+const {width, height} = Dimensions.get('window');
 
 const ProgramButton = (props: any) => {
   return (
     <View style={[styles.btn_program_container]}>
-      <Pressable pressEffectColor="#FB8E40" style={[styles.btn_program_body]}>
+      <Pressable 
+      pressEffectColor="#FB8E40" 
+      style={[styles.btn_program_body]}
+      onPress={props.onPress}>
         <Octicons name={props.icon} size={40} color={'#000000B3'} />
         <Text style={[styles.mg_t_8, styles.font_inter_20, styles.text_center]}>
           {props.text}
@@ -51,7 +55,10 @@ const WorkoutScreen = ({navigation: {navigate}}: Props) => {
             styles.flex_row,
             styles.flex_justify_between,
           ]}>
-          <ProgramButton icon="sun" text="New Routine"></ProgramButton>
+          <ProgramButton 
+          icon="sun" 
+          text="New Routine" 
+          onPress={() => navigate('CreateRoutine', {navData: {}})}></ProgramButton>
           <ProgramButton icon="file" text="Saved Routine"></ProgramButton>
         </View>
 
@@ -247,6 +254,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#000',
     resizeMode: 'contain',
+  },
+  // CreateRoutineScreen related
+  routine_text_input: {
+    color: 'rgba(0, 0, 0, 0.3)',
+    width: width * 0.9,
+    paddingHorizontal: 16,
+    display: 'flex',
+    alignItems: 'center',
   },
 });
 
