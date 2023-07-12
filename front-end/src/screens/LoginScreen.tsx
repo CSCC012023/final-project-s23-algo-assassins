@@ -39,7 +39,6 @@ const LoginScreen = ({ navigation }: Props) => {
           password: password,
         }),
       });
-      console.log("wagwan");
       const data = await response.json();
       // Check the response from the backend
       if (response.ok) {
