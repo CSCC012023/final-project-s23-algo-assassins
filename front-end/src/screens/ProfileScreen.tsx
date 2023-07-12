@@ -10,7 +10,7 @@ const ProfileScreen = () => {
         accountName="j.d_splash"
         profileImage={require('../assets/images/levi_pfp.png')}
         workouts={70}
-        followers={54}
+        followers={24}
         following={14}
         biography={''}
       />
