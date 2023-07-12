@@ -4,7 +4,7 @@ import { User } from '../models/User';
 
 export const routineRouter = Router();
 
-// Post your workout
+// Post your routine
 routineRouter.post('/create', async (req, res) => {
   const user = await User.findOne({ email: req.session.user_email });
   if (!user) {
@@ -25,7 +25,7 @@ routineRouter.post('/create', async (req, res) => {
       })
 });
 
-// Get array of workouts
+// Get array of routines
 routineRouter.get('/get', async (req, res) => {
   const user = await User.findOne({ email: req.session.user_email });
   if (!user) {

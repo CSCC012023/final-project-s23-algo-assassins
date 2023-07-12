@@ -14,7 +14,7 @@ const express_1 = require("express");
 const Routine_1 = require("../models/Routine");
 const User_1 = require("../models/User");
 exports.routineRouter = (0, express_1.Router)();
-// Post your workout
+// Post your routine
 exports.routineRouter.post('/create', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield User_1.User.findOne({ email: req.session.user_email });
     if (!user) {
@@ -34,7 +34,7 @@ exports.routineRouter.post('/create', (req, res) => __awaiter(void 0, void 0, vo
         return res.status(500).json({ message: err });
     });
 }));
-// Get array of workouts
+// Get array of routines
 exports.routineRouter.get('/get', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield User_1.User.findOne({ email: req.session.user_email });
     if (!user) {
