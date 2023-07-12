@@ -7,4 +7,4 @@ const RoutineSchema: Schema = new mongoose.Schema ({
     exercises: [ {type: String} ],
 });
 
-export const Routine = mongoose.model("", RoutineSchema);
+export const Routine = mongoose.model("Routine", RoutineSchema);

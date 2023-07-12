@@ -11,4 +11,4 @@ const RoutineSchema = new mongoose_1.default.Schema({
     description: { type: String },
     exercises: [{ type: String }],
 });
-exports.Routine = mongoose_1.default.model("", RoutineSchema);
+exports.Routine = mongoose_1.default.model("Routine", RoutineSchema);
