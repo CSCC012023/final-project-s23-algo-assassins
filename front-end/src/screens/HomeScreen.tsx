@@ -1,14 +1,76 @@
-import {SafeAreaView, StyleSheet, View} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 import React, {useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
 import SearchBarHeader from '../components/searchBar/SearchBar';
 import WelcomeCard from '../components/welcomeCard/WelcomeCard';
 import SuggestFollowCard from '../components/suggestFollowCard/SuggestFollowCard';
 
 const HomeScreen = () => {
   const [search, setSearch] = useState('');
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [userData, setUserData] = useState(null); // Store the user data
 
-  const updateSearch = (search_: string) => {
-    setSearch(search_);
+  const navigation = useNavigation();
+
+  const updateSearch = async (searchText: string) => {
+    setSearch(searchText);
+
+    try {
+      const response = await fetch(
+        `http://10.0.0.106:3000/api/users/find?email=${searchText}`,
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log('User found:', data);
+        setShowDropdown(true);
+        setUserData(data); // Save the user data
+      } else {
+        console.log('User not found');
+        setShowDropdown(false);
+      }
+    } catch (error) {
+      console.log('Error:', error);
+      setShowDropdown(false);
+    }
+  };
+
+  const handleUserButtonClick = () => {
+    navigation.navigate('Profile');
+  };
+
+  // everything drop down menu
+  const renderDropdown = () => {
+    if (!showDropdown || search === '') {
+      return null;
+    }
+
+    let userButton = null;
+    if (userData) {
+      const userDisplayName = `${userData.name} (${userData.email})`;
+      userButton = (
+        <TouchableOpacity
+          style={styles.dropdownButton}
+          onPress={handleUserButtonClick}>
+          <Text style={styles.dropdownButtonText}>{userDisplayName}</Text>
+        </TouchableOpacity>
+      );
+    }
+
+    return (
+      <View style={[styles.dropdown, styles.dropdownPosition]}>
+        <Text style={styles.dropdownText}>Users</Text>
+        {userButton}
+        {/* Add additional dropdown menu components here */}
+      </View>
+    );
   };
 
   return (
@@ -19,11 +81,10 @@ const HomeScreen = () => {
         <SuggestFollowCard name="John Doe" />
         <SuggestFollowCard name="Jane Doe" />
       </View>
+      {renderDropdown()}
     </SafeAreaView>
   );
 };
-
-export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -34,4 +95,30 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flex: 1,
   },
+  dropdown: {
+    marginTop: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    backgroundColor: 'lightgray',
+    borderRadius: 4,
+  },
+  dropdownPosition: {
+    position: 'absolute',
+    top: 60,
+    left: 0,
+    right: 0,
+  },
+  dropdownText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  dropdownButton: {
+    padding: 8,
+  },
+  dropdownButtonText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
 });
+
+export default HomeScreen;
