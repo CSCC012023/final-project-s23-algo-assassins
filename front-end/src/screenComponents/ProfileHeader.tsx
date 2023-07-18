@@ -3,11 +3,7 @@ import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import {useNavigation, NavigationProp} from '@react-navigation/native';
 import {ImageSourcePropType} from 'react-native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigation';
-
-type Props = NativeStackScreenProps<RootStackParamList, 'Settings'>;
-
 
 interface ProfileSetupProps {
   name: string;

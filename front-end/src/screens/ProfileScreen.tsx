@@ -7,7 +7,6 @@ import { Image } from 'react-native-elements';
 const ProfileScreen = () => {
   const [name, setName] = useState('');
   return (
-<<<<<<< HEAD
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         <ProfileSetup
@@ -26,24 +25,6 @@ const ProfileScreen = () => {
           profileImage={require('../assets/images/levi_pfp.png')}
         />
       </View>
-=======
-    <SafeAreaView style={styles.content}>
-      <ProfileSetup
-        name="Jerry Dang"
-        accountName="j.d_splash"
-        profileImage={require('../assets/images/levi_pfp.png')}
-        workouts={70}
-        followers={24}
-        following={14}
-        biography={''}
-      />
-      <ProfileButtons
-        id={0}
-        name=""
-        accountName=""
-        profileImage={require('../assets/images/levi_pfp.png')}
-      />
->>>>>>> main
       <View style={styles.bioContainer}>
         <Text>Progress Data</Text>
       </View>
