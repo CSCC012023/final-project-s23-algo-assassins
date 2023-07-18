@@ -6,6 +6,7 @@ export type Set = {
   set: number;
   lbs: number;
   reps: number;
+  isComplete: boolean;
 };
 
 export type Exercise = {

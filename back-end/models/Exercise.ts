@@ -13,6 +13,10 @@ const ExerciseSetSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  isComplete: {
+    type: Boolean,
+    required: false,
+  },
 });
 
 const ExerciseSchema = new mongoose.Schema({

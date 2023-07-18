@@ -15,8 +15,6 @@ const DetailsScreen = ({navigation: {navigate}}: Props) => {
         <Text>Go to Workout</Text>
       </TouchableOpacity>
     </View>
-
-    
   );
 };
 

@@ -1,5 +1,5 @@
-import {Dictionary, Exercise} from './workout';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import { Dictionary, Exercise } from './workout';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 export type RootStackParamList = {
   HomeTabs: any;
@@ -18,6 +18,8 @@ export type RootStackParamList = {
   Profile: undefined;
   EditProfile: undefined;
   Settings: undefined;
+  ResetLogin: undefined;
+  NewPasswordScreen: { email: string, key: string };
   LandingScreen: any;
 };
 
