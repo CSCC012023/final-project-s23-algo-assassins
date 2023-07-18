@@ -22,16 +22,24 @@ const HomeScreen = () => {
     setSearch(searchText);
 
     try {
-      const response = await fetch(
-        `http://10.0.0.106:3000/api/users/find?email=${searchText}`,
+      const emailResponse = await fetch(
+        `http://100.101.194.202:3000/api/users/find?email=${searchText}`,
       );
+      const emailData = await emailResponse.json();
 
-      const data = await response.json();
+      const nameResponse = await fetch(
+        `http://100.101.194.202:3000/api/users/search/${searchText}`,
+      );
+      const nameData = await nameResponse.json();
 
-      if (response.ok) {
-        console.log('User found:', data);
+      if (emailResponse.ok && emailData) {
+        console.log('User found by email:', emailData);
         setShowDropdown(true);
-        setUserData(data); // Save the user data
+        setUserData(emailData); // Save the user data
+      } else if (nameResponse.ok && nameData) {
+        console.log('User found by name:', nameData);
+        setShowDropdown(true);
+        setUserData(nameData); // Save the user data
       } else {
         console.log('User not found');
         setShowDropdown(false);
