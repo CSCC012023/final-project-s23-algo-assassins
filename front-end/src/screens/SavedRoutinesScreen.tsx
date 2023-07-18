@@ -71,9 +71,10 @@ const SavedRoutinesScreen = ({navigation: {navigate}}: Props) => {
     setReady(true);
   };
 
-  const navigateHelper = (exercises: Dictionary<Exercise>) => {
-    console.log(exercises);
-    //navigate('StartWorkout', {navData: exercises});
+  const navigateHelper = (exercises: string) => {
+    // Needs to be parsed twice because exercices may be over-stringified
+    const parsed = JSON.parse(JSON.parse(JSON.stringify(exercises)));
+    navigate('StartWorkout', {navData: parsed});
   };
 
   return (

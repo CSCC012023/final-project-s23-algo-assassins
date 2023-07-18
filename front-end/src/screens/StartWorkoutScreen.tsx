@@ -225,6 +225,16 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
   const [seconds, setSeconds] = useState<number>(0);
   const [totalVolume, setTotalVolume] = useState<number>(0);
 
+  console.log(`NavData\n`);
+  console.log(navData);
+  Object.keys(navData).forEach((key) => {
+    console.log(`Sets\n`);
+    console.log(navData[key].sets);
+  });
+
+  if (navData == undefined)
+    navigation.goBack();
+
   useEffect(() => {
     setExistingExercises(prevExercises => ({ ...prevExercises, ...navData }));
     const timerID = setInterval(() => {

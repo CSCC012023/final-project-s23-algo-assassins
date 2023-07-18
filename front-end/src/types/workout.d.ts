@@ -33,6 +33,6 @@ export type Routine = {
   userId: string;
   name: string;
   description: string;
-  exercises: Dictionary<Exercise>[];
+  exercises: string[];
   __v: number;
 }
