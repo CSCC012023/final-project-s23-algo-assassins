@@ -1,8 +1,13 @@
 import React, {useState} from 'react';
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, NavigationProp} from '@react-navigation/native';
 import {ImageSourcePropType} from 'react-native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../types/navigation';
+
+type Props = NativeStackScreenProps<RootStackParamList, 'Settings'>;
+
 
 interface ProfileSetupProps {
   name: string;
@@ -23,6 +28,10 @@ export const ProfileSetup: React.FC<ProfileSetupProps> = ({
   following,
   biography,
 }) => {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const goToSettings = () => {
+    navigation.navigate('Settings');
+  };
   return (
     <View>
       {accountName ? (
@@ -33,7 +42,7 @@ export const ProfileSetup: React.FC<ProfileSetupProps> = ({
           </View>
           <View style={styles.headerIcons}>
             <Feather name="bell" style={styles.headerIcon} />
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => goToSettings()}>
               <Feather name="settings" style={styles.headerIcon} />
             </TouchableOpacity>
           </View>
@@ -155,7 +164,7 @@ const styles = StyleSheet.create({
   infoContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingLeft: 35,
+    paddingLeft: 15,
   },
   infoItem: {
     alignItems: 'center',
@@ -167,7 +176,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter-Regular',
   },
   bioContainer: {
-    alignItems: 'center',
+    alignItems: 'baseline',
   },
   bioText: {
     fontFamily: 'Inter-Regular',

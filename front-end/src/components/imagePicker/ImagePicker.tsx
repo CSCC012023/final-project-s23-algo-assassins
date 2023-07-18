@@ -1,9 +1,4 @@
-import {
-  Modal,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Modal, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import {Text, Pressable} from '@react-native-material/core';
@@ -128,7 +123,7 @@ const ImagePicker: React.FunctionComponent<ImagePickerComponentProps> = ({
         </View>
       </TouchableOpacity>
     </View>
-  );      
+  );
 };
 
 export default ImagePicker;

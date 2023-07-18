@@ -17,6 +17,7 @@ export type RootStackParamList = {
   };
   Profile: undefined;
   EditProfile: undefined;
+  Settings: undefined;
   LandingScreen: any;
 };
 

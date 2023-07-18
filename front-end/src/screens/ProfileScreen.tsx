@@ -1,8 +1,11 @@
 import React from 'react';
+import {useState} from 'react';
 import {StyleSheet, Text, View, SafeAreaView} from 'react-native';
 import {ProfileSetup, ProfileButtons} from '../screenComponents/ProfileHeader';
+import { Image } from 'react-native-elements';
 
 const ProfileScreen = () => {
+  const [name, setName] = useState('');
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
@@ -13,8 +16,7 @@ const ProfileScreen = () => {
           workouts={70}
           followers={54}
           following={14}
-          biography="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua."
+          biography="Hello I am Jerry."
         />
         <ProfileButtons
           id={0}
@@ -38,7 +40,6 @@ const styles = StyleSheet.create({
   content: {
     width: '100%',
     paddingLeft: 20,
-    paddingTop: 20,
     paddingRight: 20,
   },
   bioContainer: {
