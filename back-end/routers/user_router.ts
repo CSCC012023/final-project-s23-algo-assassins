@@ -170,6 +170,17 @@ userRouter.get("/find", async (req, res) => {
     return res.json(user);
 });
 
+// Used to search a user by name
+userRouter.get("/search/:name", async (req, res) => {
+    const name = req.param.name;
+    const user = await User.findOne({ name: name });
+    if (user === null) {
+        res.status(400).json({ message: "User not found" });
+        return;
+    }
+    return res.json(user);
+});
+
 // Used to delete a user by email
 userRouter.delete("/delete", async (req, res) => {
     const email = req.query.email;
