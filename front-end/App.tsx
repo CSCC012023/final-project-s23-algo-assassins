@@ -44,7 +44,6 @@ function App() {
           <Stack.Screen name="StartWorkout" component={StartWorkoutScreen} />
           <Stack.Screen name="AddExercise" component={AddExerciseScreen} />
           <Stack.Screen name="BottomSheet" component={BottomSheetScreen} />
-          <Stack.Screen name="SignUpIntro" component={SignUpIntroScreen} />
           <Stack.Screen name="CreateRoutine" component={CreateRoutineScreen} />
           <Stack.Screen
             name="RoutineAddExercise"
