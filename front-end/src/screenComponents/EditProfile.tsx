@@ -20,7 +20,7 @@ interface EditProfileProps {
 }
 
 const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
-  const {name, accountName, profileImage} = route.params;
+  const {name, accountName, biography, profileImage} = route.params;
 
   const showToastMessage = () => {
     Toast.show({text1: 'Edit Sucess!'});
@@ -39,6 +39,20 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
     setImage(res);
   };
 
+  // const saveHandler = async () => {
+  //   try {
+  //     // Make API calls to update the user's profile
+  //     await updateUser('name', name);
+  //     await updateUser('username', accountName);
+  //     await updateUser('biography', biography);
+
+  //     // Display a success message or perform any other actions after saving
+  //     console.log('Profile saved successfully!');
+  //   } catch (error) {
+  //     console.log('Error saving profile:', error);
+  //   }
+  // };
+
   React.useEffect(() => {
     console.log('Success');
     console.log(image);
@@ -53,6 +67,7 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
         <Text style={styles.title}>Edit Profile</Text>
         <TouchableOpacity
           onPress={() => {
+            // saveHandler();
             showToastMessage();
             navigation.goBack();
           }}>
@@ -63,7 +78,7 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
         <Image
           style={styles.profileImage}
           source={
-            image != undefined
+            image !== undefined
               ? {
                   uri: image.path,
                   height: image.height,
@@ -80,31 +95,44 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
           buttonStyle={[]}
           containerStyle={[]}
           contentStyle={[styles.changePhotoText]}
-          label={'Change profile photo'}></ImagePicker>
+          label={'Change profile photo'}
+        />
       </View>
       <View style={styles.inputSection}>
         <View>
           <Text style={styles.label}>Name</Text>
           <TextInput
+            // value={name}
             placeholder="name"
-            defaultValue={name}
+            // autoCorrect={false}
             style={styles.input}
           />
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Username</Text>
           <TextInput
+            // value={accountName}
             placeholder="account name"
             defaultValue={accountName}
+            autoCorrect={false}
+            autoCapitalize="none"
+            style={styles.input}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Bio</Text>
+          <TextInput
+            // value={biography}
+            placeholder="biography"
+            defaultValue={biography}
+            autoCorrect={false}
+            autoCapitalize="none"
             style={styles.input}
           />
         </View>
         {/* <View style={styles.inputContainer}>
           <TextInput placeholder="Website" style={styles.input} />
         </View> */}
-        <View style={styles.inputContainer}>
-          <TextInput placeholder="Bio" style={styles.input} />
-        </View>
       </View>
       <View style={styles.settingsContainer}>
         <Text style={styles.settingsOption}>Show badge on profile</Text>
