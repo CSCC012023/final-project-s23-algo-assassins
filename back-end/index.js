@@ -13,6 +13,7 @@ const express_session_1 = __importDefault(require("express-session"));
 const cors_1 = __importDefault(require("cors"));
 const exercise_router_1 = require("./routers/exercise_router");
 const workout_router_1 = require("./routers/workout_router");
+const routine_router_1 = require("./routers/routine_router");
 dotenv_1.default.config();
 exports.app = (0, express_1.default)();
 exports.app.use(body_parser_1.default.json());
@@ -44,6 +45,7 @@ exports.app.use((0, express_session_1.default)({
 exports.app.use("/api/users", user_router_1.userRouter);
 exports.app.use("/api/exercises", exercise_router_1.exerciseRouter);
 exports.app.use("/api/workouts", workout_router_1.workoutRouter);
+exports.app.use("/api/routines", routine_router_1.routineRouter);
 const port = process.env.PORT;
 exports.app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);

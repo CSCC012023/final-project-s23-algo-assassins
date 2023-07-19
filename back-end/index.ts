@@ -12,6 +12,8 @@ import { exerciseRouter } from './routers/exercise_router';
 
 import { workoutRouter } from './routers/workout_router';
 
+import { routineRouter } from './routers/routine_router';
+
 dotenv.config();
 
 export const app: Express = express();
@@ -57,6 +59,7 @@ declare module "express-session" {
 app.use("/api/users", userRouter);
 app.use("/api/exercises", exerciseRouter);
 app.use("/api/workouts", workoutRouter);
+app.use("/api/routines", routineRouter);
 
 const port = process.env.PORT;
 app.listen(port, () => {
