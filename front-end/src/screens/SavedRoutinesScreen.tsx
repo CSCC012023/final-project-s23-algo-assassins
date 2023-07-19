@@ -42,7 +42,7 @@ const RoutineItem = (props: {routine: Routine, navigate: Function}) => {
   );
 };
 
-const SavedRoutinesScreen = ({navigation: {navigate}}: Props) => {
+const SavedRoutinesScreen = ({navigation: {navigate, goBack}}: Props) => {
   const [search, setSearch] = useState('');
   const [routines, setRoutines] = React.useState<Routine[]>([]);
   const [filteredRoutines, setFilter] = React.useState<Routine[]>([]);
@@ -88,7 +88,7 @@ const SavedRoutinesScreen = ({navigation: {navigate}}: Props) => {
         ]}>
         <TouchableOpacity
           onPress={() => {
-            navigate('Workout');
+            goBack();
           }}>
           <MaterialIcons name={'arrow-back-ios'} size={20} color={'#000000'} />
         </TouchableOpacity>
