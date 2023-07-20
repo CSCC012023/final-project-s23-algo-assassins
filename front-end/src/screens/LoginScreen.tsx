@@ -102,7 +102,7 @@ const LoginScreen = ({ navigation }: Props) => {
         <AntDesign name="left" size={30} color="grey" />
       </TouchableOpacity>
       <View style={[styles.mg_h_16, styles.mg_v_8]}>
-        <Text style={[styles.mg_t_8, styles.font_inter_input]}>Username</Text>
+        <Text style={[styles.mg_t_8, styles.font_inter_input]}>Email</Text>
         <TextInput
           style={[styles.mg_b_8]}
           color="rgba(251, 142, 64, 0.5)"

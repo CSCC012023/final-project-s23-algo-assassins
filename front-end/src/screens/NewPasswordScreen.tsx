@@ -90,6 +90,7 @@ const NewPasswordScreen = ({ route, navigation }: Props) => {
                     variant="standard"
                     value={verification}
                     onChangeText={text => setVerification(text)}
+                    autoCapitalize="none"
                 />
                 <TextInput
                     style={[styles.textInputContainer]}
@@ -98,6 +99,8 @@ const NewPasswordScreen = ({ route, navigation }: Props) => {
                     variant="standard"
                     value={password}
                     onChangeText={text => setPassword(text)}
+                    autoCapitalize="none"
+                    secureTextEntry={true}
                 />
                 <TextInput
                     style={[styles.textInputContainer]}
@@ -106,6 +109,8 @@ const NewPasswordScreen = ({ route, navigation }: Props) => {
                     variant="standard"
                     value={confirmPassword}
                     onChangeText={text => setConfirmPassword(text)}
+                    autoCapitalize="none"
+                    secureTextEntry={true}
                 />
                 <Button
                     style={styles.buttonContainer}
