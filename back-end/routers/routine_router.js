@@ -41,7 +41,7 @@ exports.routineRouter.get('/get', (req, res) => __awaiter(void 0, void 0, void 0
         return res.status(400).json({ message: "User not found" });
     }
     Routine_1.Routine.find({ userId: user._id })
-        .sort({ date: -1 })
+        .sort({ name: 'asc' })
         .then((data) => {
         res.json(data);
     })
