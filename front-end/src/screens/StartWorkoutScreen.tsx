@@ -187,6 +187,7 @@ const ExerciseSets = (props: any) => {
               style={[styles.mg_v_8, {flex: 1}]}
               keyboardType="numeric"
               placeholder='0'
+              value={props.set.lbs.toString()}
               onChangeText={text => {
                 props.updateWeightReps(props.name, props.set.set, parseInt(text), reps),
                 setWeight(parseInt(text))}
@@ -198,6 +199,7 @@ const ExerciseSets = (props: any) => {
             style={[styles.mg_v_8, {flex: 1}]}
             keyboardType="numeric"
             placeholder='0'
+            value={props.set.reps.toString()}
             onChangeText={
               text => {props.updateWeightReps(props.name, props.set.set, weight, parseInt(text)),
               setReps(parseInt(text))}

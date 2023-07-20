@@ -27,6 +27,7 @@ export type RootStackParamList = {
   RoutineAddExercise: {
     navData: Dictionary<Exercise>;
   };
+  SavedRoutines: undefined;
 };
 
 export interface DummyScreenParams {

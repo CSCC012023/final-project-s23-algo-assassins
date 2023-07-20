@@ -32,7 +32,7 @@ routineRouter.get('/get', async (req, res) => {
     return res.status(400).json({ message: "User not found" });
   }
   Routine.find({ userId: user._id })
-      .sort({ date: -1 })
+      .sort({ name: 'asc' })
       .then((data: any) => {
         res.json(data);
       })

@@ -23,6 +23,7 @@ import HomeTabs from './src/screens/HomeTabs';
 import SettingsScreen from './src/screens/SettingsScreen';
 import CreateRoutineScreen from './src/screens/CreateRoutineScreen';
 import RoutineAddExerciseScreen from './src/screens/RoutineAddExerciseScreen';
+import SavedRoutinesScreen from './src/screens/SavedRoutinesScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -44,16 +45,27 @@ function App() {
           <Stack.Screen name="StartWorkout" component={StartWorkoutScreen} />
           <Stack.Screen name="AddExercise" component={AddExerciseScreen} />
           <Stack.Screen name="BottomSheet" component={BottomSheetScreen} />
+<<<<<<< HEAD
+=======
+          <Stack.Screen name="SignUpIntro" component={SignUpIntroScreen} />
+>>>>>>> main
           <Stack.Screen name="CreateRoutine" component={CreateRoutineScreen} />
           <Stack.Screen
             name="RoutineAddExercise"
             component={RoutineAddExerciseScreen}
           />
+<<<<<<< HEAD
+=======
+          <Stack.Screen name="SavedRoutines" component={SavedRoutinesScreen} />
+>>>>>>> main
           <Stack.Screen name="Profile" component={ProfileScreen} />
           <Stack.Screen name="EditProfile" component={EditProfile} />
           <Stack.Screen name="SignUp" component={SignUpScreen} />
           <Stack.Screen name="Settings" component={SettingsScreen} />
+<<<<<<< HEAD
           <Stack.Screen name="SignUpIntro" component={SignUpIntroScreen} />
+=======
+>>>>>>> main
           <Stack.Screen
             name="NewPasswordScreen"
             component={NewPasswordScreen}
