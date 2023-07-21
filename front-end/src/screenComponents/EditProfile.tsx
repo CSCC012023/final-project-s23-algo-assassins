@@ -65,7 +65,7 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            email: userEmail,
+            // email: userEmail,
             name: name,
           }),
         },
@@ -73,8 +73,10 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
       const data = await response.json();
       if (response.ok) {
         setSaveStatus(true);
+        console.log('response good');
       } else {
         setSaveStatus(false);
+        console.log('name error');
         const errorMessage = data.message || 'Failed to save name';
         Toast.show({
           type: 'error',
@@ -82,10 +84,11 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
           text2: errorMessage,
           position: 'bottom',
           // visibilityTime: 4000, // Adjust the duration as needed
-          autoHide: true,
+          // autoHide: true,
         });
       }
     } catch (error) {
+      console.log('error name');
       if (error instanceof Error) {
         Toast.show({
           type: 'error',
@@ -105,7 +108,7 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            email: userEmail,
+            // email: userEmail,
             username: accountName,
           }),
         },
@@ -113,6 +116,7 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
       const data = await response.json();
       if (response.ok) {
         setSaveStatus(true);
+        console.log('response good');
       } else {
         setSaveStatus(false);
         const errorMessage = data.message || 'Failed to save account name';
@@ -127,6 +131,7 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
       }
     } catch (error) {
       if (error instanceof Error) {
+        console.log('error user');
         Toast.show({
           type: 'error',
           text1: 'Saving error',
@@ -145,7 +150,7 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            email: userEmail,
+            // email: userEmail,
             biography: biography,
           }),
         },
@@ -153,6 +158,7 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
       const data = await response.json();
       if (response.ok) {
         setSaveStatus(true);
+        console.log('response good');
       } else {
         setSaveStatus(false);
         const errorMessage = data.message || 'Failed to save biography';
@@ -162,11 +168,12 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
           text2: errorMessage,
           position: 'bottom',
           // visibilityTime: 4000, // Adjust the duration as needed
-          autoHide: true,
+          // autoHide: true,
         });
       }
     } catch (error) {
       if (error instanceof Error) {
+        console.log('error bio');
         Toast.show({
           type: 'error',
           text1: 'Saving error',

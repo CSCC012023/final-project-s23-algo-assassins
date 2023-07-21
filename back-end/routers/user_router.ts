@@ -259,6 +259,87 @@ userRouter.patch("/update/height", async (req, res) => {
         });
 });
 
+// Used to update user's name by email
+userRouter.post("/update/name", async (req, res) => {
+    const find = req.session.user_email;
+    if (find === undefined) {
+        res.status(400).json({ message: "User not found" });
+        return;
+    }
+    if (req.body.name === undefined) {
+        res.status(400).json({ message: "name is required" });
+        return;
+    }
+    const user = await User.findOne({ email: find });
+    if (user === null) {
+        res.status(400).json({ message: "User not found" });
+        return;
+    }
+    user.name = req.body.name;
+    user
+        .save()
+        .then((data: any) => {
+            return res.json(data);
+        })
+        .catch((err: any) => {
+            return res.status(500).json({ message: err });
+        });
+});
+
+// Used to update user's username by email
+userRouter.post("/update/username", async (req, res) => {
+    const find = req.session.user_email;
+    if (find === undefined) {
+        res.status(400).json({ message: "User not found" });
+        return;
+    }
+    if (req.body.username === undefined) {
+        res.status(400).json({ message: "name is required" });
+        return;
+    }
+    const user = await User.findOne({ email: find });
+    if (user === null) {
+        res.status(400).json({ message: "User not found" });
+        return;
+    }
+    user.username = req.body.username;
+    user
+        .save()
+        .then((data: any) => {
+            return res.json(data);
+        })
+        .catch((err: any) => {
+            return res.status(500).json({ message: err });
+        });
+});
+
+// Used to update user's biography by email
+userRouter.post("/update/biography", async (req, res) => {
+    const find = req.session.user_email;
+    if (find === undefined) {
+        res.status(400).json({ message: "User not found" });
+        return;
+    }
+    if (req.body.biography === undefined) {
+        res.status(400).json({ message: "name is required" });
+        return;
+    }
+    const user = await User.findOne({ email: find });
+    if (user === null) {
+        res.status(400).json({ message: "User not found" });
+        return;
+    }
+    user.biography = req.body.biography;
+    user
+        .save()
+        .then((data: any) => {
+            return res.json(data);
+        })
+        .catch((err: any) => {
+            return res.status(500).json({ message: err });
+        });
+});
+
 // Used to update user's profile picture by email
 userRouter.post("/update/picture", upload.single("img"), (req, res) => {
     const find = req.session.user_email;
