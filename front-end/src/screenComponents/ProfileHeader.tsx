@@ -67,44 +67,47 @@ export const ProfileSetup: React.FC<ProfileSetupProps> = ({
       <View style={styles.bioContainer}>
         <Text style={styles.bioText}>{biography}</Text>
       </View>
+      <View style={styles.editProfileContainer}>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('EditProfile', {
+              name: name,
+              accountName: accountName,
+              biography: biography,
+              profileImage: profileImage,
+            })
+          }
+          style={styles.editProfileButton}>
+          <View style={styles.editProfileButtonContainer}>
+            <Text style={styles.editProfileButtonText}>Edit Profile</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
-interface ProfileButtonsProps {
-  id: number;
-  name: string;
-  accountName: string;
-  profileImage: ImageSourcePropType;
-}
+// interface ProfileButtonsProps {
+//   id: number;
+//   name: string;
+//   accountName: string;
+//   biography: string;
+//   profileImage: ImageSourcePropType;
+// }
 
-export const ProfileButtons: React.FC<ProfileButtonsProps> = ({
-  id,
-  name,
-  accountName,
-  profileImage,
-}) => {
-  const navigation = useNavigation();
-  // const [follow, setFollow] = useState<boolean>(false);
+// export const ProfileButtons: React.FC<ProfileButtonsProps> = ({
+//   id,
+//   name,
+//   accountName,
+//   profileImage,
+//   biography,
+// }) => {
+//   const navigation = useNavigation();
+//   // const [follow, setFollow] = useState<boolean>(false);
 
-  return (
-    <View style={styles.editProfileContainer}>
-      <TouchableOpacity
-        onPress={() =>
-          navigation.push('EditProfile', {
-            name: name,
-            accountName: accountName,
-            profileImage: profileImage,
-          })
-        }
-        style={styles.editProfileButton}>
-        <View style={styles.editProfileButtonContainer}>
-          <Text style={styles.editProfileButtonText}>Edit Profile</Text>
-        </View>
-      </TouchableOpacity>
-    </View>
-  );
-};
+//   return (
+//   );
+// };
 
 const styles = StyleSheet.create({
   header: {

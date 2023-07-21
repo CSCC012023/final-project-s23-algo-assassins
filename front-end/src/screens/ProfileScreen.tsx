@@ -1,29 +1,33 @@
 import React from 'react';
 import {useState} from 'react';
 import {StyleSheet, Text, View, SafeAreaView} from 'react-native';
-import {ProfileSetup, ProfileButtons} from '../screenComponents/ProfileHeader';
-import { Image } from 'react-native-elements';
+import {ProfileSetup} from '../screenComponents/ProfileHeader';
+import {Image} from 'react-native-elements';
 
-const ProfileScreen = () => {
-  const [name, setName] = useState('');
+interface ProfileScreenProps {
+  route: any;
+}
+
+const ProfileScreen: React.FC<ProfileScreenProps> = ({route}) => {
+  const {name, accountName, biography, profileImage} = route.params;
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         <ProfileSetup
-          name="Jerry Dang"
-          accountName="j.d_splash"
-          profileImage={require('../assets/images/levi_pfp.png')}
+          name={name}
+          accountName={accountName}
+          profileImage={profileImage}
           workouts={70}
           followers={54}
           following={14}
-          biography="Hello I am Jerry."
+          biography={biography}
         />
-        <ProfileButtons
+        {/* <ProfileButtons
           id={0}
           name=""
           accountName=""
           profileImage={require('../assets/images/levi_pfp.png')}
-        />
+        /> */}
       </View>
       <View style={styles.bioContainer}>
         <Text>Progress Data</Text>
