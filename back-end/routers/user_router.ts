@@ -21,7 +21,7 @@ userRouter.post('/send/verification', async (req, res) => {
         service: 'Gmail',
         auth: {
             user: 'algoassassins@gmail.com',
-            pass: 'zchdrxzgkermwgah'
+            pass: 'yrnsoldxecwdubxx'
         }
     });
     const mailOptions = {

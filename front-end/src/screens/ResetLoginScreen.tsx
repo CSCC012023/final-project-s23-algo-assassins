@@ -104,6 +104,7 @@ const ResetLoginScreen: React.FC<ResetLoginScreenProps> = ({ navigation }) => {
           variant="standard"
           value={email} // Bind the value to the 'email' state
           onChangeText={text => setEmail(text)}
+          autoCapitalize="none"
         />
         <Button
           title="Send Password Reset"

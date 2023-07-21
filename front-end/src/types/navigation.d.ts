@@ -17,9 +17,17 @@ export type RootStackParamList = {
   };
   Profile: undefined;
   EditProfile: undefined;
+  Settings: undefined;
   ResetLogin: undefined;
   NewPasswordScreen: { email: string, key: string };
   LandingScreen: any;
+  CreateRoutine: {
+    navData: Dictionary<Exercise>;
+  };
+  RoutineAddExercise: {
+    navData: Dictionary<Exercise>;
+  };
+  SavedRoutines: undefined;
 };
 
 export interface DummyScreenParams {

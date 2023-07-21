@@ -27,3 +27,12 @@ export type MuscleGroup = {
   muscle: string;
   exercises: Exercise[];
 };
+
+export type Routine = {
+  _id: string;
+  userId: string;
+  name: string;
+  description: string;
+  exercises: string[];
+  __v: number;
+}
