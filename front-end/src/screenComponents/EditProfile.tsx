@@ -53,7 +53,7 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
   };
 
   const handleSave = async () => {
-    const userEmail = 'j@gmail.com';
+    const userEmail = 'selina99tran@gmail.com';
 
     // Updating name
     try {
@@ -184,27 +184,9 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            email: userEmail,
-            img: profileImage,
-          }),
         },
       );
-      const data = await response.json();
-      if (response.ok) {
-        setSaveStatus(true);
-      } else {
-        setSaveStatus(false);
-        const errorMessage = data.message || 'Failed to save profile image';
-        Toast.show({
-          type: 'error',
-          text1: 'Saving profile image error',
-          text2: errorMessage,
-          position: 'bottom',
-          // visibilityTime: 4000, // Adjust the duration as needed
-          autoHide: true,
-        });
-      }
+      console.log(response);
     } catch (error) {
       if (error instanceof Error) {
         Toast.show({

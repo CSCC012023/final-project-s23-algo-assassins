@@ -1,27 +1,31 @@
-import React from 'react';
-import {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, SafeAreaView} from 'react-native';
 import {ProfileSetup} from '../screenComponents/ProfileHeader';
 import {Image} from 'react-native-elements';
+import {getUser} from '../utils/user';
+import {User} from '../types/user';
 
 interface ProfileScreenProps {
   route: any;
 }
 
-const ProfileScreen: React.FC<ProfileScreenProps> = ({route}) => {
-  const {name, accountName, biography, profileImage} = route.params;
+const ProfileScreen: React.FC<ProfileScreenProps> = () => {
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    const queryUser = async () => {
+      const user_: User | undefined = await getUser();
+      if (user_ !== undefined) {
+        setUser(user_);
+      }
+    };
+
+    queryUser();
+  }, []);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <ProfileSetup
-          name={name}
-          accountName={accountName}
-          profileImage={profileImage}
-          workouts={70}
-          followers={54}
-          following={14}
-          biography={biography}
-        />
+        <ProfileSetup />
         {/* <ProfileButtons
           id={0}
           name=""
