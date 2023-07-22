@@ -20,7 +20,7 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const multer_1 = __importDefault(require("multer"));
 const path_1 = __importDefault(require("path"));
 exports.userRouter = (0, express_1.Router)();
-exports.userRouter.post('/send/verification', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.userRouter.post("/send/verification", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // Generate token here and send an email
     const { email, key } = req.body;
     // Find user by email
@@ -31,32 +31,34 @@ exports.userRouter.post('/send/verification', (req, res) => __awaiter(void 0, vo
     }
     // Create mail with options
     const mailer = nodemailer_1.default.createTransport({
-        service: 'Gmail',
+        service: "Gmail",
         auth: {
-            user: 'algoassassins@gmail.com',
-            pass: 'yrnsoldxecwdubxx'
-        }
+            user: "algoassassins@gmail.com",
+            pass: "yrnsoldxecwdubxx",
+        },
     });
     const mailOptions = {
-        from: 'algoassassins@gmail.com',
+        from: "algoassassins@gmail.com",
         to: email,
-        subject: 'Email Verification',
-        text: 'Enter the following code to verify your email: ' + key
+        subject: "Email Verification",
+        text: "Enter the following code to verify your email: " + key,
     };
     // Send the mail
     mailer.sendMail(mailOptions, (error, info) => {
         if (error) {
-            console.error('Error sending email:', error);
-            res.status(500).json({ message: 'Failed to send verification email' });
+            console.error("Error sending email:", error);
+            res.status(500).json({ message: "Failed to send verification email" });
             return;
         }
         else {
-            res.status(200).json({ message: 'Verification email sent successfully' });
+            res
+                .status(200)
+                .json({ message: "Verification email sent successfully" });
             return;
         }
     });
 }));
-exports.userRouter.post('/password/reset', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.userRouter.post("/password/reset", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password, confirmPassword } = req.body;
     // Password validation
     if (password.length < 6 || password != confirmPassword) {
@@ -74,7 +76,8 @@ exports.userRouter.post('/password/reset', (req, res) => __awaiter(void 0, void 
     const salt = bcrypt_1.default.genSaltSync(saltRounds);
     const pass = bcrypt_1.default.hashSync(password, salt);
     user.password = pass;
-    user.save()
+    user
+        .save()
         .then((data) => {
         res.status(200).json({ message: "Password updated" });
         return;
@@ -169,6 +172,16 @@ exports.userRouter.get("/me", (req, res) => __awaiter(void 0, void 0, void 0, fu
 exports.userRouter.get("/find", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const email = req.query.email;
     const user = yield User_1.User.findOne({ email: email });
+    if (user === null) {
+        res.status(400).json({ message: "User not found" });
+        return;
+    }
+    return res.json(user);
+}));
+// Used to search a user by name
+exports.userRouter.get("/search/:name", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const name = req.param.name;
+    const user = yield User_1.User.findOne({ name: name });
     if (user === null) {
         res.status(400).json({ message: "User not found" });
         return;
