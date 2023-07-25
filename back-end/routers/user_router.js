@@ -92,6 +92,7 @@ const upload = (0, multer_1.default)({ dest: "uploads/" });
 // Requires email, password, name of user
 // Signup the user and create session for user
 exports.userRouter.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("signup reached");
     if (req.body.password === undefined) {
         res.status(400).json({ message: "Password is required" });
         return;
@@ -133,6 +134,7 @@ exports.userRouter.post("/signup", (req, res) => __awaiter(void 0, void 0, void 
 // Log in the user and creates a session
 // check if null = undefined, could be empty stringss
 exports.userRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("login reached");
     if (req.body.password === undefined) {
         res.status(400).json({ message: "Password Required" });
         return;
@@ -319,6 +321,7 @@ exports.userRouter.get("/img", (req, res) => {
 exports.userRouter.patch("/create/follow", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const followed = req.body.followed_email;
     const follower = req.body.follower_email;
+    console.log("create follow reached");
     if (followed === undefined || follower === undefined) {
         res
             .status(400)
@@ -384,4 +387,21 @@ exports.userRouter.patch("/remove/follow", (req, res) => __awaiter(void 0, void 
         .catch((err) => {
         return res.status(500).json({ message: err });
     });
+}));
+// User's friends
+// friend is where another user is in both following and followers
+exports.userRouter.get("/friends", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("friends reached");
+    const email = req.query.email;
+    if (email === undefined) {
+        res.status(400).json({ message: "Email is required" });
+        return;
+    }
+    const user = yield User_1.User.findOne({ email: email });
+    if (user === null) {
+        res.status(400).json({ message: "User not found" });
+        return;
+    }
+    const friends = user.following.filter((email) => user.followers.includes(email));
+    return res.json(friends);
 }));
