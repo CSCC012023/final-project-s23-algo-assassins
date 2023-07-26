@@ -46,12 +46,19 @@ function App() {
           <Stack.Screen name="AddExercise" component={AddExerciseScreen} />
           <Stack.Screen name="BottomSheet" component={BottomSheetScreen} />
           <Stack.Screen name="SignUpIntro" component={SignUpIntroScreen} />
-          <Stack.Screen name="CreateRoutine" component={CreateRoutineScreen}/>
-          <Stack.Screen name="RoutineAddExercise" component={RoutineAddExerciseScreen}/>
+          <Stack.Screen name="CreateRoutine" component={CreateRoutineScreen} />
+          <Stack.Screen
+            name="RoutineAddExercise"
+            component={RoutineAddExerciseScreen}
+          />
           <Stack.Screen name="Profile" component={ProfileScreen} />
           <Stack.Screen name="EditProfile" component={EditProfile} />
           <Stack.Screen name="SignUp" component={SignUpScreen} />
-          <Stack.Screen name="NewPasswordScreen" component={NewPasswordScreen} />
+          <Stack.Screen
+            name="NewPasswordScreen"
+            component={NewPasswordScreen}
+          />
+          <Stack.Screen name="Settings" component={SettingsScreen} />
         </Stack.Navigator>
       </NavigationContainer>
       <Toast />

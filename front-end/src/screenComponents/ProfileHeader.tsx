@@ -96,6 +96,13 @@ export const ProfileSetup = () => {
             <Text style={styles.editProfileButtonText}>Edit Profile</Text>
           </View>
         </TouchableOpacity>
+        <View style={styles.badgeContainer}>
+          <Text style={styles.badgeText}>Badge</Text>
+          <Image
+            style={styles.badgeSize}
+            source={require('../assets/images/immortal.png')}
+          />
+        </View>
       </View>
     </View>
   );
@@ -137,7 +144,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     fontFamily: 'Inter-Light',
-    paddingLeft: 15,
+    // paddingLeft: 15,
   },
   chevronDownIcon: {
     fontSize: 20,
@@ -152,13 +159,12 @@ const styles = StyleSheet.create({
   headerIcon: {
     fontSize: 25,
     padding: 10,
-    paddingRight: 15,
+    // paddingRight: 15,
     color: '#FB8E40',
   },
   profileInfo: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingLeft: 15,
   },
   profileImageContainer: {
     alignItems: 'center',
@@ -181,7 +187,7 @@ const styles = StyleSheet.create({
   },
   infoItem: {
     alignItems: 'center',
-    padding: 10,
+    padding: 13,
   },
   infoCount: {
     fontWeight: 'bold',
@@ -196,10 +202,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   editProfileContainer: {
-    width: '28%',
+    width: '50%',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
     paddingVertical: 5,
   },
   editProfileButton: {
@@ -221,7 +227,16 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
   badgeContainer: {
-    paddingLeft: 10,
+    paddingLeft: 70,
+    alignItems: 'center',
+  },
+  badgeSize: {
+    width: 32,
+    height: 32,
+  },
+  badgeText: {
+    opacity: 0.6,
+    fontFamily: 'Inter-Regular',
   },
   //   profileButtonsContainer: {
   //     width: '100%',

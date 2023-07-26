@@ -13,6 +13,7 @@ import Toast from 'react-native-toast-message';
 import {useState} from 'react';
 import ImagePicker from '../components/imagePicker/ImagePicker';
 import {ImageOrVideo} from 'react-native-image-crop-picker';
+import {useCallback} from 'react';
 
 interface EditProfileProps {
   route: any;
@@ -27,6 +28,12 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
     profileImage: initialProfileImage,
   } = route.params;
 
+  const handleGoBackDelayed = useCallback(() => {
+    setTimeout(() => {
+      navigation.goBack();
+    }, 2000);
+  }, [navigation]);
+
   const [name, setName] = useState(initialName);
   const [accountName, setAccountName] = useState(initialAccountName);
   const [biography, setBiography] = useState(initialBiography);
@@ -38,6 +45,8 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
   };
 
   const [saveStatus, setSaveStatus] = React.useState(false);
+  const formData = new FormData();
+  formData.append('img', profileImage);
 
   const [isToggled, setIsToggled] = useState(false);
 
@@ -54,6 +63,7 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
 
   const handleSave = async () => {
     const userEmail = 'selina99tran@gmail.com';
+    const image = require('../assets/images/levi_pfp.png');
 
     // Updating name
     try {
@@ -191,6 +201,7 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
           headers: {
             'Content-Type': 'application/json',
           },
+          body: formData,
         },
       );
       console.log(response);
@@ -205,15 +216,15 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
       }
     }
     // Pass back the variables to Profile Screen
-    if (saveStatus) {
-      navigation.navigate('ProfileScreen', {
-        name,
-        accountName,
-        biography,
-        profileImage,
-      });
-      showToastMessage();
-    }
+    // if (saveStatus) {
+    //   navigation.navigate('ProfileScreen', {
+    //     name,
+    //     accountName,
+    //     biography,
+    //     profileImage,
+    //   });
+    //   showToastMessage();
+    // }
   };
 
   React.useEffect(() => {
@@ -231,7 +242,7 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
         <TouchableOpacity
           onPress={() => {
             handleSave();
-            navigation.goBack();
+            handleGoBackDelayed();
           }}>
           <Ionicons name="checkmark" style={styles.checkmarkIcon} />
         </TouchableOpacity>

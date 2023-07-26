@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, SafeAreaView} from 'react-native';
 import {ProfileSetup} from '../screenComponents/ProfileHeader';
+import {useIsFocused} from '@react-navigation/native';
 import {Image} from 'react-native-elements';
 import {getUser} from '../utils/user';
 import {User} from '../types/user';
@@ -11,17 +12,44 @@ interface ProfileScreenProps {
 
 const ProfileScreen: React.FC<ProfileScreenProps> = () => {
   const [user, setUser] = useState({});
+  const isFocused = useIsFocused();
+
+  const queryUser = async () => {
+    console.log('fetching user');
+    const user_: User | undefined = await getUser();
+    if (user_ !== undefined) {
+      console.log('user found');
+      setUser(user_);
+    }
+  };
 
   useEffect(() => {
-    const queryUser = async () => {
-      const user_: User | undefined = await getUser();
-      if (user_ !== undefined) {
-        setUser(user_);
-      }
-    };
+    if (isFocused) {
+      console.log('called');
+      queryUser().catch(error => {
+        console.error('Error fetching user data:', error);
+      });
+    }
+  }, [isFocused]);
 
-    queryUser();
-  }, []);
+  // const [user, setUser] = useState<User | undefined>(undefined);
+
+  // const fetchUser = async () => {
+  //   const user_ = await getUser();
+  //   if (user_) {
+  //     setUser(user_);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   // Fetch user data initially
+  //   fetchUser();
+
+  //   // Setup interval to refresh user data every second (1000 ms)
+  //   const intervalId = setInterval(fetchUser, 1000);
+
+  //   // Cleanup the interval when the component unmounts
+  //   return () => clearInterval(intervalId);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
