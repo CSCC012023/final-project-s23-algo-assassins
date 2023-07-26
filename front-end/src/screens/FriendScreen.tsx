@@ -43,10 +43,17 @@ const FriendScreen = ({navigation}) => {
     }
   }, [userEmail]);
 
-  // print out the friends
-  useEffect(() => {
-    console.log(friends);
-  }, [friends]);
+  // Function to handle Follow action for a friend
+  const handleFollow = friend => {
+    // Implement your logic to follow the friend
+    console.log('Follow', friend);
+  };
+
+  // Function to handle Unfollow action for a friend
+  const handleUnfollow = friend => {
+    // Implement your logic to unfollow the friend
+    console.log('Unfollow', friend);
+  };
 
   return (
     <SafeAreaView style={styles.bg_white}>
@@ -63,9 +70,21 @@ const FriendScreen = ({navigation}) => {
       <View style={styles.friendsContainer}>
         {friends.length > 0 ? (
           friends.map((friend, index) => (
-            <Text key={index} style={styles.friendsText}>
-              {friend}
-            </Text>
+            <View key={index} style={styles.friendRow}>
+              <Text style={styles.friendsText}>{friend}</Text>
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity
+                  style={styles.followButton}
+                  onPress={() => handleFollow(friend)}>
+                  <Text style={styles.buttonText}>Follow</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.unfollowButton}
+                  onPress={() => handleUnfollow(friend)}>
+                  <Text style={styles.buttonText}>Unfollow</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
           ))
         ) : (
           <Text style={styles.friendsText}>No friends found.</Text>
@@ -104,6 +123,31 @@ const styles = StyleSheet.create({
   friendsText: {
     fontSize: 18,
     color: 'black',
-    marginVertical: 5, // Add some vertical margin between each friend
+    marginVertical: 5,
+  },
+  friendRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    marginLeft: 10,
+  },
+  followButton: {
+    backgroundColor: 'blue',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 5,
+    marginRight: 5,
+  },
+  unfollowButton: {
+    backgroundColor: 'red',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
   },
 });
