@@ -43,16 +43,48 @@ const FriendScreen = ({navigation}) => {
     }
   }, [userEmail]);
 
-  // Function to handle Follow action for a friend
+  // Follow
   const handleFollow = friend => {
-    // Implement your logic to follow the friend
-    console.log('Follow', friend);
+    // Replace "http://10.0.0.106:3000" with  localhost
+    fetch('http://10.0.0.106:3000/api/users/create/follow', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        followed_email: friend, // friend's email to follow
+        follower_email: userEmail, // currently logged-in user's email
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Followed', friend);
+      })
+      .catch(error => {
+        console.error('Error following friend:', error);
+      });
   };
 
-  // Function to handle Unfollow action for a friend
+  // Unfollow
   const handleUnfollow = friend => {
-    // Implement your logic to unfollow the friend
-    console.log('Unfollow', friend);
+    // Replace "http://10.0.0.106:3000" with localhost
+    fetch('http://10.0.0.106:3000/api/users/remove/follow', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        followed_email: friend, // The friend's email to unfollow
+        follower_email: userEmail,
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Unfollowed', friend);
+      })
+      .catch(error => {
+        console.error('Error unfollowing friend:', error);
+      });
   };
 
   return (
@@ -117,8 +149,8 @@ const styles = StyleSheet.create({
   },
   friendsContainer: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'flex-start',
+    marginLeft: 13,
   },
   friendsText: {
     fontSize: 18,
