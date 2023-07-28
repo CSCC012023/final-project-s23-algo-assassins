@@ -334,6 +334,10 @@ exports.userRouter.patch("/create/follow", (req, res) => __awaiter(void 0, void 
         res.status(400).json({ message: "A user is not found" });
         return;
     }
+    if (user1.followers.includes(user2.email)) {
+        res.status(400).json({ message: "User already followed" });
+        return;
+    }
     user1.followers.push(user2.email);
     user2.following.push(user1.email);
     user1

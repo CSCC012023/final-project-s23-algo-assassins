@@ -17,7 +17,7 @@ const FriendScreen = ({navigation}) => {
 
   // Function to get the currently logged-in user's email
   const getCurrentUserEmail = async () => {
-    // Replace "http://10.0.0.106:3000" with localhost
+    // Replace "10.0.0.106" with localhost
     fetch('http://10.0.0.106:3000/api/users/me')
       .then(response => response.json())
       .then(data => {
@@ -35,7 +35,7 @@ const FriendScreen = ({navigation}) => {
   useEffect(() => {
     // Fetch friends of the currently logged-in user
     if (userEmail) {
-      // Replace "http://10.0.0.106:3000" with localhost
+      // Replace "10.0.0.106" with localhost
       fetch(`http://10.0.0.106:3000/api/users/friends?email=${userEmail}`)
         .then(response => response.json())
         .then(data => setFriends(data))
@@ -45,7 +45,7 @@ const FriendScreen = ({navigation}) => {
 
   // Follow
   const handleFollow = friend => {
-    // Replace "http://10.0.0.106:3000" with  localhost
+    // Replace "10.0.0.106" with localhost
     fetch('http://10.0.0.106:3000/api/users/create/follow', {
       method: 'PATCH',
       headers: {
@@ -67,7 +67,7 @@ const FriendScreen = ({navigation}) => {
 
   // Unfollow
   const handleUnfollow = friend => {
-    // Replace "http://10.0.0.106:3000" with localhost
+    // Replace "10.0.0.106" with localhost
     fetch('http://10.0.0.106:3000/api/users/remove/follow', {
       method: 'PATCH',
       headers: {
@@ -166,14 +166,14 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   followButton: {
-    backgroundColor: 'blue',
+    backgroundColor: '#007AFF',
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 5,
     marginRight: 5,
   },
   unfollowButton: {
-    backgroundColor: 'red',
+    backgroundColor: '#f88044',
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 5,

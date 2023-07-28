@@ -41,8 +41,7 @@ const ProfileScreen = ({navigation}) => {
       <View style={styles.bioContainer}>
         <TouchableOpacity
           style={styles.button}
-          onPress={handleFriendsButtonPress} // Call the handleFriendsButtonPress function when the button is pressed
-        >
+          onPress={handleFriendsButtonPress}>
           <Text style={styles.buttonText}>View Friends</Text>
         </TouchableOpacity>
       </View>
@@ -56,7 +55,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   content: {
-    width: '100%',
+    width: '130%',
     paddingLeft: 20,
     paddingRight: 20,
   },
@@ -65,8 +64,9 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#007AFF',
+    width: '35%',
     paddingVertical: 12,
-    paddingHorizontal: 24,
+    paddingHorizontal: 10,
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
