@@ -3,6 +3,7 @@ import {useState} from 'react';
 import {StyleSheet, Text, View, SafeAreaView} from 'react-native';
 import {ProfileSetup, ProfileButtons} from '../screenComponents/ProfileHeader';
 import { Image } from 'react-native-elements';
+import ProgressChart from '../components/progressChart/ProgressChart';
 
 const ProfileScreen = () => {
   const [name, setName] = useState('');
@@ -27,6 +28,7 @@ const ProfileScreen = () => {
       </View>
       <View style={styles.bioContainer}>
         <Text>Progress Data</Text>
+        <ProgressChart></ProgressChart>
       </View>
     </SafeAreaView>
   );
