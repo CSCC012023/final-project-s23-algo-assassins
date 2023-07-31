@@ -1,7 +1,7 @@
 import {StyleSheet, View, Dimensions} from 'react-native';
 import React from 'react';
 import {BarChart} from 'react-native-gifted-charts';
-import {Button} from '@react-native-material/core';
+import {Button, Text} from '@react-native-material/core';
 
 type WorkoutProgress = {
   createdAt: Date;
@@ -28,7 +28,7 @@ const GetBarChartData = (
       value: d[key],
       label: label,
       spacing: 2,
-      labelWidth: 24,
+      labelWidth: 32,
       frontColor: '#3761f895',
     };
   });
@@ -63,27 +63,30 @@ const ProgressChart = () => {
     setDisplay([...data[i]]);
     setIndex(i);
   };
-
+  
   return (
     <View>
       <View style={[styles.modal]}>
         <View style={[styles.content]}>
-          {isReady ? (
+          {isReady && display.length ? (
             <BarChart
               data={display}
-              width={Dimensions.get('window').width * -40}
+              width={Dimensions.get('window').width-80}
               barWidth={8}
               spacing={24}
               roundedTop
               roundedBottom
               hideRules
-              xAxisThickness={1}
+              xAxisThickness={0}
               yAxisThickness={0}
               noOfSections={3}
               maxValue={Math.max(...display.map((d: any) => d.value)) + 10}
               isAnimated
             />
-          ) : undefined}
+          ) : isReady && !display.length ? (
+            <Text style={[styles.noData]}>No data</Text>
+          ) : undefined
+        }
         </View>
       </View>
       <View style={[styles.modal]}>
@@ -118,6 +121,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     marginTop: 8,
+    paddingRight: 20,
   },
   content: {
     flex: 1,
@@ -125,7 +129,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderColor: '#aaa',
     paddingBottom: 40,
-    marginRight: 20,
     height: 280,
   },
   btn: {
@@ -134,6 +137,11 @@ const styles = StyleSheet.create({
     width: 50,
     color: '#000'
   },
+  noData: {
+    marginTop: '33%',
+    color: '#aaa',
+    textAlign: 'center',
+  }
 });
 
 export default ProgressChart;
