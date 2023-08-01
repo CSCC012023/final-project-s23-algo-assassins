@@ -113,7 +113,7 @@ const HomeScreen = () => {
       return null;
     }
     if (userData) {
-      const userDisplayName = `${userData.name} (${userData.email})`;
+      const userDisplayName = userData.email;
       return (
         <View style={[styles.dropdown, styles.dropdownPosition]}>
           <Text style={styles.dropdownText}>User</Text>
