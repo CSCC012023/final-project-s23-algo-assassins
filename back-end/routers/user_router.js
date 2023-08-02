@@ -101,6 +101,14 @@ exports.userRouter.post("/signup", (req, res) => __awaiter(void 0, void 0, void 
         res.status(400).json({ message: "Name is required" });
         return;
     }
+    if (req.body.username === undefined) {
+        res.status(400).json({ message: "Username is required" });
+        return;
+    }
+    if (req.body.img === undefined) {
+        res.status(400).json({ message: "Image is required" });
+        return;
+    }
     // Hashing password here
     const saltRounds = 10;
     const salt = bcrypt_1.default.genSaltSync(saltRounds);
@@ -109,6 +117,7 @@ exports.userRouter.post("/signup", (req, res) => __awaiter(void 0, void 0, void 
         name: req.body.name,
         email: req.body.email,
         password: password,
+        username: req.body.username,
         img: { path: null, contentType: null },
         age: 0,
         weight: 0,

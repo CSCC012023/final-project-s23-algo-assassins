@@ -22,7 +22,7 @@ const UserSchema = new mongoose_1.default.Schema({
     },
     img: {
         type: Object,
-        required: true,
+        // required: true,
     },
     password: {
         type: String,
