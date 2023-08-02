@@ -55,7 +55,7 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
     }
 
     try {
-      const response = await fetch('http://10.0.0.106:3000/api/users/signup?', {
+      const response = await fetch('http://localhost:3000/api/users/signup?', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
