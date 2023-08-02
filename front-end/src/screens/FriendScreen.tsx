@@ -17,8 +17,8 @@ const FriendScreen = ({navigation}) => {
 
   // Function to get the currently logged-in user's email
   const getCurrentUserEmail = async () => {
-    // Replace "10.0.0.106" with localhost
-    fetch('http://10.0.0.106:3000/api/users/me')
+    // Replace with localhost
+    fetch('http://localhost:3000/api/users/me')
       .then(response => response.json())
       .then(data => {
         if (data.email) {
@@ -35,8 +35,8 @@ const FriendScreen = ({navigation}) => {
   useEffect(() => {
     // Fetch friends of the currently logged-in user
     if (userEmail) {
-      // Replace "10.0.0.106" with localhost
-      fetch(`http://10.0.0.106:3000/api/users/friends?email=${userEmail}`)
+      // Replace  with localhost
+      fetch(`http://localhost:3000/api/users/friends?email=${userEmail}`)
         .then(response => response.json())
         .then(data => setFriends(data))
         .catch(error => console.error('Error fetching friends:', error));
@@ -45,8 +45,8 @@ const FriendScreen = ({navigation}) => {
 
   // Follow
   const handleFollow = friend => {
-    // Replace "10.0.0.106" with localhost
-    fetch('http://10.0.0.106:3000/api/users/create/follow', {
+    // Replace with localhost
+    fetch('http://localhost:3000/api/users/create/follow', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -67,8 +67,8 @@ const FriendScreen = ({navigation}) => {
 
   // Unfollow
   const handleUnfollow = friend => {
-    // Replace "10.0.0.106" with localhost
-    fetch('http://10.0.0.106:3000/api/users/remove/follow', {
+    // Replace with localhost
+    fetch('http://localhost:3000/api/users/remove/follow', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
