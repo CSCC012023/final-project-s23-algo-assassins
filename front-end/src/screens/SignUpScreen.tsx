@@ -62,8 +62,10 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
         },
         body: JSON.stringify({
           name: userName,
+          username: userName,
           email: email,
           password: password,
+          img: 'https://i.imgur.com/0y8Ftya.png',
         }),
       });
 
