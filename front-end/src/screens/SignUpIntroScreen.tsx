@@ -33,7 +33,7 @@ const SignUpScreen: React.FC<SignUpIntroScreenProps> = ({navigation}) => {
   const updateAge = async (age: number) => {
     try {
       const response = await fetch(
-        'http://10.0.0.106:3000/api/users/update/age',
+        'http://localhost:3000/api/users/update/age',
         {
           method: 'PATCH',
           headers: {
@@ -67,7 +67,7 @@ const SignUpScreen: React.FC<SignUpIntroScreenProps> = ({navigation}) => {
   const updateHeight = async (user_height: number) => {
     try {
       const response = await fetch(
-        'http://10.0.0.106:3000/api/users/update/height',
+        'http://localhost:3000/api/users/update/height',
         {
           method: 'PATCH',
           headers: {
@@ -101,7 +101,7 @@ const SignUpScreen: React.FC<SignUpIntroScreenProps> = ({navigation}) => {
   const updateWeight = async (weight: number) => {
     try {
       const response = await fetch(
-        'http://10.0.0.106:3000/api/users/update/weight',
+        'http://localhost:3000/api/users/update/weight',
         {
           method: 'PATCH',
           headers: {

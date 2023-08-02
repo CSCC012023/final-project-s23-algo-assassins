@@ -85,42 +85,41 @@ const upload = multer({ dest: "uploads/" });
 // Requires email, password, name of user
 // Signup the user and create session for user
 userRouter.post("/signup", async (req, res) => {
-  console.log("signup reached");
-  if (req.body.password === undefined) {
-    res.status(400).json({ message: "Password is required" });
-    return;
-  }
-  if (req.body.email === undefined) {
-    res.status(400).json({ message: "Email is required" });
-    return;
-  }
-  if (req.body.name === undefined) {
-    res.status(400).json({ message: "Name is required" });
-    return;
-  }
-  // Hashing password here
-  const saltRounds = 10;
-  const salt = bcrypt.genSaltSync(saltRounds);
-  const password = bcrypt.hashSync(req.body.password, salt);
-  const user = new User({
-    name: req.body.name,
-    email: req.body.email,
-    password: password,
-    img: { path: null, contentType: null },
-    age: 0,
-    weight: 0,
-    height: 0,
-    followers: [],
-    following: [],
-  });
-  req.session.user_email = user.email;
-  user
-    .save()
-    .then((data: any) => {
-      return res.json(data);
-    })
-    .catch((err: any) => {
-      return res.status(500).json({ message: err });
+    if (req.body.password === undefined) {
+        res.status(400).json({ message: "Password is required" });
+        return;
+    }
+    if (req.body.email === undefined) {
+        res.status(400).json({ message: "Email is required" });
+        return;
+    }
+    if (req.body.name === undefined) {
+        res.status(400).json({ message: "Name is required" });
+        return;
+    }
+    if(req.body.username === undefined) {
+        res.status(400).json({ message: "Username is required" });
+        return;
+    }
+    if(req.body.img === undefined) {
+        res.status(400).json({ message: "Image is required" });
+        return;
+    }
+    // Hashing password here
+    const saltRounds = 10;
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const password = bcrypt.hashSync(req.body.password, salt);
+    const user = new User({
+        name: req.body.name,
+        email: req.body.email,
+        password: password,
+        username: req.body.username,
+        img: { path: null, contentType: null },
+        age: 0,
+        weight: 0,
+        height: 0,
+        followers: [],
+        following: [],
     });
 });
 

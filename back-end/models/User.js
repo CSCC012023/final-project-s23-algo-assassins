@@ -12,21 +12,21 @@ const UserSchema = new mongoose_1.default.Schema({
     },
     username: {
         type: String,
-        required: false,
+        required: true,
         unique: true,
     },
     email: {
         type: String,
         required: true,
-        unique: true,
+        unique: true
     },
     img: {
         type: Object,
-        required: false, //was required
+        // required: true,
     },
     password: {
         type: String,
-        required: true,
+        required: true
     },
     age: {
         type: Number,
