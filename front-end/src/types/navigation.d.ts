@@ -16,7 +16,7 @@ export type RootStackParamList = {
     navData: Dictionary<Exercise>;
   };
   Profile: undefined;
-  EditProfile: undefined;
+  EditProfileScreen: undefined;
   Settings: undefined;
   ResetLogin: undefined;
   NewPasswordScreen: {email: string; key: string};

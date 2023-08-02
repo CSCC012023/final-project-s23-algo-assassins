@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import {useNavigation, NavigationProp} from '@react-navigation/native';
+import {useNavigation, NavigationProp, useIsFocused} from '@react-navigation/native';
 import {RootStackParamList} from '../types/navigation';
 import {User} from '../types/user';
 import {getUser} from '../utils/user';
@@ -10,6 +10,33 @@ export const ProfileSetup = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const [user, setUser] = useState({});
+  const isFocused = useIsFocused();
+
+  const queryUser = async () => {
+    console.log('fetching user');
+    const user_: User | undefined = await getUser();
+    if (user_ !== undefined) {
+      console.log('user found');
+      setUser(user_);
+      setName(user_.name);
+      setAccountName(user_.username);
+      setProfileImage(user_.img);
+      setBiography(user_.biography ? user_.biography : '');
+      // setWorkouts(user_.workouts ? user_.workouts : 0);
+      setFollowers(user_.followers ? user_.followers.length : 0);
+      setFollowing(user_.following ? user_.following.length : 0);
+    }
+  };
+
+  useEffect(() => {
+    if (isFocused) {
+      console.log('called');
+      queryUser().catch(error => {
+        console.error('Error fetching user data:', error);
+      });
+    }
+  }, [isFocused]);
+
   const [name, setName] = useState<string>('Loading...');
   const [accountName, setAccountName] = useState<string>('Loading...');
   const [profileImage, setProfileImage] = useState<any>(
@@ -19,24 +46,6 @@ export const ProfileSetup = () => {
   const [workouts, setWorkouts] = useState<number>(0);
   const [followers, setFollowers] = useState<number>(0);
   const [following, setFollowing] = useState<number>(0);
-
-  useEffect(() => {
-    const queryUser = async () => {
-      const user_: User | undefined = await getUser();
-      if (user_ !== undefined) {
-        setUser(user_);
-        setName(user_.name);
-        setAccountName(user_.username);
-        setProfileImage(user_.img);
-        setBiography(user_.biography ? user_.biography : '');
-        // setWorkouts(user_.workouts ? user_.workouts : 0);
-        setFollowers(user_.followers ? user_.followers.length : 0);
-        setFollowing(user_.following ? user_.following.length : 0);
-      }
-    };
-
-    queryUser();
-  }, []);
 
   const goToSettings = () => {
     navigation.navigate('Settings');

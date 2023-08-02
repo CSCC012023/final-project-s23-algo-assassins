@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, SafeAreaView} from 'react-native';
 import {ProfileSetup} from '../screenComponents/ProfileHeader';
 import {useIsFocused} from '@react-navigation/native';
-import {Image} from 'react-native-elements';
 import {getUser} from '../utils/user';
 import {User} from '../types/user';
 
@@ -32,34 +31,10 @@ const ProfileScreen: React.FC<ProfileScreenProps> = () => {
     }
   }, [isFocused]);
 
-  // const [user, setUser] = useState<User | undefined>(undefined);
-
-  // const fetchUser = async () => {
-  //   const user_ = await getUser();
-  //   if (user_) {
-  //     setUser(user_);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   // Fetch user data initially
-  //   fetchUser();
-
-  //   // Setup interval to refresh user data every second (1000 ms)
-  //   const intervalId = setInterval(fetchUser, 1000);
-
-  //   // Cleanup the interval when the component unmounts
-  //   return () => clearInterval(intervalId);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         <ProfileSetup />
-        {/* <ProfileButtons
-          id={0}
-          name=""
-          accountName=""
-          profileImage={require('../assets/images/levi_pfp.png')}
-        /> */}
       </View>
       <View style={styles.bioContainer}>
         <Text>Progress Data</Text>
