@@ -30,27 +30,38 @@ function secondsToHms(duration) {
   return `${hoursFormat}:${minutesFormat}:${secondsFormat}`;
 }
 
+const ExerciseSets = (props: any) => {
+  return (
+    <View>
+      <Text>Set                     Weight                     Reps</Text>
+      <View style={styles.workoutStats}>
+        <Text>
+          {props.set["set"] + 1}   
+        </Text>
+        <Text>
+          {props.set["lbs"]}   
+        </Text>
+        <Text>
+          {props.set["reps"]}   
+        </Text>
+      </View>
+    </View>
+  );
+};
+
 const ExerciseEntry = (props: any) => {
   return (
     <View>
       <Text
         style={styles.username}>
-        hi
+        {props.exerciseName}
       </Text>
-
-    </View>
-  );
-};
-
-const ExerciseSets = (props: any) => {
-
-  const [weight, setWeight] = useState(0);
-  const [reps, setReps] = useState(0);
-
-  return (
-    <View>
-      <View style={[{height: 52}]}>
-      </View>
+      {
+        props.exerciseStats["sets"].map((set, index) => 
+        <ExerciseSets
+          key={index}
+          set={set}/>)
+      }
     </View>
   );
 };
@@ -91,14 +102,14 @@ const WelcomeCard = (props: any) => {
         Duration: {secondsToHms(workout.duration)}
       </Text>
       <Text>
-        Total Volume: {workout.totalVolume}
+        Total Volume: {workout.totalVolume} lbs
       </Text>
     </View>
     <View style={styles.workoutStats}>
       <View>
         {
           Object.entries(exercises).map(([key, value], index) => 
-          <ExerciseEntry key={index} exerciseName={key}/>)
+          <ExerciseEntry key={index} exerciseName={key} exerciseStats={value}/>)
         }
       </View>
     </View>
