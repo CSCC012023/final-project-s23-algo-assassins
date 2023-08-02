@@ -19,6 +19,10 @@ const SettingsScreen = () => {
   };
   const [isToggled, setIsToggled] = useState(false);
 
+  const logOut = () => {
+    navigation.navigate('LandingScreen');
+  };
+
   const handleToggle = () => {
     setIsToggled(!isToggled);
   };
@@ -84,7 +88,7 @@ const SettingsScreen = () => {
             <Text style={styles.footerText}> Add account </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.buttonContainer} onPress={logOut}>
           <View style={styles.buttonContent}>
             <Ionicons name="log-out-outline" style={styles.logOutContainer} />
             <Text style={styles.footerText}> Log out </Text>

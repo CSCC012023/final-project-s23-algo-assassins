@@ -14,13 +14,13 @@ import SuggestFollowCard from '../components/suggestFollowCard/SuggestFollowCard
 const HomeScreen = () => {
   const [search, setSearch] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
-  const [userData, setUserData] = useState(null); // Store the user data
+  const [userData, setUserData] = useState(null);
   const [userEmail, setUserEmail] = useState('');
 
   // Function to get the currently logged-in user's email
   const getCurrentUserEmail = async () => {
-    // Replace "10.0.0.106" with localhost
-    fetch('http://10.0.0.106:3000/api/users/me')
+    // Replace with localhost
+    fetch('http://localhost:3000/api/users/me')
       .then(response => response.json())
       .then(data => {
         if (data.email) {
@@ -39,7 +39,7 @@ const HomeScreen = () => {
 
     try {
       const response = await fetch(
-        `http://10.0.0.106:3000/api/users/find?email=${searchText}`,
+        `http://localhost:3000/api/users/find?email=${searchText}`,
       );
 
       const data = await response.json();
@@ -63,8 +63,8 @@ const HomeScreen = () => {
   };
 
   const handleFollow = friend => {
-    // Replace "http://10.0.0.106:3000"
-    fetch('http://10.0.0.106:3000/api/users/create/follow', {
+    // Replace localhost
+    fetch('http://localhost:3000/api/users/create/follow', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -86,8 +86,8 @@ const HomeScreen = () => {
   };
 
   const handleUnfollow = friend => {
-    // Replace "http://10.0.0.106:3000"
-    fetch('http://10.0.0.106:3000/api/users/remove/follow', {
+    // Replace
+    fetch('http://localhost:3000/api/users/remove/follow', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

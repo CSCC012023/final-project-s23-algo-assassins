@@ -13,6 +13,7 @@ import Toast from 'react-native-toast-message';
 import {useState} from 'react';
 import ImagePicker from '../components/imagePicker/ImagePicker';
 import {ImageOrVideo} from 'react-native-image-crop-picker';
+import {useCallback} from 'react';
 
 interface EditProfileProps {
   route: any;
@@ -20,11 +21,32 @@ interface EditProfileProps {
 }
 
 const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
-  const {name, accountName, biography, profileImage} = route.params;
+  const {
+    name: initialName,
+    accountName: initialAccountName,
+    biography: initialBiography,
+    profileImage: initialProfileImage,
+  } = route.params;
+
+  const handleGoBackDelayed = useCallback(() => {
+    setTimeout(() => {
+      navigation.goBack();
+    }, 2000);
+  }, [navigation]);
+
+  const [name, setName] = useState(initialName);
+  const [accountName, setAccountName] = useState(initialAccountName);
+  const [biography, setBiography] = useState(initialBiography);
+  const [profileImage, setProfileImage] =
+    React.useState<ImageOrVideo>(initialProfileImage);
 
   const showToastMessage = () => {
     Toast.show({text1: 'Edit Sucess!'});
   };
+
+  const [saveStatus, setSaveStatus] = React.useState(false);
+  const formData = new FormData();
+  formData.append('img', profileImage);
 
   const [isToggled, setIsToggled] = useState(false);
 
@@ -32,31 +54,183 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
     setIsToggled(!isToggled);
   };
 
-  const [image, setImage] = React.useState<ImageOrVideo>();
+  // const [image, setImage] = React.useState<ImageOrVideo>();
 
   const imageHandler = (res: ImageOrVideo) => {
     console.log('Image Handler Called!');
-    setImage(res);
+    setProfileImage(res);
   };
 
-  // const saveHandler = async () => {
-  //   try {
-  //     // Make API calls to update the user's profile
-  //     await updateUser('name', name);
-  //     await updateUser('username', accountName);
-  //     await updateUser('biography', biography);
+  const handleSave = async () => {
+    const userEmail = 'selina99tran@gmail.com';
+    const image = require('../assets/images/levi_pfp.png');
 
-  //     // Display a success message or perform any other actions after saving
-  //     console.log('Profile saved successfully!');
-  //   } catch (error) {
-  //     console.log('Error saving profile:', error);
-  //   }
-  // };
+    // Updating name
+    try {
+      const response = await fetch(
+        'http://localhost:3000/api/users/update/name?',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            // email: userEmail,
+            name: name,
+          }),
+        },
+      );
+      const data = await response.json();
+      if (response.ok) {
+        setSaveStatus(true);
+        console.log('response good');
+      } else {
+        setSaveStatus(false);
+        console.log('name error');
+        const errorMessage = data.message || 'Failed to save name';
+        Toast.show({
+          type: 'error',
+          text1: 'Saving name error',
+          text2: errorMessage,
+          position: 'bottom',
+          // visibilityTime: 4000, // Adjust the duration as needed
+          // autoHide: true,
+        });
+      }
+    } catch (error) {
+      console.log('error name');
+      if (error instanceof Error) {
+        Toast.show({
+          type: 'error',
+          text1: 'Saving error',
+          text2: error.message,
+          position: 'bottom',
+        });
+      }
+    }
+    // Updating username
+    try {
+      const response = await fetch(
+        'http://localhost:3000/api/users/update/username?',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            // email: userEmail,
+            username: accountName,
+          }),
+        },
+      );
+      const data = await response.json();
+      if (response.ok) {
+        setSaveStatus(true);
+        console.log('response good');
+      } else {
+        setSaveStatus(false);
+        const errorMessage = data.message || 'Failed to save account name';
+        Toast.show({
+          type: 'error',
+          text1: 'Saving account name error',
+          text2: errorMessage,
+          position: 'bottom',
+          // visibilityTime: 4000, // Adjust the duration as needed
+          autoHide: true,
+        });
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log('error user');
+        Toast.show({
+          type: 'error',
+          text1: 'Saving error',
+          text2: error.message,
+          position: 'bottom',
+        });
+      }
+    }
+    // Update biography
+    try {
+      const response = await fetch(
+        'http://localhost:3000/api/users/update/biography?',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            // email: userEmail,
+            biography: biography,
+          }),
+        },
+      );
+      const data = await response.json();
+      if (response.ok) {
+        setSaveStatus(true);
+        console.log('response good');
+      } else {
+        setSaveStatus(false);
+        const errorMessage = data.message || 'Failed to save biography';
+        Toast.show({
+          type: 'error',
+          text1: 'Saving biography error',
+          text2: errorMessage,
+          position: 'bottom',
+          // visibilityTime: 4000, // Adjust the duration as needed
+          // autoHide: true,
+        });
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log('error bio');
+        Toast.show({
+          type: 'error',
+          text1: 'Saving error',
+          text2: error.message,
+          position: 'bottom',
+        });
+      }
+    }
+    // Update profile picture
+    try {
+      const response = await fetch(
+        'http://localhost:3000/api/users/update/picture?',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: formData,
+        },
+      );
+      console.log(response);
+    } catch (error) {
+      if (error instanceof Error) {
+        Toast.show({
+          type: 'error',
+          text1: 'Saving error',
+          text2: error.message,
+          position: 'bottom',
+        });
+      }
+    }
+    // Pass back the variables to Profile Screen
+    // if (saveStatus) {
+    //   navigation.navigate('ProfileScreen', {
+    //     name,
+    //     accountName,
+    //     biography,
+    //     profileImage,
+    //   });
+    //   showToastMessage();
+    // }
+  };
 
   React.useEffect(() => {
     console.log('Success');
-    console.log(image);
-  }, [image]);
+    console.log(profileImage);
+  }, [profileImage]);
 
   return (
     <View style={styles.container}>
@@ -67,9 +241,8 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
         <Text style={styles.title}>Edit Profile</Text>
         <TouchableOpacity
           onPress={() => {
-            // saveHandler();
-            showToastMessage();
-            navigation.goBack();
+            handleSave();
+            handleGoBackDelayed();
           }}>
           <Ionicons name="checkmark" style={styles.checkmarkIcon} />
         </TouchableOpacity>
@@ -78,12 +251,12 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
         <Image
           style={styles.profileImage}
           source={
-            image !== undefined
+            profileImage !== undefined
               ? {
-                  uri: image.path,
-                  height: image.height,
-                  width: image.width,
-                  mime: image.mime,
+                  uri: profileImage.path,
+                  height: profileImage.height,
+                  width: profileImage.width,
+                  mime: profileImage.mime,
                 }
               : profileImage
           }
@@ -104,7 +277,9 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
           <TextInput
             // value={name}
             placeholder="name"
-            // autoCorrect={false}
+            defaultValue={name}
+            autoCorrect={false}
+            onChangeText={text => setName(text)}
             style={styles.input}
           />
         </View>
@@ -116,6 +291,7 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
             defaultValue={accountName}
             autoCorrect={false}
             autoCapitalize="none"
+            onChangeText={text => setAccountName(text)}
             style={styles.input}
           />
         </View>
@@ -127,6 +303,7 @@ const EditProfile: React.FC<EditProfileProps> = ({route, navigation}) => {
             defaultValue={biography}
             autoCorrect={false}
             autoCapitalize="none"
+            onChangeText={text => setBiography(text)}
             style={styles.input}
           />
         </View>

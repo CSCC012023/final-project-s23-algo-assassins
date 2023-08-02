@@ -1,5 +1,4 @@
-import React from 'react';
-import {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,36 +6,54 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
-import {ProfileSetup, ProfileButtons} from '../screenComponents/ProfileHeader';
+import {ProfileSetup} from '../screenComponents/ProfileHeader';
+import {useIsFocused} from '@react-navigation/native';
 import {Image} from 'react-native-elements';
+import {getUser} from '../utils/user';
+import {User} from '../types/user';
 
-const ProfileScreen = ({navigation}) => {
+interface ProfileScreenProps {
+  navigation: any;
+}
+
+const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
   // Pass the navigation prop to access navigation functionalities
-  const [name, setName] = useState('');
+  const [user, setUser] = useState({});
+  const isFocused = useIsFocused();
 
   const handleFriendsButtonPress = () => {
     // Navigate to the FriendScreen when the button is pressed
     navigation.navigate('Friend');
   };
 
+  const queryUser = async () => {
+    console.log('fetching user');
+    const user_: User | undefined = await getUser();
+    if (user_ !== undefined) {
+      console.log('user found');
+      setUser(user_);
+    }
+  };
+
+  useEffect(() => {
+    if (isFocused) {
+      console.log('called');
+      queryUser().catch(error => {
+        console.error('Error fetching user data:', error);
+      });
+    }
+  }, [isFocused]);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <ProfileSetup
-          name="Jerry Dang"
-          accountName="j.d_splash"
-          profileImage={require('../assets/images/levi_pfp.png')}
-          workouts={70}
-          followers={54}
-          following={14}
-          biography="Hello I am Jerry."
-        />
-        <ProfileButtons
+        <ProfileSetup />
+        {/* <ProfileButtons
           id={0}
           name=""
           accountName=""
           profileImage={require('../assets/images/levi_pfp.png')}
-        />
+        /> */}
       </View>
       <View style={styles.bioContainer}>
         <TouchableOpacity

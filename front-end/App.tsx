@@ -53,15 +53,14 @@ function App() {
             name="RoutineAddExercise"
             component={RoutineAddExerciseScreen}
           />
-          <Stack.Screen name="SavedRoutines" component={SavedRoutinesScreen} />
           <Stack.Screen name="Profile" component={ProfileScreen} />
           <Stack.Screen name="EditProfile" component={EditProfile} />
           <Stack.Screen name="SignUp" component={SignUpScreen} />
-          <Stack.Screen name="Settings" component={SettingsScreen} />
           <Stack.Screen
             name="NewPasswordScreen"
             component={NewPasswordScreen}
           />
+          <Stack.Screen name="Settings" component={SettingsScreen} />
         </Stack.Navigator>
       </NavigationContainer>
       <Toast />
