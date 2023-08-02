@@ -107,6 +107,7 @@ exports.userRouter.post("/signup", (req, res) => __awaiter(void 0, void 0, void 
     const password = bcrypt_1.default.hashSync(req.body.password, salt);
     const user = new User_1.User({
         name: req.body.name,
+        username: req.body.name,
         email: req.body.email,
         password: password,
         img: { path: null, contentType: null },
@@ -123,6 +124,7 @@ exports.userRouter.post("/signup", (req, res) => __awaiter(void 0, void 0, void 
         return res.json(data);
     })
         .catch((err) => {
+        console.log(err);
         return res.status(500).json({ message: err });
     });
 }));
@@ -371,4 +373,18 @@ exports.userRouter.patch("/remove/follow", (req, res) => __awaiter(void 0, void 
         .catch((err) => {
         return res.status(500).json({ message: err });
     });
+}));
+// Fetch the list of users being followed by the current user
+exports.userRouter.get("/get/follow", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userEmail = req.session.user_email;
+    if (!userEmail) {
+        res.status(400).json({ message: "User not found" });
+        return;
+    }
+    const user = yield User_1.User.findOne({ email: userEmail });
+    if (!user) {
+        res.status(400).json({ message: "User not found" });
+        return;
+    }
+    return res.json(user.following);
 }));

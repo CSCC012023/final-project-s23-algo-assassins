@@ -33,7 +33,7 @@ const SignUpScreen: React.FC<SignUpIntroScreenProps> = ({navigation}) => {
   const updateAge = async (age: number) => {
     try {
       const response = await fetch(
-        'http://10.0.0.106:3000/api/users/update/age',
+        'http://localhost:3000/api/users/update/age',
         {
           method: 'PATCH',
           headers: {
@@ -67,7 +67,7 @@ const SignUpScreen: React.FC<SignUpIntroScreenProps> = ({navigation}) => {
   const updateHeight = async (user_height: number) => {
     try {
       const response = await fetch(
-        'http://10.0.0.106:3000/api/users/update/height',
+        'http://localhost:3000/api/users/update/height',
         {
           method: 'PATCH',
           headers: {
@@ -101,7 +101,7 @@ const SignUpScreen: React.FC<SignUpIntroScreenProps> = ({navigation}) => {
   const updateWeight = async (weight: number) => {
     try {
       const response = await fetch(
-        'http://10.0.0.106:3000/api/users/update/weight',
+        'http://localhost:3000/api/users/update/weight',
         {
           method: 'PATCH',
           headers: {
@@ -144,16 +144,15 @@ const SignUpScreen: React.FC<SignUpIntroScreenProps> = ({navigation}) => {
       console.log('Invalid input. Age, weight, and height must be numerical.');
       return;
     }
-
+    navigation.navigate('HomeTabs');
     // Send HTTP requests and handle errors
     try {
-      await updateAge(age);
-      await updateWeight(weight);
-      await updateHeight(user_height);
+      updateAge(age);
+      updateWeight(weight);
+      updateHeight(user_height);
 
       // All requests were successful, navigate to the next screen
       console.log('Signup success');
-      navigation.navigate('Profile');
     } catch (error) {
       console.log('Signup error: ', error);
       Toast.show({

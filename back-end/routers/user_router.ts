@@ -91,12 +91,14 @@ userRouter.post("/signup", async (req, res) => {
         res.status(400).json({ message: "Name is required" });
         return;
     }
+
     // Hashing password here
     const saltRounds = 10;
     const salt = bcrypt.genSaltSync(saltRounds);
     const password = bcrypt.hashSync(req.body.password, salt);
     const user = new User({
         name: req.body.name,
+        username: req.body.name,
         email: req.body.email,
         password: password,
         img: { path: null, contentType: null },
@@ -113,6 +115,7 @@ userRouter.post("/signup", async (req, res) => {
             return res.json(data);
         })
         .catch((err: any) => {
+            console.log(err);
             return res.status(500).json({ message: err });
         });
 });
@@ -379,4 +382,19 @@ userRouter.patch("/remove/follow", async (req, res) => {
         .catch((err: any) => {
             return res.status(500).json({ message: err });
         });
+});
+
+// Fetch the list of users being followed by the current user
+userRouter.get("/get/follow", async (req, res) => {
+    const userEmail = req.session.user_email;
+    if (!userEmail) {
+        res.status(400).json({ message: "User not found" });
+        return;
+    }
+    const user = await User.findOne({ email: userEmail });
+    if (!user) {
+        res.status(400).json({ message: "User not found" });
+        return;
+    }
+    return res.json(user.following);
 });

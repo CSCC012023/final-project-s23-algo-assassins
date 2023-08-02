@@ -12,6 +12,7 @@ const WorkoutSchema = new mongoose_1.default.Schema({
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
     exercises: [{ type: String }],
-    totalVolume: { type: Number }
+    totalVolume: { type: Number },
+    email: { type: String }
 });
 exports.Workout = mongoose_1.default.model("Workout", WorkoutSchema);
