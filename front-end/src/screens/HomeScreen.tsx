@@ -13,6 +13,7 @@ const fetchWorkouts = async () => {
     });
 
     const data = await response.json();
+
     const res = await fetch(`http://localhost:3000/api/workouts/followingWorkouts?following=${data.join(',')}`, {
     method: 'GET',
     headers: {

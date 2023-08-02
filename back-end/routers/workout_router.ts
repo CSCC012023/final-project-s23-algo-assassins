@@ -45,24 +45,28 @@ workoutRouter.get('/get', async (req, res) => {
       });
 });
 
-// Fetch workouts of a list of following
+// Fetch workouts of a list of following, and the user himself
 workoutRouter.get('/followingWorkouts', async (req, res) => {
   const following = req.query.following; // Following list from query params
   
   if (!following) {
     return res.status(400).json({ error: "No following list provided" });
   }
-
+  const user = await User.findOne({ email: req.session.user_email });
+  if (!user) {
+    return res.status(400).json({ message: "User not found" });
+  }
+  
   try {
     // Parse the emails from the string into an array
-    const emails = following.split(",");
+    let emails = following.split(",");
 
     // Fetch all users who are followed by the current user
     const followedUsers = await User.find({ email: { $in: emails } });
 
     // Extract their ids
-    const userIds = followedUsers.map(user => user._id);
-
+    let userIds = followedUsers.map(user => user._id);
+    userIds.push(user._id);
 
     // Fetch workouts of these users
     const workouts = await Workout.find({
