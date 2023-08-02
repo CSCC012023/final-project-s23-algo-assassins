@@ -57,13 +57,13 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
         /> */}
       </View>
       <View style={styles.bioContainer}>
-        <Text>Progress Data</Text>
-        <ProgressChart></ProgressChart>
         <TouchableOpacity
           style={styles.button}
           onPress={handleFriendsButtonPress}>
           <Text style={styles.buttonText}>View Friends</Text>
         </TouchableOpacity>
+        <Text style={[{marginTop: 12}]}>Progress Data</Text>
+        <ProgressChart></ProgressChart>
       </View>
     </SafeAreaView>
   );

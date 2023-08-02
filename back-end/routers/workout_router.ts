@@ -78,14 +78,7 @@ workoutRouter.get('/getProgress', async (req, res) => {
                   .reduce((b: number, d: any) => b + d["reps"], 0),
               0
             ),
-            totalVolume: Object.keys(exercises).reduce(
-              (a: number, c: any) =>
-                a +
-                exercises[c]["sets"]
-                  .filter((s: any) => s.isComplete != undefined && s.isComplete)
-                  .reduce((b: number, d: any) => b + d["lbs"], 0),
-              0
-            ),
+            totalVolume: d['totalVolume']
           });
         });
         res.json(workoutprogress);

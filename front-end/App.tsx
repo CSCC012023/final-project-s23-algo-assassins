@@ -49,6 +49,7 @@ function App() {
           <Stack.Screen name="SignUpIntro" component={SignUpIntroScreen} />
           <Stack.Screen name="Friend" component={FriendScreen} />
           <Stack.Screen name="CreateRoutine" component={CreateRoutineScreen} />
+          <Stack.Screen name="SavedRoutines" component={SavedRoutinesScreen} />
           <Stack.Screen
             name="RoutineAddExercise"
             component={RoutineAddExerciseScreen}

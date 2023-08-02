@@ -2,6 +2,7 @@ import {StyleSheet, View, Dimensions} from 'react-native';
 import React from 'react';
 import {BarChart} from 'react-native-gifted-charts';
 import {Button, Text} from '@react-native-material/core';
+import { useIsFocused } from '@react-navigation/native';
 
 type WorkoutProgress = {
   createdAt: Date;
@@ -39,6 +40,7 @@ const ProgressChart = () => {
   const [display, setDisplay] = React.useState<any>([]);
   const [isReady, setReady] = React.useState(false);
   const [displayIndex, setIndex] = React.useState<number>(2)
+  const isFocused = useIsFocused();
   const url = 'http://localhost:3000/api/workouts/getProgress';
 
   React.useEffect(() => {
@@ -52,10 +54,11 @@ const ProgressChart = () => {
         ]);
 
         setDisplay(GetBarChartData('totalVolume', json));
+        setIndex(2);
       })
       .catch(error => console.error(error))
       .finally(() => setReady(true));
-  }, []);
+  }, [isFocused]);
 
   const SetDisplayData = (i: number) => {
     if (i == displayIndex)
