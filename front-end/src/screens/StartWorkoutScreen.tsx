@@ -19,9 +19,10 @@ import {RootStackParamList} from '../types/navigation';
 import {styles} from './WorkoutScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Dictionary, Exercise, Set} from '../types/workout';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { Alert } from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {Alert} from 'react-native';
 import Toast from 'react-native-toast-message';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'StartWorkout'>;
 
@@ -105,8 +106,7 @@ const ExerciseEntry = (props: any) => {
             updateWeightReps={props.updateWeightReps}
             setTotalVolume={props.setTotalVolume}
             getTotalVolume={props.getTotalVolume}
-            toggleCheck={props.toggleCheck}
-            ></ExerciseSets>
+            toggleCheck={props.toggleCheck}></ExerciseSets>
         );
       })}
       <View
@@ -162,7 +162,6 @@ const ExerciseEntry = (props: any) => {
 };
 
 const ExerciseSets = (props: any) => {
-
   const [weight, setWeight] = useState(0);
   const [reps, setReps] = useState(0);
 
@@ -186,30 +185,44 @@ const ExerciseSets = (props: any) => {
               variant="standard"
               style={[styles.mg_v_8, {flex: 1}]}
               keyboardType="numeric"
-              placeholder='0'
+              placeholder="0"
               value={props.set.lbs.toString()}
               onChangeText={text => {
-                props.updateWeightReps(props.name, props.set.set, parseInt(text), reps),
-                setWeight(parseInt(text))}
-              }></TextInput>
+                props.updateWeightReps(
+                  props.name,
+                  props.set.set,
+                  parseInt(text),
+                  reps,
+                ),
+                  setWeight(parseInt(text));
+              }}></TextInput>
           ) : undefined}
           <TextInput
             color="rgba(0, 0, 0, 0.3)"
             variant="standard"
             style={[styles.mg_v_8, {flex: 1}]}
             keyboardType="numeric"
-            placeholder='0'
+            placeholder="0"
             value={props.set.reps.toString()}
-            onChangeText={
-              text => {props.updateWeightReps(props.name, props.set.set, weight, parseInt(text)),
-              setReps(parseInt(text))}
-              }></TextInput>
+            onChangeText={text => {
+              props.updateWeightReps(
+                props.name,
+                props.set.set,
+                weight,
+                parseInt(text),
+              ),
+                setReps(parseInt(text));
+            }}></TextInput>
           <TouchableOpacity
             onPress={() => {
-              props.toggleCheck(props.name, props.set.set)
-              props.getTotalVolume()
-              }}>
-            <Ionicons name={'checkmark-circle'} size={28} color={props.set.isComplete? '#34B233' : '#d9d9d9'} />
+              props.toggleCheck(props.name, props.set.set);
+              props.getTotalVolume();
+            }}>
+            <Ionicons
+              name={'checkmark-circle'}
+              size={28}
+              color={props.set.isComplete ? '#34B233' : '#d9d9d9'}
+            />
           </TouchableOpacity>
         </View>
       </View>
@@ -222,21 +235,21 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
   const navData: Dictionary<Exercise> =
     route.params?.navData != undefined ? route.params?.navData : {};
   const [exercise, setExercise] = useState<Dictionary<Exercise>>(navData);
-  const [existingExercises, setExistingExercises] = useState<Dictionary<Exercise>>({});
-  const mergedExercises = { ...existingExercises, ...navData };
+  const [existingExercises, setExistingExercises] = useState<
+    Dictionary<Exercise>
+  >({});
+  const mergedExercises = {...existingExercises, ...navData};
   const [seconds, setSeconds] = useState<number>(0);
   const [totalVolume, setTotalVolume] = useState<number>(0);
 
   useEffect(() => {
-    setExistingExercises(prevExercises => ({ ...prevExercises, ...navData }));
+    setExistingExercises(prevExercises => ({...prevExercises, ...navData}));
     const timerID = setInterval(() => {
-      setSeconds((prevSeconds) => prevSeconds + 1);
+      setSeconds(prevSeconds => prevSeconds + 1);
     }, 1000);
 
     return () => clearInterval(timerID);
-    return;
   }, [navData]);
-
 
   // Time functions
 
@@ -249,7 +262,6 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
   const minutes = padWithZero(Math.floor((seconds % 3600) / 60));
   const remainingSeconds = padWithZero(seconds % 60);
 
-
   // Set functions
 
   const PushSet = (name: string, count: number) => {
@@ -258,11 +270,11 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
       set: count,
       lbs: 0,
       reps: 0,
-      isComplete: false
+      isComplete: false,
     });
 
     setExistingExercises({...mergedExercises});
-  }
+  };
 
   const PopSet = (name: string) => {
     if (mergedExercises[name].sets.length > 1) {
@@ -270,20 +282,25 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
       mergedExercises[name].sets.pop();
 
       // Update the state with the mergedExercises object
-      setExistingExercises({ ...mergedExercises });
+      setExistingExercises({...mergedExercises});
     }
   };
 
-  const updateWeightReps = (name: string, set: number, weight: number, reps: number) => {
+  const updateWeightReps = (
+    name: string,
+    set: number,
+    weight: number,
+    reps: number,
+  ) => {
     const exercisesCopy = existingExercises;
     exercisesCopy[name].sets[set] = {
       set: exercisesCopy[name].sets[set].set,
       lbs: weight,
       reps: reps,
-      isComplete: exercisesCopy[name].sets[set].isComplete
-    }
+      isComplete: exercisesCopy[name].sets[set].isComplete,
+    };
     setExistingExercises(exercisesCopy);
-  }
+  };
 
   const toggleCheck = (name: string, set: number) => {
     const exercisesCopy = existingExercises;
@@ -291,10 +308,10 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
       set: exercisesCopy[name].sets[set].set,
       lbs: exercisesCopy[name].sets[set].lbs,
       reps: exercisesCopy[name].sets[set].reps,
-      isComplete: !exercisesCopy[name].sets[set].isComplete
-    }
+      isComplete: !exercisesCopy[name].sets[set].isComplete,
+    };
     setExistingExercises(exercisesCopy);
-  }
+  };
 
   const getTotalVolume = () => {
     const exerciseCopy = existingExercises;
@@ -303,30 +320,34 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
       let value = exerciseCopy[exercise];
       for (let set in value.sets) {
         let setObject = exerciseCopy[exercise].sets[set];
-        result = result + (setObject.isComplete ? setObject.lbs * setObject.reps : 0);
+        result =
+          result + (setObject.isComplete ? setObject.lbs * setObject.reps : 0);
       }
     }
     setTotalVolume(result);
-  }
+  };
 
   // API functions
 
   const postWorkout = async () => {
     const workout = {
-      duration: seconds,  // Duration in minutes.
-      description: "",
+      duration: seconds, // Duration in minutes.
+      description: '',
       date: new Date(),
       exercises: JSON.stringify(existingExercises),
-      totalVolume: totalVolume
+      totalVolume: totalVolume,
     };
     try {
-      const response = await fetch('http://localhost:3000/api/workouts/create',{
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        'http://localhost:3000/api/workouts/create',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(workout),
         },
-        body: JSON.stringify(workout),
-      });
+      );
       const data = await response.json();
       if (response.ok) {
         // Handler for successful response
@@ -359,80 +380,65 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
           text2: 'Unknown error',
         });
       }
-      console.log("Error");
+      console.log('Error');
     }
-  }
+  };
 
   const handleFinishWorkout = () => {
     if (Object.keys(existingExercises).length == 0) {
-      Alert.alert("Please add an exercise first.")
+      Alert.alert('Please add an exercise first.');
       return;
     }
 
     Alert.alert(
-      "Finish your workout?",  // Alert title
-      "Are you sure you want to finish your workout?", // Alert message
+      'Finish your workout?', // Alert title
+      'Are you sure you want to finish your workout?', // Alert message
       [
         {
-          text: "Cancel",
+          text: 'Cancel',
           onPress: () => {}, // If the user cancels, do nothing
-          style: "cancel"
+          style: 'cancel',
         },
-        { 
-          text: "Yes!", 
-          
+        {
+          text: 'Yes!',
+
           onPress: () => postWorkout(),
-        }
-      ]
+        },
+      ],
     );
-  }
-  
+  };
+
   return (
     <SafeAreaView style={styles.bg_white}>
-      <View
-        style={[
-          styles.mg_16,
-          styles.pd_8,
-          styles.flex_row,
-          styles.flex_align_center,
-        ]}>
+      <View style={styles.startWorkoutHeader}>
         <TouchableOpacity
           onPress={() => {
             Alert.alert(
-              "Discard your workout?",  // Alert title
-              "Are you sure you want to discard your workout? This action cannot be undone.", // Alert message
+              'Discard your workout?', // Alert title
+              'Are you sure you want to discard your workout? This action cannot be undone.', // Alert message
               [
                 {
-                  text: "Cancel",
+                  text: 'Cancel',
                   onPress: () => {}, // If the user cancels, do nothing
-                  style: "cancel"
+                  style: 'cancel',
                 },
-                { 
-                  text: "Discard", 
+                {
+                  text: 'Discard',
                   onPress: () => navigation.goBack(),
-                  style: "destructive"
-                }
-              ]
+                  style: 'destructive',
+                },
+              ],
             );
-          
+
             return true; // By returning true, the default behavior of back button is overwritten
           }}>
-          <MaterialIcons name={'arrow-back-ios'} size={20} color={'#000000'} />
+          <Ionicons name="chevron-back-outline" style={styles.closeIcon} />
         </TouchableOpacity>
-        <Text style={[styles.font_inter_20]}>Workout</Text>
-          <Pressable
-            pressEffectColor="#fff"
-            style={[styles.btn, {backgroundColor: 'rgba(55, 97, 248, 0.8)', display: 'flex', marginLeft: 135, width:'30%', padding:0}]}
-            onPress={handleFinishWorkout}>
-            <Text
-              style={[
-                styles.font_inter_sb_16,
-                styles.text_center,
-                {color: '#fff'},
-              ]}>
-              Finish
-            </Text>
-          </Pressable>
+        <Text style={styles.title}>New Workout</Text>
+        <Text style={styles.placeholder}> Lol </Text>
+      </View>
+      <View style={styles.body}>
+        <MaterialCommunityIcons name="weight-lifter" style={styles.closeIcon} />
       </View>
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -470,10 +476,12 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
             <Pressable
               pressEffectColor="#fff"
               style={[styles.btn, {backgroundColor: 'rgba(55, 97, 248, 0.8)'}]}
-              onPress={() => navigation.navigate('AddExercise', {navData: exercise})}>
+              onPress={() =>
+                navigation.navigate('AddExercise', {navData: exercise})
+              }>
               <Text
                 style={[
-                  styles.font_inter_sb_16,
+                  styles.workoutText,
                   styles.text_center,
                   {color: '#fff'},
                 ]}>
@@ -485,7 +493,7 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
             <Pressable
               pressEffectColor="#fff"
               style={[styles.btn, {backgroundColor: '#d9d9d9'}]}>
-              <Text style={[styles.font_inter_sb_16, styles.text_center]}>
+              <Text style={[styles.workoutText, styles.text_center]}>
                 Options
               </Text>
             </Pressable>
@@ -495,18 +503,53 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
       <View
         style={[
           styles.mg_h_32,
-          styles.mg_b_64,
+          styles.mg_b_32,
           styles.flex_row,
           styles.flex_justify_between,
+          styles.footer,
         ]}>
         <View style={[styles.mg_v_8]}>
           <Text style={[styles.text_center]}>Duration</Text>
-          <Text style={[styles.text_center]}>{hours}:{minutes}:{remainingSeconds}</Text>
+          <Text style={[styles.text_center]}>
+            {hours}:{minutes}:{remainingSeconds}
+          </Text>
         </View>
         <View style={[styles.mg_v_8]}>
           <Text style={[styles.text_center]}>Total Volume</Text>
           <Text style={[styles.text_center]}>{totalVolume} lbs</Text>
         </View>
+      </View>
+      <View
+        style={[
+          // styles.mg_16,
+          styles.pd_8,
+          styles.flex_row,
+          styles.flex_align_center,
+        ]}>
+        <Pressable
+          pressEffectColor="#fff"
+          style={[
+            styles.btn,
+            {
+              backgroundColor: 'rgba(55, 97, 248, 0.8)',
+              //display: 'flex',
+              marginLeft: 95,
+              width: '50%',
+              border: 'rounded',
+              padding: 0,
+            },
+          ]}
+          onPress={handleFinishWorkout}>
+          <Text
+            style={[
+              styles.font_inter_sb_16,
+              styles.text_center,
+              styles.title,
+              {color: '#fff'},
+            ]}>
+            Finish
+          </Text>
+        </Pressable>
       </View>
     </SafeAreaView>
   );

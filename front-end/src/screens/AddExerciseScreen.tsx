@@ -11,6 +11,7 @@ import {
 import {TextInput, Text, Pressable} from '@react-native-material/core';
 import React, {useEffect, useState} from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {styles} from './WorkoutScreen';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigation';
@@ -162,20 +163,15 @@ const AddExerciseScreen = ({route, navigation: {navigate}}: Props) => {
   };
   return (
     <SafeAreaView style={styles.bg_white}>
-      <View
-        style={[
-          styles.mg_16,
-          styles.pd_8,
-          styles.flex_row,
-          styles.flex_align_center,
-        ]}>
+      <View style={styles.startWorkoutHeader}>
         <TouchableOpacity
           onPress={() => {
             navigate('StartWorkout', {navData: navData});
           }}>
-          <MaterialIcons name={'arrow-back-ios'} size={20} color={'#000000'} />
+          <Ionicons name="chevron-back-outline" style={styles.closeIcon} />
         </TouchableOpacity>
-        <Text style={[styles.font_inter_20]}>Workout</Text>
+        <Text style={styles.title}>Workout</Text>
+        <Text style={styles.placeholder}> Lol </Text>
       </View>
       <View style={[styles.mg_h_16, styles.mg_v_16]}>
         <TextInput
