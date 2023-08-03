@@ -20,7 +20,7 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const multer_1 = __importDefault(require("multer"));
 const path_1 = __importDefault(require("path"));
 exports.userRouter = (0, express_1.Router)();
-exports.userRouter.post('/send/verification', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.userRouter.post("/send/verification", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // Generate token here and send an email
     const { email, key } = req.body;
     // Find user by email
@@ -31,32 +31,34 @@ exports.userRouter.post('/send/verification', (req, res) => __awaiter(void 0, vo
     }
     // Create mail with options
     const mailer = nodemailer_1.default.createTransport({
-        service: 'Gmail',
+        service: "Gmail",
         auth: {
-            user: 'algoassassins@gmail.com',
-            pass: 'yrnsoldxecwdubxx'
-        }
+            user: "algoassassins@gmail.com",
+            pass: "yrnsoldxecwdubxx",
+        },
     });
     const mailOptions = {
-        from: 'algoassassins@gmail.com',
+        from: "algoassassins@gmail.com",
         to: email,
-        subject: 'Email Verification',
-        text: 'Enter the following code to verify your email: ' + key
+        subject: "Email Verification",
+        text: "Enter the following code to verify your email: " + key,
     };
     // Send the mail
     mailer.sendMail(mailOptions, (error, info) => {
         if (error) {
-            console.error('Error sending email:', error);
-            res.status(500).json({ message: 'Failed to send verification email' });
+            console.error("Error sending email:", error);
+            res.status(500).json({ message: "Failed to send verification email" });
             return;
         }
         else {
-            res.status(200).json({ message: 'Verification email sent successfully' });
+            res
+                .status(200)
+                .json({ message: "Verification email sent successfully" });
             return;
         }
     });
 }));
-exports.userRouter.post('/password/reset', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.userRouter.post("/password/reset", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password, confirmPassword } = req.body;
     // Password validation
     if (password.length < 6 || password != confirmPassword) {
@@ -74,7 +76,8 @@ exports.userRouter.post('/password/reset', (req, res) => __awaiter(void 0, void 
     const salt = bcrypt_1.default.genSaltSync(saltRounds);
     const pass = bcrypt_1.default.hashSync(password, salt);
     user.password = pass;
-    user.save()
+    user
+        .save()
         .then((data) => {
         res.status(200).json({ message: "Password updated" });
         return;
@@ -89,6 +92,7 @@ const upload = (0, multer_1.default)({ dest: "uploads/" });
 // Requires email, password, name of user
 // Signup the user and create session for user
 exports.userRouter.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("signup reached");
     if (req.body.password === undefined) {
         res.status(400).json({ message: "Password is required" });
         return;
@@ -101,6 +105,14 @@ exports.userRouter.post("/signup", (req, res) => __awaiter(void 0, void 0, void 
         res.status(400).json({ message: "Name is required" });
         return;
     }
+    if (req.body.username === undefined) {
+        res.status(400).json({ message: "Username is required" });
+        return;
+    }
+    if (req.body.img === undefined) {
+        res.status(400).json({ message: "Image is required" });
+        return;
+    }
     // Hashing password here
     const saltRounds = 10;
     const salt = bcrypt_1.default.genSaltSync(saltRounds);
@@ -109,6 +121,7 @@ exports.userRouter.post("/signup", (req, res) => __awaiter(void 0, void 0, void 
         name: req.body.name,
         email: req.body.email,
         password: password,
+        username: req.body.username,
         img: { path: null, contentType: null },
         age: 0,
         weight: 0,
@@ -130,6 +143,7 @@ exports.userRouter.post("/signup", (req, res) => __awaiter(void 0, void 0, void 
 // Log in the user and creates a session
 // check if null = undefined, could be empty stringss
 exports.userRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("login reached");
     if (req.body.password === undefined) {
         res.status(400).json({ message: "Password Required" });
         return;
@@ -169,6 +183,16 @@ exports.userRouter.get("/me", (req, res) => __awaiter(void 0, void 0, void 0, fu
 exports.userRouter.get("/find", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const email = req.query.email;
     const user = yield User_1.User.findOne({ email: email });
+    if (user === null) {
+        res.status(400).json({ message: "User not found" });
+        return;
+    }
+    return res.json(user);
+}));
+// Used to search a user by name
+exports.userRouter.get("/search/:name", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const name = req.param.name;
+    const user = yield User_1.User.findOne({ name: name });
     if (user === null) {
         res.status(400).json({ message: "User not found" });
         return;
@@ -384,6 +408,7 @@ exports.userRouter.get("/img", (req, res) => {
 exports.userRouter.patch("/create/follow", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const followed = req.body.followed_email;
     const follower = req.body.follower_email;
+    console.log("create follow reached");
     if (followed === undefined || follower === undefined) {
         res
             .status(400)
@@ -394,6 +419,10 @@ exports.userRouter.patch("/create/follow", (req, res) => __awaiter(void 0, void 
     const user2 = yield User_1.User.findOne({ email: follower });
     if (user1 === null || user2 === null) {
         res.status(400).json({ message: "A user is not found" });
+        return;
+    }
+    if (user1.followers.includes(user2.email)) {
+        res.status(400).json({ message: "User already followed" });
         return;
     }
     user1.followers.push(user2.email);
@@ -449,4 +478,21 @@ exports.userRouter.patch("/remove/follow", (req, res) => __awaiter(void 0, void 
         .catch((err) => {
         return res.status(500).json({ message: err });
     });
+}));
+// User's friends
+// friend is where another user is in both following and followers
+exports.userRouter.get("/friends", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("friends reached");
+    const email = req.query.email;
+    if (email === undefined) {
+        res.status(400).json({ message: "Email is required" });
+        return;
+    }
+    const user = yield User_1.User.findOne({ email: email });
+    if (user === null) {
+        res.status(400).json({ message: "User not found" });
+        return;
+    }
+    const friends = user.following.filter((email) => user.followers.includes(email));
+    return res.json(friends);
 }));
