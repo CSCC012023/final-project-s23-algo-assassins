@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import {ProfileSetup} from '../screenComponents/ProfileHeader';
 import {useIsFocused} from '@react-navigation/native';
-import {Image} from 'react-native-elements';
 import {getUser} from '../utils/user';
 import {User} from '../types/user';
 
@@ -48,12 +47,6 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         <ProfileSetup />
-        {/* <ProfileButtons
-          id={0}
-          name=""
-          accountName=""
-          profileImage={require('../assets/images/levi_pfp.png')}
-        /> */}
       </View>
       <View style={styles.bioContainer}>
         <TouchableOpacity
@@ -72,7 +65,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   content: {
-    width: '130%',
+    width: '100%',
     paddingLeft: 20,
     paddingRight: 20,
   },

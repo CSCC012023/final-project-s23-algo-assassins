@@ -28,6 +28,8 @@ export type RootStackParamList = {
     navData: Dictionary<Exercise>;
   };
   SavedRoutines: undefined;
+  SignUpIntro: undefined;
+  Friend: undefined;
 };
 
 export interface DummyScreenParams {

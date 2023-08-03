@@ -111,7 +111,6 @@ userRouter.post("/signup", async (req, res) => {
     const password = bcrypt.hashSync(req.body.password, salt);
     const user = new User({
         name: req.body.name,
-        username: req.body.name,
         email: req.body.email,
         password: password,
         username: req.body.username,

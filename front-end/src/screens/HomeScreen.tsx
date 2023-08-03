@@ -5,7 +5,7 @@ import {
   View,
   Text,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import SearchBarHeader from '../components/searchBar/SearchBar';
@@ -37,44 +37,55 @@ const HomeScreen = () => {
   // Fetch workouts of all followed users and self
   const fetchWorkouts = async () => {
     try {
-      setIsLoading(true);
-      const response = await fetch('http://localhost:3000/api/users/get/follow', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        'http://localhost:3000/api/users/get/follow',
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
         },
-      });
-  
+      );
+
       const data = await response.json();
 
-       // Fetch the current user email
-      const userEmailResponse = await fetch('http://localhost:3000/api/users/me');
+      // Fetch the current user email
+      const userEmailResponse = await fetch(
+        'http://localhost:3000/api/users/me',
+      );
       const userEmailData = await userEmailResponse.json();
       setUserEmail(userEmailData.email);
       data.push(userEmailData.email);
-  
-      const res = await fetch(`http://localhost:3000/api/workouts/followingWorkouts?following=${data.join(',')}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
+
+      const res = await fetch(
+        `http://localhost:3000/api/workouts/followingWorkouts?following=${data.join(
+          ',',
+        )}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
         },
-      });
+      );
       const workouts = await res.json();
       setIsLoading(false);
   
       return Array.isArray(workouts) ? workouts : [];
     } catch (error) {
-      console.error("Error:", error);
+      console.error('Error:', error);
       return [];
     }
-  }
+  };
 
   useEffect(() => {
     getCurrentUserEmail();
     fetchWorkouts().then(workouts => {
       workouts.forEach(workout => {
-        workout.exercises = workout.exercises.map(exercise => JSON.parse(exercise));
-      })
+        workout.exercises = workout.exercises.map(exercise =>
+          JSON.parse(exercise),
+        );
+      });
       setWorkouts(workouts);
     });
   }, []);
