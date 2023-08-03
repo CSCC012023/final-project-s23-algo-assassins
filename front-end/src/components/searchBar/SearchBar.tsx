@@ -26,6 +26,7 @@ const SearchBarHeader: React.FunctionComponent<SearchBarComponentProps> = ({
             platform={'ios'}
             lightTheme={true}
             focusable={true}
+            autoCapitalize="none"
           />
         </View>
         <View>

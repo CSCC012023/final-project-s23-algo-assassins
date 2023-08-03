@@ -15,7 +15,7 @@ import StartWorkoutScreen from './src/screens/StartWorkoutScreen';
 import AddExerciseScreen from './src/screens/AddExerciseScreen';
 import SignUpIntroScreen from './src/screens/SignUpIntroScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
-import EditProfile from './src/screenComponents/EditProfile';
+import EditProfile from './src/screens/EditProfileScreen';
 import NewPasswordScreen from './src/screens/NewPasswordScreen';
 import Toast from 'react-native-toast-message';
 import LandingScreen from './src/screens/LandingScreen';
