@@ -92,7 +92,6 @@ const upload = (0, multer_1.default)({ dest: "uploads/" });
 // Requires email, password, name of user
 // Signup the user and create session for user
 exports.userRouter.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("signup reached");
     if (req.body.password === undefined) {
         res.status(400).json({ message: "Password is required" });
         return;
