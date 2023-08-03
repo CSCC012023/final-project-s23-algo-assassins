@@ -1,7 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import {useNavigation, NavigationProp} from '@react-navigation/native';
+import {
+  useNavigation,
+  NavigationProp,
+  useIsFocused,
+} from '@react-navigation/native';
 import {RootStackParamList} from '../types/navigation';
 import {User} from '../types/user';
 import {getUser} from '../utils/user';
@@ -9,7 +13,10 @@ import {getUser} from '../utils/user';
 export const ProfileSetup = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
+  const isFocused = useIsFocused();
+
   const [user, setUser] = useState({});
+
   const [name, setName] = useState<string>('Loading...');
   const [accountName, setAccountName] = useState<string>('Loading...');
   const [profileImage, setProfileImage] = useState<any>(
@@ -20,23 +27,30 @@ export const ProfileSetup = () => {
   const [followers, setFollowers] = useState<number>(0);
   const [following, setFollowing] = useState<number>(0);
 
-  useEffect(() => {
-    const queryUser = async () => {
-      const user_: User | undefined = await getUser();
-      if (user_ !== undefined) {
-        setUser(user_);
-        setName(user_.name);
-        setAccountName(user_.username);
-        setProfileImage(user_.img);
-        setBiography(user_.biography ? user_.biography : '');
-        // setWorkouts(user_.workouts ? user_.workouts : 0);
-        setFollowers(user_.followers ? user_.followers.length : 0);
-        setFollowing(user_.following ? user_.following.length : 0);
-      }
-    };
+  const queryUser = async () => {
+    console.log('fetching user');
+    const user_: User | undefined = await getUser();
+    if (user_ !== undefined) {
+      console.log('user found');
+      setUser(user_);
+      setName(user_.name);
+      setAccountName(user_.username);
+      setProfileImage(user_.img);
+      setBiography(user_.biography ? user_.biography : '');
+      // setWorkouts(user_.workouts ? user_.workouts : 0);
+      setFollowers(user_.followers ? user_.followers.length : 0);
+      setFollowing(user_.following ? user_.following.length : 0);
+    }
+  };
 
-    queryUser();
-  }, []);
+  useEffect(() => {
+    if (isFocused) {
+      console.log('called');
+      queryUser().catch(error => {
+        console.error('Error fetching user data:', error);
+      });
+    }
+  }, [isFocused]);
 
   const goToSettings = () => {
     navigation.navigate('Settings');
@@ -44,20 +58,18 @@ export const ProfileSetup = () => {
 
   return (
     <View>
-      {accountName ? (
-        <View style={styles.header}>
-          <View style={styles.accountInfo}>
-            <Text style={styles.accountName}>{accountName}</Text>
-            <Feather name="chevron-down" style={styles.chevronDownIcon} />
-          </View>
-          <View style={styles.headerIcons}>
-            <Feather name="bell" style={styles.headerIcon} />
-            <TouchableOpacity onPress={() => goToSettings()}>
-              <Feather name="settings" style={styles.headerIcon} />
-            </TouchableOpacity>
-          </View>
+      <View style={styles.header}>
+        <View style={styles.accountInfo}>
+          <Text style={styles.accountName}>{accountName}</Text>
+          <Feather name="chevron-down" style={styles.chevronDownIcon} />
         </View>
-      ) : null}
+        <View style={styles.headerIcons}>
+          <Feather name="bell" style={styles.headerIcon} />
+          <TouchableOpacity onPress={() => goToSettings()}>
+            <Feather name="settings" style={styles.headerIcon} />
+          </TouchableOpacity>
+        </View>
+      </View>
       <View style={styles.profileInfo}>
         <View style={styles.profileImageContainer}>
           <Image source={profileImage} style={styles.profileImage} />
@@ -107,28 +119,6 @@ export const ProfileSetup = () => {
     </View>
   );
 };
-
-// interface ProfileButtonsProps {
-//   id: number;
-//   name: string;
-//   accountName: string;
-//   biography: string;
-//   profileImage: ImageSourcePropType;
-// }
-
-// export const ProfileButtons: React.FC<ProfileButtonsProps> = ({
-//   id,
-//   name,
-//   accountName,
-//   profileImage,
-//   biography,
-// }) => {
-//   const navigation = useNavigation();
-//   // const [follow, setFollow] = useState<boolean>(false);
-
-//   return (
-//   );
-// };
 
 const styles = StyleSheet.create({
   header: {
@@ -238,53 +228,4 @@ const styles = StyleSheet.create({
     opacity: 0.6,
     fontFamily: 'Inter-Regular',
   },
-  //   profileButtonsContainer: {
-  //     width: '100%',
-  //     flexDirection: 'row',
-  //     justifyContent: 'space-evenly',
-  //     alignItems: 'center',
-  //   },
-  //   followButton: {
-  //     width: '42%',
-  //   },
-  //   followButtonContainer: {
-  //     width: '100%',
-  //     height: 35,
-  //     borderRadius: 5,
-  //     borderWidth: 1,
-  //     borderColor: '#DEDEDE',
-  //     justifyContent: 'center',
-  //     alignItems: 'center',
-  //   },
-  //   followingButtonContainer: {
-  //     backgroundColor: '#3493D9',
-  //   },
-  //   followButtonText: {
-  //     color: 'black',
-  //   },
-  //   followingButtonText: {
-  //     color: 'white',
-  //   },
-  //   messageButton: {
-  //     width: '42%',
-  //     height: 35,
-  //     borderWidth: 1,
-  //     borderColor: '#DEDEDE',
-  //     justifyContent: 'center',
-  //     alignItems: 'center',
-  //     borderRadius: 5,
-  //   },
-  //   chevronButton: {
-  //     width: '10%',
-  //     height: 35,
-  //     borderWidth: 1,
-  //     borderColor: '#DEDEDE',
-  //     justifyContent: 'center',
-  //     alignItems: 'center',
-  //     borderRadius: 5,
-  //   },
-  //   chevronIcon: {
-  //     fontSize: 20,
-  //     color: 'black',
-  //   },
 });
