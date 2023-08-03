@@ -251,12 +251,12 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   btn: {
-    borderRadius: 100,
+    borderRadius: 20,
     paddingHorizontal: 16,
     paddingVertical: 12,
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
   },
   // AddExerciseScreen Related
   exercise_category_highlighted: {
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   headerWorkout: {
-    // paddingLeft: 10,
+    paddingLeft: 10,
   },
   startWorkoutHeader: {
     flexDirection: 'row',
@@ -333,9 +333,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     fontFamily: 'Inter-Regular',
-  },
-  footer: {
-    paddingTop: 270,
   },
 });
 

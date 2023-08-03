@@ -36,7 +36,7 @@ const ExerciseDropdown = (props: any) => {
           toggleDropdown();
         }}>
         <View style={[styles.pd_8]}>
-          <Text style={[styles.font_inter_20]}>
+          <Text style={[styles.workoutText]}>
             {props.muscle.muscle} Exercises
           </Text>
         </View>
@@ -201,11 +201,7 @@ const AddExerciseScreen = ({route, navigation: {navigate}}: Props) => {
             }
             pressEffect={Object.keys(newData).length ? 'ripple' : 'none'}>
             <Text
-              style={[
-                styles.font_inter_sb_16,
-                styles.text_center,
-                {color: '#fff'},
-              ]}>
+              style={[styles.workoutText, styles.text_center, {color: '#fff'}]}>
               Add {Object.keys(newData).length} exercise
               {Object.keys(newData).length != 1 ? 's' : ''}
             </Text>

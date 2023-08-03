@@ -506,7 +506,6 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
           styles.mg_b_32,
           styles.flex_row,
           styles.flex_justify_between,
-          styles.footer,
         ]}>
         <View style={[styles.mg_v_8]}>
           <Text style={[styles.text_center]}>Duration</Text>
