@@ -433,7 +433,7 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
                   style: "destructive"
                 }
               ]
-
+            );
 
             return true; // By returning true, the default behavior of back button is overwritten
           }}>

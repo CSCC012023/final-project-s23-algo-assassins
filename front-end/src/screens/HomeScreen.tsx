@@ -37,6 +37,7 @@ const HomeScreen = () => {
   // Fetch workouts of all followed users and self
   const fetchWorkouts = async () => {
     try {
+      setIsLoading(true);
       const response = await fetch(
         'http://localhost:3000/api/users/get/follow',
         {
