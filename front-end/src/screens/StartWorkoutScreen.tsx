@@ -331,7 +331,7 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
       if (response.ok) {
         // Handler for successful response
         console.log('Success');
-        navigation.goBack();
+        navigation.navigate('HomeScreen', { randomParam: Math.random() });
       } else {
         const errorMessage = data.message; //|| 'SignUp Failed';
         let errorMessageInfo = 'Unknown Error';
@@ -409,7 +409,7 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
                 },
                 { 
                   text: "Discard", 
-                  onPress: () => navigation.goBack(),
+                  onPress: () => navigation.navigate('HomeScreen', { randomParam: Math.random() }),
                   style: "destructive"
                 }
               ]

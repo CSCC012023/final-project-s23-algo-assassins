@@ -32,16 +32,15 @@ function secondsToHms(duration) {
 
 const ExerciseSets = (props: any) => {
   return (
-    <View>
-      <Text>Set                     Weight                     Reps</Text>
-      <View style={styles.workoutStats}>
-        <Text>
+    <View style={{width:'100%'}}>
+      <View style={styles.statsRow}>
+        <Text style={styles.stat}>
           {props.set["set"] + 1}   
         </Text>
-        <Text>
-          {props.set["lbs"]}   
+        <Text style={styles.stat}>
+          {props.set["lbs"]} lbs   
         </Text>
-        <Text>
+        <Text style={styles.stat}>
           {props.set["reps"]}   
         </Text>
       </View>
@@ -51,11 +50,16 @@ const ExerciseSets = (props: any) => {
 
 const ExerciseEntry = (props: any) => {
   return (
-    <View>
+    <View style={styles.exerciseContainer}>
       <Text
-        style={styles.username}>
+        style={styles.exerciseName}>
         {props.exerciseName}
       </Text>
+      <View style={styles.labelsRow}>
+        <Text style={styles.label}>Set</Text>
+        <Text style={styles.label}>Weight</Text>
+        <Text style={styles.label}>Reps</Text>
+      </View>
       {
         props.exerciseStats["sets"].map((set, index) => 
         <ExerciseSets
@@ -106,7 +110,7 @@ const WelcomeCard = (props: any) => {
       </Text>
     </View>
     <View style={styles.workoutStats}>
-      <View>
+      <View style={{width:'100%'}}>
         {
           Object.entries(exercises).map(([key, value], index) => 
           <ExerciseEntry key={index} exerciseName={key} exerciseStats={value}/>)
@@ -143,6 +147,52 @@ const styles = StyleSheet.create({
     marginTop: 25,
     alignSelf: 'center',
     marginBottom: 20,
+  },
+  exerciseName: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    paddingBottom: 5,
+    paddingTop: 10,
+  },
+  setContainer: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#DDD',
+    marginBottom: 10,
+    paddingBottom: 10,
+  },
+  setText: {
+    fontSize: 16,
+  },
+  setStatsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  setStat: {
+    flex: 1,
+    textAlign: 'center',
+  },
+  statsGroup: {
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  labelsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 5,
+  },
+  statsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  label: {
+    fontSize: 16,
+  },
+  stat: {
+    fontSize: 14,
+  },
+  exerciseContainer: {
+    width:'100%',
+    padding: 2, 
   },
   profile: {width: 40, height: 40, marginRight: 5},
   username: {fontWeight: 'bold'},

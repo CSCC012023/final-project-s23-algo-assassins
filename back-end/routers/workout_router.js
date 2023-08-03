@@ -65,11 +65,11 @@ exports.workoutRouter.get('/followingWorkouts', (req, res) => __awaiter(void 0, 
     try {
         // Parse the emails from the string into an array
         let emails = following.split(",");
+        console.log(emails);
         // Fetch all users who are followed by the current user
         const followedUsers = yield User_1.User.find({ email: { $in: emails } });
         // Extract their ids
         let userIds = followedUsers.map(user => user._id);
-        userIds.push(user._id);
         // Fetch workouts of these users
         const workouts = yield Workout_1.Workout.find({
             userId: { $in: userIds }

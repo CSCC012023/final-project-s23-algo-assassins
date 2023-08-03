@@ -62,8 +62,10 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
         },
         body: JSON.stringify({
           name: userName,
+          username: userName,
           email: email,
           password: password,
+          img: {},
         }),
       });
 
@@ -80,6 +82,7 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
         let errorMessageInfo = 'Unknown Error';
         setSignUpStatus(errorMessage);
         console.log('Endpoint rejected, ', errorMessage.code);
+        console.log('Endpoint rejected, ', errorMessage.message);
         if (errorMessage.code == '11000') {
           // catch 11000 error
           errorMessageInfo = 'Email is already in use.';
