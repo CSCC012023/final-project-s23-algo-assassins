@@ -16,7 +16,7 @@ export type RootStackParamList = {
     navData: Dictionary<Exercise>;
   };
   Profile: undefined;
-  EditProfileScreen: undefined;
+  EditProfile: undefined;
   Settings: undefined;
   ResetLogin: undefined;
   NewPasswordScreen: {email: string; key: string};
@@ -28,6 +28,8 @@ export type RootStackParamList = {
     navData: Dictionary<Exercise>;
   };
   SavedRoutines: undefined;
+  SignUpIntro: undefined;
+  Friend: undefined;
 };
 
 export interface DummyScreenParams {

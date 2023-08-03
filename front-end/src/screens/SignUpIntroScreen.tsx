@@ -8,26 +8,22 @@ import {
 } from 'react-native';
 import {TextInput, Text, Button, Divider} from '@react-native-material/core';
 import React, {useState} from 'react';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigation';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Toast from 'react-native-toast-message';
+import {useNavigation} from '@react-navigation/native';
 
 const {width, height} = Dimensions.get('window');
 
-type SignUpIntroScreenProps = NativeStackScreenProps<
-  RootStackParamList,
-  'SignUpIntroScreen'
->;
-
-const SignUpScreen: React.FC<SignUpIntroScreenProps> = ({navigation}) => {
-  const [isChecked, setIsChecked] = React.useState(true);
-  const [weight, setWeight] = React.useState('');
-  const [user_height, setHeight] = React.useState('');
-  const [email, setEmail] = React.useState('');
-  const [age, setAge] = React.useState('');
-  const [status, setIntroStatus] = React.useState('');
-  const [expanded, setExpanded] = React.useState('');
+const SignUpScreen = () => {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const [isChecked, setIsChecked] = useState(true);
+  const [weight, setWeight] = useState('');
+  const [user_height, setHeight] = useState('');
+  const [email, setEmail] = useState('');
+  const [age, setAge] = useState('');
+  const [status, setIntroStatus] = useState('');
+  const [expanded, setExpanded] = useState('');
 
   // update Age
   const updateAge = async (age: number) => {
