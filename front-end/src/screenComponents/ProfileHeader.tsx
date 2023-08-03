@@ -1,7 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import {useNavigation, NavigationProp, useIsFocused} from '@react-navigation/native';
+import {
+  useNavigation,
+  NavigationProp,
+  useIsFocused,
+} from '@react-navigation/native';
 import {RootStackParamList} from '../types/navigation';
 import {User} from '../types/user';
 import {getUser} from '../utils/user';
@@ -9,8 +13,19 @@ import {getUser} from '../utils/user';
 export const ProfileSetup = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-  const [user, setUser] = useState({});
   const isFocused = useIsFocused();
+
+  const [user, setUser] = useState({});
+
+  const [name, setName] = useState<string>('Loading...');
+  const [accountName, setAccountName] = useState<string>('Loading...');
+  const [profileImage, setProfileImage] = useState<any>(
+    require('../assets/images/levi_pfp.png'),
+  );
+  const [biography, setBiography] = useState<string>('Loading...');
+  const [workouts, setWorkouts] = useState<number>(0);
+  const [followers, setFollowers] = useState<number>(0);
+  const [following, setFollowing] = useState<number>(0);
 
   const queryUser = async () => {
     console.log('fetching user');
@@ -36,16 +51,6 @@ export const ProfileSetup = () => {
       });
     }
   }, [isFocused]);
-
-  const [name, setName] = useState<string>('Loading...');
-  const [accountName, setAccountName] = useState<string>('Loading...');
-  const [profileImage, setProfileImage] = useState<any>(
-    require('../assets/images/levi_pfp.png'),
-  );
-  const [biography, setBiography] = useState<string>('Loading...');
-  const [workouts, setWorkouts] = useState<number>(0);
-  const [followers, setFollowers] = useState<number>(0);
-  const [following, setFollowing] = useState<number>(0);
 
   const goToSettings = () => {
     navigation.navigate('Settings');
@@ -247,53 +252,4 @@ const styles = StyleSheet.create({
     opacity: 0.6,
     fontFamily: 'Inter-Regular',
   },
-  //   profileButtonsContainer: {
-  //     width: '100%',
-  //     flexDirection: 'row',
-  //     justifyContent: 'space-evenly',
-  //     alignItems: 'center',
-  //   },
-  //   followButton: {
-  //     width: '42%',
-  //   },
-  //   followButtonContainer: {
-  //     width: '100%',
-  //     height: 35,
-  //     borderRadius: 5,
-  //     borderWidth: 1,
-  //     borderColor: '#DEDEDE',
-  //     justifyContent: 'center',
-  //     alignItems: 'center',
-  //   },
-  //   followingButtonContainer: {
-  //     backgroundColor: '#3493D9',
-  //   },
-  //   followButtonText: {
-  //     color: 'black',
-  //   },
-  //   followingButtonText: {
-  //     color: 'white',
-  //   },
-  //   messageButton: {
-  //     width: '42%',
-  //     height: 35,
-  //     borderWidth: 1,
-  //     borderColor: '#DEDEDE',
-  //     justifyContent: 'center',
-  //     alignItems: 'center',
-  //     borderRadius: 5,
-  //   },
-  //   chevronButton: {
-  //     width: '10%',
-  //     height: 35,
-  //     borderWidth: 1,
-  //     borderColor: '#DEDEDE',
-  //     justifyContent: 'center',
-  //     alignItems: 'center',
-  //     borderRadius: 5,
-  //   },
-  //   chevronIcon: {
-  //     fontSize: 20,
-  //     color: 'black',
-  //   },
 });

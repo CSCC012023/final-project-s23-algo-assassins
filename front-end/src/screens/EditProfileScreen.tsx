@@ -20,7 +20,12 @@ import {
   useNavigation,
 } from '@react-navigation/native';
 import {RootStackParamList} from '../types/navigation';
-import {getUser} from '../utils/user';
+import {
+  getUser,
+  updateBiography,
+  updateName,
+  updateUsername,
+} from '../utils/user';
 
 const EditProfileScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -35,7 +40,7 @@ const EditProfileScreen = () => {
       console.log('user found');
       setUser(user_);
       setName(user_.name);
-      setAccountName(user_.username);
+      setUsername(user_.username);
       setProfileImage(user_.img);
       setBiography(user_.biography ? user_.biography : '');
     }
@@ -57,17 +62,11 @@ const EditProfileScreen = () => {
   }, [navigation]);
 
   const [name, setName] = useState('');
-  const [accountName, setAccountName] = useState('');
+  const [username, setUsername] = useState('');
   const [biography, setBiography] = useState('');
   const [profileImage, setProfileImage] = React.useState<ImageOrVideo>(
     undefined as any,
   );
-
-  const showToastMessage = () => {
-    Toast.show({text1: 'Edit Sucess!'});
-  };
-
-  const [saveStatus, setSaveStatus] = useState(false);
 
   const formData = new FormData();
   formData.append('img', profileImage);
@@ -86,29 +85,10 @@ const EditProfileScreen = () => {
   };
 
   const handleSave = async () => {
-    // Update profile picture
-    try {
-      const response = await fetch(
-        'http://localhost:3000/api/users/update/picture?',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: formData,
-        },
-      );
-      console.log(response);
-    } catch (error) {
-      if (error instanceof Error) {
-        Toast.show({
-          type: 'error',
-          text1: 'Saving error',
-          text2: error.message,
-          position: 'bottom',
-        });
-      }
-    }
+    //
+    await updateBiography(biography);
+    await updateName(name);
+    await updateUsername(username);
   };
 
   return (
@@ -165,9 +145,11 @@ const EditProfileScreen = () => {
           <Text style={styles.label}>Username</Text>
           <TextInput
             placeholder="account name"
+            value={username}
             autoCorrect={false}
             autoCapitalize="none"
             style={styles.input}
+            onChangeText={text => setUsername(text)}
           />
         </View>
         <View style={styles.inputContainer}>
@@ -178,6 +160,7 @@ const EditProfileScreen = () => {
             autoCorrect={false}
             autoCapitalize="none"
             style={styles.input}
+            onChangeText={text => setBiography(text)}
           />
         </View>
       </View>
