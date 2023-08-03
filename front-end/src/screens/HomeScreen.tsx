@@ -10,6 +10,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import SearchBarHeader from '../components/searchBar/SearchBar';
 import WelcomeCard from '../components/welcomeCard/WelcomeCard';
+import PostCard from '../components/postCard/PostCard';
 
 const HomeScreen = () => {
   const [search, setSearch] = useState('');
@@ -17,6 +18,8 @@ const HomeScreen = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [userData, setUserData] = useState(null);
   const [userEmail, setUserEmail] = useState('');
+  const [userName, setUserName] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   // Function to get the currently logged-in user's email
   const getCurrentUserEmail = async () => {
@@ -26,6 +29,7 @@ const HomeScreen = () => {
       .then(data => {
         if (data.email) {
           setUserEmail(data.email);
+          setUserName(data.name);
         }
       })
       .catch(error => console.error('Error fetching user:', error));
@@ -33,6 +37,7 @@ const HomeScreen = () => {
   // Fetch workouts of all followed users and self
   const fetchWorkouts = async () => {
     try {
+      setIsLoading(true);
       const response = await fetch('http://localhost:3000/api/users/get/follow', {
         method: 'GET',
         headers: {
@@ -55,6 +60,7 @@ const HomeScreen = () => {
         },
       });
       const workouts = await res.json();
+      setIsLoading(false);
   
       return Array.isArray(workouts) ? workouts : [];
     } catch (error) {
@@ -190,8 +196,10 @@ const HomeScreen = () => {
       <SearchBarHeader value={search} onChange={updateSearch} />
       <ScrollView>
       {
+        isLoading ? null : 
+        workouts.length == 0 ? <WelcomeCard username={userName}/>:
         workouts.map((workout, index) => 
-        <WelcomeCard key={index} workout={workout}/>)
+        <PostCard key={index} workout={workout}/>)
       }
       </ScrollView>
     </SafeAreaView>

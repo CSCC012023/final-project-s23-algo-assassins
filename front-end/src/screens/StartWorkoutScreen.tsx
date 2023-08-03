@@ -409,7 +409,7 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
                 },
                 { 
                   text: "Discard", 
-                  onPress: () => navigation.navigate('HomeScreen', { randomParam: Math.random() }),
+                  onPress: () => navigation.goBack(),
                   style: "destructive"
                 }
               ]
