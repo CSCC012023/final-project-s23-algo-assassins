@@ -118,7 +118,6 @@ exports.userRouter.post("/signup", (req, res) => __awaiter(void 0, void 0, void 
     const password = bcrypt_1.default.hashSync(req.body.password, salt);
     const user = new User_1.User({
         name: req.body.name,
-        username: req.body.name,
         email: req.body.email,
         password: password,
         username: req.body.username,
