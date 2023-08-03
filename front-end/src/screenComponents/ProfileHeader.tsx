@@ -58,20 +58,18 @@ export const ProfileSetup = () => {
 
   return (
     <View>
-      {accountName ? (
-        <View style={styles.header}>
-          <View style={styles.accountInfo}>
-            <Text style={styles.accountName}>{accountName}</Text>
-            <Feather name="chevron-down" style={styles.chevronDownIcon} />
-          </View>
-          <View style={styles.headerIcons}>
-            <Feather name="bell" style={styles.headerIcon} />
-            <TouchableOpacity onPress={() => goToSettings()}>
-              <Feather name="settings" style={styles.headerIcon} />
-            </TouchableOpacity>
-          </View>
+      <View style={styles.header}>
+        <View style={styles.accountInfo}>
+          <Text style={styles.accountName}>{accountName}</Text>
+          <Feather name="chevron-down" style={styles.chevronDownIcon} />
         </View>
-      ) : null}
+        <View style={styles.headerIcons}>
+          <Feather name="bell" style={styles.headerIcon} />
+          <TouchableOpacity onPress={() => goToSettings()}>
+            <Feather name="settings" style={styles.headerIcon} />
+          </TouchableOpacity>
+        </View>
+      </View>
       <View style={styles.profileInfo}>
         <View style={styles.profileImageContainer}>
           <Image source={profileImage} style={styles.profileImage} />
@@ -121,28 +119,6 @@ export const ProfileSetup = () => {
     </View>
   );
 };
-
-// interface ProfileButtonsProps {
-//   id: number;
-//   name: string;
-//   accountName: string;
-//   biography: string;
-//   profileImage: ImageSourcePropType;
-// }
-
-// export const ProfileButtons: React.FC<ProfileButtonsProps> = ({
-//   id,
-//   name,
-//   accountName,
-//   profileImage,
-//   biography,
-// }) => {
-//   const navigation = useNavigation();
-//   // const [follow, setFollow] = useState<boolean>(false);
-
-//   return (
-//   );
-// };
 
 const styles = StyleSheet.create({
   header: {
