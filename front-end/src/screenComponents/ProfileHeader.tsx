@@ -69,6 +69,9 @@ export const ProfileSetup = () => {
           <TouchableOpacity>
             <Feather name="chevron-down" style={styles.chevronDownIcon} />
           </TouchableOpacity>
+          <TouchableOpacity>
+            <Feather name="chevron-down" style={styles.chevronDownIcon} />
+          </TouchableOpacity>
         </View>
         <View style={styles.headerIcons}>
           <Feather name="bell" style={styles.headerIcon} />
@@ -166,6 +169,7 @@ const styles = StyleSheet.create({
     // paddingRight: 15,
     color: '#FB8E40',
     opacity: 0.7,
+    opacity: 0.7,
   },
   profileInfo: {
     flexDirection: 'row',
@@ -225,10 +229,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FB8E40',
+    backgroundColor: '#FB8E40',
   },
   editProfileButtonText: {
     fontSize: 13,
+    fontSize: 13,
     fontFamily: 'Inter-Regular',
+    fontWeight: '600',
     fontWeight: '600',
     letterSpacing: 1,
     opacity: 0.5,
