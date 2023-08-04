@@ -15,13 +15,14 @@ import {RootStackParamList} from '../types/navigation';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Toast from 'react-native-toast-message';
 
-const {width} = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 const LoginScreen = ({navigation}: Props) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [isChecked, setIsChecked] = React.useState(true);
 
   // will display the login status
   const [loginStatus, setLoginStatus] = React.useState('');
@@ -124,36 +125,24 @@ const LoginScreen = ({navigation}: Props) => {
             Forgot password?
           </Text>
         </TouchableWithoutFeedback>
-        <View style={styles.mg_v_8}></View>
-        <Button
-          title="Login!"
-          style={[styles.mg_v_8]}
-          variant="contained"
-          color="rgba(251, 142, 64, 0.5)"
-          onPress={() => {
-            handleLogin();
-          }} // Connect handleLogin function to the onPress event
-        />
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginVertical: 20,
-          }}>
-          <Divider style={{flex: 1}} />
-          <Text style={(styles.mg_v_8, styles.mg_h_16)}>or</Text>
-          <Divider style={{flex: 1}} />
+        <View style={[styles.mg_h_16, styles.mg_v_8, styles.centeredContainer]}>
+          <TouchableOpacity
+            style={[styles.button, styles.mg_t_8, styles.buttonMargin]}
+            onPress={handleLogin}
+            disabled={!isChecked}>
+            <View
+              style={[
+                styles.buttonContent,
+                {
+                  backgroundColor: isChecked
+                    ? 'rgba(251, 142, 64, 0.5)'
+                    : 'rgba(251, 142, 64, 0.1)',
+                },
+              ]}>
+              <Text style={styles.buttonFont}>Login</Text>
+            </View>
+          </TouchableOpacity>
         </View>
-        <GoogleSigninButton
-          style={{width: '100%', height: 48}}
-          size={GoogleSigninButton.Size.Wide}
-          color={GoogleSigninButton.Color.Dark}
-          onPress={() => {
-            console.log('pressed');
-          }}
-        />
-        <Text style={styles.loginStatus}>{loginStatus}</Text>
       </View>
     </SafeAreaView>
   );
@@ -173,6 +162,14 @@ const styles = StyleSheet.create({
   },
   mg_b_8: {
     marginBottom: 8,
+  },
+  button: {
+    // Define the button styles here
+    width: width * 0.86,
+    height: height * 0.058,
+  },
+  buttonMargin: {
+    marginTop: 40,
   },
   buttonContent: {
     borderRadius: 5,
@@ -216,5 +213,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
     paddingVertical: 0,
     borderRadius: 0,
+  },
+  centeredContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
