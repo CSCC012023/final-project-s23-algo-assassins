@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,28 +6,48 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
-import {UserProfileSetup} from '../screenComponents/UserProfileHeader';
+import {UserProfileHeader} from '../screenComponents/UserProfileHeader';
 import {useIsFocused} from '@react-navigation/native';
-import {getUser} from '../utils/user';
+import {getUser, getUserByEmail} from '../utils/user';
 import {User} from '../types/user';
+import {useRoute, RouteProp, NavigationProp} from '@react-navigation/native';
 
-interface ProfileScreenProps {
+// type RootStackParamList = {
+//   UserProfile: {navigationEmail: string};
+// };
+
+// type UserProfileNavigationProp = NavigationProp<
+//   RootStackParamList,
+//   'UserProfile'
+// >;
+// type UserProfileRouteProp = RouteProp<RootStackParamList, 'UserProfile'>;
+
+// interface UserProfileProps {
+//   navigation: UserProfileNavigationProp;
+//   route: UserProfileRouteProp;
+// }
+
+interface UserProfileProps {
   navigation: any;
+  route: {email: string};
 }
 
-const UserProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
+const UserProfileScreen: React.FC<UserProfileProps> = ({
+  route: {email: string},
+}) => {
   // Pass the navigation prop to access navigation functionalities
   const [user, setUser] = useState({});
   const isFocused = useIsFocused();
+  const {emailNavigate} = route.params;
 
-  const queryUser = async () => {
+  const queryUser = useCallback(async () => {
     console.log('fetching user');
-    const user_: User | undefined = await getUser();
+    const user_: User | undefined = await getUserByEmail(emailNavigate);
     if (user_ !== undefined) {
       console.log('user found');
       setUser(user_);
     }
-  };
+  }, [emailNavigate]);
 
   useEffect(() => {
     if (isFocused) {
@@ -36,12 +56,12 @@ const UserProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
         console.error('Error fetching user data:', error);
       });
     }
-  }, [isFocused]);
+  }, [isFocused, queryUser]);
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <UserProfileSetup />
+        <UserProfileHeader email={emailNavigate} />
       </View>
     </SafeAreaView>
   );

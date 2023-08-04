@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {
   View,
   Text,
@@ -18,14 +18,20 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Entypo from 'react-native-vector-icons/Entypo';
 import {RootStackParamList} from '../types/navigation';
 import {User} from '../types/user';
-import {getUser} from '../utils/user';
+import {getUser, getUserByEmail} from '../utils/user';
 
-export const UserProfileSetup = () => {
+// interface UserProfileHeaderProps {
+//   navigation: any;
+//   route: any;
+// }
+
+export const UserProfileHeader = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const isFocused = useIsFocused();
 
   const [user, setUser] = useState({});
+//   const {emailNavigate} = route.params;
 
   const [name, setName] = useState<string>('Loading...');
   const [accountName, setAccountName] = useState<string>('Loading...');

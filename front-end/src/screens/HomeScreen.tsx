@@ -6,12 +6,34 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {
+  useNavigation,
+  NavigationProp,
+  RouteProp,
+} from '@react-navigation/native';
+import {RootStackParamList} from '../types/navigation';
 import SearchBarHeader from '../components/searchBar/SearchBar';
 import WelcomeCard from '../components/welcomeCard/WelcomeCard';
 import SuggestFollowCard from '../components/suggestFollowCard/SuggestFollowCard';
 
-const HomeScreen = () => {
+// type RootStackParamList = {
+//   UserProfile: {navigateEmail: string};
+// };
+
+// type HomeNavigationProp = NavigationProp<RootStackParamList, 'UserProfile'>;
+// type HomeRouteProp = RouteProp<RootStackParamList, 'UserProfile'>;
+
+// interface HomeScreenProps {
+//   navigation: HomeNavigationProp;
+//   route: HomeRouteProp;
+// }
+
+interface HomeScreenProps {
+  navigation: any;
+  route: any;
+}
+
+const HomeScreen: React.FC<HomeScreenProps> = () => {
   const [search, setSearch] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
   const [userData, setUserData] = useState(null);
@@ -32,9 +54,9 @@ const HomeScreen = () => {
   useEffect(() => {
     getCurrentUserEmail();
   }, []);
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-  const updateSearch = async searchText => {
+  const updateSearch = async (searchText: React.SetStateAction<string>) => {
     setSearch(searchText);
 
     try {
@@ -58,11 +80,13 @@ const HomeScreen = () => {
     }
   };
 
-  const handleUserButtonClick = () => {
-    navigation.navigate('UserProfile');
+  const navigateUserProfile = () => {
+    const emailNavigate = userData.email;
+    navigation.navigate('UserProfile', {emailNavigate}); // need to pass in userData.email
+    setShowDropdown(false);
   };
 
-  const handleFollow = friend => {
+  const handleFollow = (friend: any) => {
     // Replace localhost
     fetch('http://localhost:3000/api/users/create/follow', {
       method: 'PATCH',
@@ -85,7 +109,7 @@ const HomeScreen = () => {
       });
   };
 
-  const handleUnfollow = friend => {
+  const handleUnfollow = (friend: any) => {
     // Replace
     fetch('http://localhost:3000/api/users/remove/follow', {
       method: 'PATCH',
@@ -120,7 +144,7 @@ const HomeScreen = () => {
           <View style={styles.userInfoContainer}>
             <TouchableOpacity
               style={styles.dropdownButton}
-              onPress={handleUserButtonClick}>
+              onPress={navigateUserProfile}>
               <Text style={styles.nameEmailText}>{userDisplayName}</Text>
             </TouchableOpacity>
 
