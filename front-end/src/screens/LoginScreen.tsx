@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
     fontSize: Math.round(width * 0.04),
   },
   bg_white: {
-    backgroundColor: 'white',
+    backgroundColor: '#FFF3EB',
     flex: 1,
   },
   text_input: {

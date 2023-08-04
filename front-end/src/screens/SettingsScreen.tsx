@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
+import Feather from 'react-native-vector-icons/Feather';
 import {useNavigation, NavigationProp} from '@react-navigation/native';
 import {RootStackParamList} from '../types/navigation';
 
@@ -39,7 +40,7 @@ const SettingsScreen = () => {
       ]}>
       <View style={[styles.header]}>
         <TouchableOpacity onPress={() => goBack()}>
-          <Ionicons name="chevron-back" style={styles.closeIcon} />
+          <Feather name="chevron-left" style={styles.closeIcon} />
         </TouchableOpacity>
         <Text
           style={[
@@ -55,20 +56,20 @@ const SettingsScreen = () => {
         <Text style={styles.accountText}> Account </Text>
         <TouchableOpacity style={styles.buttonContainer}>
           <View style={styles.buttonContent}>
-            <Ionicons name="person-circle-outline" style={styles.profileIcon} />
-            <Text> Personal info </Text>
+            <Feather name="user" style={styles.profileIcon} />
+            <Text style={styles.settingsText}> Personal info </Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity style={styles.buttonContainer}>
           <View style={styles.buttonContent}>
-            <Ionicons name="key-outline" style={styles.profileIcon} />
-            <Text> Password and security </Text>
+            <Feather name="shield" style={styles.profileIcon} />
+            <Text style={styles.settingsText}> Password and security </Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity style={styles.buttonContainer}>
           <View style={styles.buttonContent}>
-            <Ionicons name="lock-closed-outline" style={styles.profileIcon} />
-            <Text> Privacy and permissions </Text>
+            <Feather name="unlock" style={styles.profileIcon} />
+            <Text style={styles.settingsText}> Privacy and permissions </Text>
           </View>
         </TouchableOpacity>
         <View style={styles.separator} />
@@ -76,7 +77,9 @@ const SettingsScreen = () => {
         <TouchableOpacity onPress={handleToggle} style={styles.buttonContainer}>
           <View style={styles.buttonContent}>
             <Ionicons name="sunny-outline" style={styles.profileIcon} />
-            <Text style={styles.personalizeContainer}>Light/Dark mode</Text>
+            <Text style={[styles.personalizeContainer, styles.settingsText]}>
+              Light/Dark mode
+            </Text>
             <Fontisto
               name={isToggled ? 'toggle-on' : 'toggle-off'}
               size={30}
@@ -88,11 +91,11 @@ const SettingsScreen = () => {
         <Text style={styles.accountText}> Info & Support </Text>
         <TouchableOpacity style={styles.buttonContainer}>
           <View style={styles.buttonContent}>
-            <Ionicons
-              name="information-circle-outline"
-              style={styles.profileIcon}
-            />
-            <Text> About FitBook </Text>
+            <Feather name="info" style={styles.profileIcon} />
+            <Text style={[styles.settingsText, styles.settingsText]}>
+              {' '}
+              About FitBook{' '}
+            </Text>
           </View>
         </TouchableOpacity>
         <View style={styles.separator} />
@@ -163,10 +166,11 @@ const styles = StyleSheet.create({
   buttonContent: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginVertical: 4,
     // justifyContent: 'center',
   },
   profileIcon: {
-    fontSize: 35,
+    fontSize: 34,
   },
   buttonText: {
     fontSize: 14,
@@ -221,6 +225,10 @@ const styles = StyleSheet.create({
   },
   blackText: {
     color: 'black',
+  },
+  settingsText: {
+    fontFamily: 'Inter-Regular',
+    marginHorizontal: 5,
   },
 });
 

@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   bg_white: {
-    backgroundColor: 'white',
+    backgroundColor: '#EDF1FD',
     flex: 1,
   },
   text_input: {
