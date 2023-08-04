@@ -19,11 +19,7 @@ import {RootStackParamList} from '../types/navigation';
 import {styles} from './WorkoutScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Dictionary, Exercise, Set} from '../types/workout';
-<<<<<<< HEAD
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-=======
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
->>>>>>> main
 import {Alert} from 'react-native';
 import Toast from 'react-native-toast-message';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
@@ -438,37 +434,11 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
           }}>
           <Ionicons name="chevron-back" style={styles.closeIcon} />
         </TouchableOpacity>
-<<<<<<< HEAD
-        <Text style={[styles.font_inter_20]}>Workout</Text>
-        <Pressable
-          pressEffectColor="#fff"
-          style={[
-            styles.btn,
-            {
-              backgroundColor: 'rgba(55, 97, 248, 0.8)',
-              display: 'flex',
-              marginLeft: 135,
-              width: '30%',
-              padding: 0,
-            },
-          ]}
-          onPress={handleFinishWorkout}>
-          <Text
-            style={[
-              styles.font_inter_sb_16,
-              styles.text_center,
-              {color: '#fff'},
-            ]}>
-            Finish
-          </Text>
-        </Pressable>
-=======
         <Text style={styles.title}>New Workout</Text>
         <Text style={styles.placeholder}> Lol </Text>
       </View>
       <View style={styles.body}>
         <MaterialCommunityIcons name="weight-lifter" style={styles.closeIcon} />
->>>>>>> main
       </View>
       <ScrollView
         showsVerticalScrollIndicator={false}
