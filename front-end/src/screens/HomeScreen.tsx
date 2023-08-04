@@ -12,6 +12,7 @@ import SearchBarHeader from '../components/searchBar/SearchBar';
 import WelcomeCard from '../components/welcomeCard/WelcomeCard';
 import PostCard from '../components/postCard/PostCard';
 import { RootStackParamList } from '../types/navigation';
+import SuggestFollowCard from '../components/suggestFollowCard/SuggestFollowCard';
 
 interface HomeScreenProps {
   navigation: any;

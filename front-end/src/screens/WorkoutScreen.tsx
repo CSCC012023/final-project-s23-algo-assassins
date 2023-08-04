@@ -46,7 +46,7 @@ const WorkoutScreen = ({navigation: {navigate}}: Props) => {
       <View style={styles.header}>
         <Text style={styles.title}>Workout</Text>
       </View>
-      <View style={[styles.mg_h_16, styles.mg_v_8]}>
+      <View style={[styles.mg_h_16]}>
         <View style={[styles.btn_new_workout]}>
           <TouchableOpacity
             onPress={() => navigate('StartWorkout', {navData: {}})}

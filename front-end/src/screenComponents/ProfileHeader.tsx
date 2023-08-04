@@ -56,11 +56,19 @@ export const ProfileSetup = () => {
     navigation.navigate('Settings');
   };
 
+  const handleFriendsButtonPress = () => {
+    // Navigate to the FriendScreen when the button is pressed
+    navigation.navigate('Friend');
+  };
+
   return (
     <View>
       <View style={styles.header}>
         <View style={styles.accountInfo}>
           <Text style={styles.accountName}>{accountName}</Text>
+          <TouchableOpacity>
+            <Feather name="chevron-down" style={styles.chevronDownIcon} />
+          </TouchableOpacity>
           <TouchableOpacity>
             <Feather name="chevron-down" style={styles.chevronDownIcon} />
           </TouchableOpacity>
@@ -110,13 +118,20 @@ export const ProfileSetup = () => {
             <Text style={styles.editProfileButtonText}>Edit Profile</Text>
           </View>
         </TouchableOpacity>
-        <View style={styles.badgeContainer}>
+        <TouchableOpacity
+          onPressIn={handleFriendsButtonPress}
+          style={styles.editProfileButton}>
+          <View style={styles.friendsProfileButtonContainer}>
+            <Text style={styles.friendsProfileButtonText}>View Friends</Text>
+          </View>
+        </TouchableOpacity>
+        {/* <View style={styles.badgeContainer}>
           <Text style={styles.badgeText}>Badge</Text>
           <Image
             style={styles.badgeSize}
             source={require('../assets/images/immortal.png')}
           />
-        </View>
+        </View> */}
       </View>
     </View>
   );
@@ -153,6 +168,7 @@ const styles = StyleSheet.create({
     padding: 10,
     // paddingRight: 15,
     color: '#FB8E40',
+    opacity: 0.7,
     opacity: 0.7,
   },
   profileInfo: {
@@ -195,7 +211,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   editProfileContainer: {
-    width: '50%',
+    width: '40%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -205,19 +221,43 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   editProfileButtonContainer: {
-    width: '100%',
+    marginTop: 10,
+    marginRight: 10,
+    width: 130,
     height: 35,
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FB8E40',
+    backgroundColor: '#FB8E40',
   },
   editProfileButtonText: {
+    fontSize: 13,
+    fontSize: 13,
+    fontFamily: 'Inter-Regular',
+    fontWeight: '600',
+    fontWeight: '600',
+    letterSpacing: 1,
+    opacity: 0.5,
+  },
+  friendsProfileButtonContainer: {
+    marginTop: 10,
+    marginRight: 10,
+    width: 130,
+    height: 35,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#3761F8',
+    opacity: 0.8,
+  },
+  friendsProfileButtonText: {
     fontSize: 13,
     fontFamily: 'Inter-Regular',
     fontWeight: '600',
     letterSpacing: 1,
-    opacity: 0.5,
+    opacity: 0.9,
+    color: 'white',
   },
   badgeContainer: {
     paddingLeft: 70,

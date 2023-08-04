@@ -20,11 +20,6 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
   const [user, setUser] = useState({});
   const isFocused = useIsFocused();
 
-  const handleFriendsButtonPress = () => {
-    // Navigate to the FriendScreen when the button is pressed
-    navigation.navigate('Friend');
-  };
-
   const queryUser = async () => {
     console.log('fetching user');
     const user_: User | undefined = await getUser();
@@ -48,13 +43,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
       <View style={styles.content}>
         <ProfileSetup />
       </View>
-      <View style={styles.bioContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={handleFriendsButtonPress}>
-          <Text style={styles.buttonText}>View Friends</Text>
-        </TouchableOpacity>
-      </View>
+      <View style={styles.bioContainer} />
     </SafeAreaView>
   );
 };
