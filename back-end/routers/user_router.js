@@ -128,6 +128,15 @@ exports.userRouter.post("/signup", (req, res) => __awaiter(void 0, void 0, void 
         followers: [],
         following: [],
     });
+    req.session.user_email = user.email;
+    user
+        .save()
+        .then((data) => {
+        return res.json(data);
+    })
+        .catch((err) => {
+        return res.status(500).json({ message: err });
+    });
 }));
 // Requires email and password to identify
 // Log in the user and creates a session
