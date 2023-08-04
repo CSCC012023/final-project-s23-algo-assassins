@@ -25,11 +25,6 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
     navigation.navigate('Friend');
   };
 
-  const tempUserProfile = () => {
-    // Navigate to user profile
-    navigation.navigate('UserProfile');
-  };
-
   const queryUser = async () => {
     console.log('fetching user');
     const user_: User | undefined = await getUser();
@@ -58,9 +53,6 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
           style={styles.button}
           onPress={handleFriendsButtonPress}>
           <Text style={styles.buttonText}>View Friends</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={tempUserProfile}>
-          <Text style={styles.buttonText}>Go To User Profile</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
