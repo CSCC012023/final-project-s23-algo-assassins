@@ -8,12 +8,17 @@ import {
   Dimensions,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign'; // Import AntDesign icon
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const {width, height} = Dimensions.get('window'); // Get screen dimensions
 
 const FriendScreen = ({navigation}) => {
   const [friends, setFriends] = useState([]);
   const [userEmail, setUserEmail] = useState('');
+
+  const goBack = () => {
+    navigation.goBack();
+  };
 
   // Function to get the currently logged-in user's email
   const getCurrentUserEmail = async () => {
@@ -89,15 +94,12 @@ const FriendScreen = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.bg_white}>
-      <View style={styles.headerContainer}>
-        <View style={styles.headerContent}>
-          <TouchableOpacity
-            style={{marginTop: 0.05 * height}}
-            onPress={() => navigation.navigate('Home')}>
-            <AntDesign name="left" size={30} color="grey" />
-          </TouchableOpacity>
-          <Text style={styles.backButtonText}>Friends</Text>
-        </View>
+      <View style={styles.headerContent}>
+        <TouchableOpacity onPress={goBack}>
+          <Ionicons name="chevron-back" size={30} color="grey" />
+        </TouchableOpacity>
+        <Text style={styles.backButtonText}>Friends</Text>
+        <Text style={styles.placeholder}>Lol</Text>
       </View>
       <View style={styles.friendsContainer}>
         {friends.length > 0 ? (
@@ -133,19 +135,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flex: 1,
   },
-  headerContainer: {
-    paddingVertical: 16,
-    paddingHorizontal: 24,
-  },
   headerContent: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingBottom: 10,
   },
   backButtonText: {
-    fontSize: 22,
-    color: 'grey',
-    marginLeft: 10,
-    marginTop: 30,
+    fontSize: 18,
+    fontWeight: '500',
+    fontFamily: 'Inter-Regular',
   },
   friendsContainer: {
     flex: 1,
@@ -156,30 +157,38 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'black',
     marginVertical: 5,
+    marginLeft: 10,
+    opacity: 0.7,
   },
   friendRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: 10,
+    marginTop: 5,
   },
   buttonContainer: {
     flexDirection: 'row',
     marginLeft: 10,
   },
   followButton: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#3761F8',
     paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 5,
+    paddingVertical: 7,
+    borderRadius: 8,
     marginRight: 5,
+    opacity: 0.8,
   },
   unfollowButton: {
-    backgroundColor: '#f88044',
+    backgroundColor: '#F88044',
     paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 5,
+    paddingVertical: 7,
+    borderRadius: 8,
   },
   buttonText: {
     color: 'white',
     fontSize: 16,
+  },
+  placeholder: {
+    opacity: 0.0,
   },
 });

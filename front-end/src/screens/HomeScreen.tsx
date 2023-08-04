@@ -16,18 +16,6 @@ import SearchBarHeader from '../components/searchBar/SearchBar';
 import WelcomeCard from '../components/welcomeCard/WelcomeCard';
 import SuggestFollowCard from '../components/suggestFollowCard/SuggestFollowCard';
 
-// type RootStackParamList = {
-//   UserProfile: {navigateEmail: string};
-// };
-
-// type HomeNavigationProp = NavigationProp<RootStackParamList, 'UserProfile'>;
-// type HomeRouteProp = RouteProp<RootStackParamList, 'UserProfile'>;
-
-// interface HomeScreenProps {
-//   navigation: HomeNavigationProp;
-//   route: HomeRouteProp;
-// }
-
 interface HomeScreenProps {
   navigation: any;
   route: any;
@@ -103,20 +91,6 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
               onPress={navigateUserProfile}>
               <Text style={styles.nameEmailText}>{userDisplayName}</Text>
             </TouchableOpacity>
-
-            {/* <View style={styles.followUnfollowContainer}>
-              <TouchableOpacity
-                style={[styles.dropdownButton, styles.followButton]}
-                onPress={() => handleFollow(userData.email)}>
-                <Text style={styles.dropdownButtonText}>Follow</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={[styles.dropdownButton, styles.unfollowButton]}
-                onPress={() => handleUnfollow(userData.email)}>
-                <Text style={styles.dropdownButtonText}>Unfollow</Text>
-              </TouchableOpacity>
-            </View> */}
           </View>
         </View>
       );

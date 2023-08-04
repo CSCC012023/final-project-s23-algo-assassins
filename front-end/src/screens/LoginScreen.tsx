@@ -225,6 +225,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 18,
     lineHeight: 22,
+    opacity: 0.8,
   },
   font_inter_forgot: {
     fontFamily: 'Inter-Regular',
