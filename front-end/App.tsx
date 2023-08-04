@@ -26,6 +26,7 @@ import RoutineAddExerciseScreen from './src/screens/RoutineAddExerciseScreen';
 import SavedRoutinesScreen from './src/screens/SavedRoutinesScreen';
 import FriendScreen from './src/screens/FriendScreen';
 import UserProfileScreen from './src/screens/UserProfileScreen';
+import HomeScreen from './src/screens/HomeScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -39,6 +40,7 @@ function App() {
             component={LandingScreen}
             options={{title: 'Overview'}}
           />
+          <Stack.Screen name="HomeScreen" component={HomeScreen}/>
           <Stack.Screen name="HomeTabs" component={HomeTabs} />
           <Stack.Screen name="Details" component={DetailsScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
