@@ -7,12 +7,18 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {NavigationProp, useNavigation, RouteProp} from '@react-navigation/native';
 import SearchBarHeader from '../components/searchBar/SearchBar';
 import WelcomeCard from '../components/welcomeCard/WelcomeCard';
 import PostCard from '../components/postCard/PostCard';
+import { RootStackParamList } from '../types/navigation';
 
-const HomeScreen = () => {
+interface HomeScreenProps {
+  navigation: any;
+  route: any;
+}
+
+const HomeScreen: React.FC<HomeScreenProps> = () => {
   const [search, setSearch] = useState('');
   const [workouts, setWorkouts] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -88,11 +94,11 @@ const HomeScreen = () => {
         );
       });
       setWorkouts(workouts);
-    })kenny;
+    });
   }, []);
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-  const updateSearch = async searchText => {
+  const updateSearch = async (searchText: React.SetStateAction<string>) => {
     setSearch(searchText);
 
     try {
@@ -116,54 +122,12 @@ const HomeScreen = () => {
     }
   };
 
-  const handleUserButtonClick = () => {
-    navigation.navigate('Profile');
-  };
-
-  const handleFollow = friend => {
-    // Replace localhost
-    fetch('http://localhost:3000/api/users/create/follow', {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        followed_email: friend, // The friend's email to follow
-        follower_email: userEmail, // The currently logged-in user's email
-      }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        // successful follow
-        console.log('Followed', friend);
-      })
-      .catch(error => {
-        // Handle error scenarios
-        console.error('Error following friend:', error);
-      });
-  };
-
-  const handleUnfollow = friend => {
-    // Replace
-    fetch('http://localhost:3000/api/users/remove/follow', {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        followed_email: friend, // The friend's email to unfollow
-        follower_email: userEmail, // The currently logged-in user's email
-      }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        // Handle the response for successful unfollow
-        console.log('Unfollowed', friend);
-      })
-      .catch(error => {
-        // Handle error scenarios
-        console.error('Error unfollowing friend:', error);
-      });
+  const navigateUserProfile = () => {
+    const email: string = userData.email;
+    console.log('Email:');
+    console.log(email);
+    navigation.navigate('UserProfile', {email: email}); // need to pass in userData.email
+    setShowDropdown(false);
   };
 
   const renderDropdown = () => {
@@ -178,23 +142,9 @@ const HomeScreen = () => {
           <View style={styles.userInfoContainer}>
             <TouchableOpacity
               style={styles.dropdownButton}
-              onPress={handleUserButtonClick}>
+              onPress={navigateUserProfile}>
               <Text style={styles.nameEmailText}>{userDisplayName}</Text>
             </TouchableOpacity>
-
-            <View style={styles.followUnfollowContainer}>
-              <TouchableOpacity
-                style={[styles.dropdownButton, styles.followButton]}
-                onPress={() => handleFollow(userData.email)}>
-                <Text style={styles.dropdownButtonText}>Follow</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={[styles.dropdownButton, styles.unfollowButton]}
-                onPress={() => handleUnfollow(userData.email)}>
-                <Text style={styles.dropdownButtonText}>Unfollow</Text>
-              </TouchableOpacity>
-            </View>
           </View>
         </View>
       );
@@ -214,6 +164,7 @@ const HomeScreen = () => {
         <PostCard key={index} workout={workout}/>)
       }
       </ScrollView>
+      {renderDropdown()}
     </SafeAreaView>
   );
 };
