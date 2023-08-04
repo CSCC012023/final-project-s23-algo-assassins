@@ -69,9 +69,6 @@ export const ProfileSetup = () => {
           <TouchableOpacity>
             <Feather name="chevron-down" style={styles.chevronDownIcon} />
           </TouchableOpacity>
-          <TouchableOpacity>
-            <Feather name="chevron-down" style={styles.chevronDownIcon} />
-          </TouchableOpacity>
         </View>
         <View style={styles.headerIcons}>
           <Feather name="bell" style={styles.headerIcon} />
