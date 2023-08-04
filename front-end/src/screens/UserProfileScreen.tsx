@@ -35,16 +35,18 @@ const UserProfileScreen: React.FC<UserProfileProps> = ({route}) => {
   // Pass the navigation prop to access navigation functionalities
   const [user, setUser] = useState({});
   const isFocused = useIsFocused();
-  const emailNavigate = route.params.email;
+  const email: string = route.params.email;
 
   const queryUser = useCallback(async () => {
+    // console.log(emailNavigate);
+    // console.log('HELLO');
     console.log('fetching user');
-    const user_: User | undefined = await getUserByEmail(emailNavigate);
+    const user_: User | undefined = await getUserByEmail(email);
     if (user_ !== undefined) {
       console.log('user found');
       setUser(user_);
     }
-  }, [emailNavigate]);
+  }, [email]);
 
   useEffect(() => {
     if (isFocused) {
@@ -58,7 +60,7 @@ const UserProfileScreen: React.FC<UserProfileProps> = ({route}) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <UserProfileHeader email={emailNavigate} />
+        <UserProfileHeader email={email} />
       </View>
     </SafeAreaView>
   );

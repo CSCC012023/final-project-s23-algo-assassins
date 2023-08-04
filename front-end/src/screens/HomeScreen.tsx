@@ -81,55 +81,11 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   };
 
   const navigateUserProfile = () => {
-    const emailNavigate = userData.email;
-    navigation.navigate('UserProfile', {emailNavigate}); // need to pass in userData.email
+    const email: string = userData.email;
+    console.log('Email:');
+    console.log(email);
+    navigation.navigate('UserProfile', {email: email}); // need to pass in userData.email
     setShowDropdown(false);
-  };
-
-  const handleFollow = (friend: any) => {
-    // Replace localhost
-    fetch('http://localhost:3000/api/users/create/follow', {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        followed_email: friend, // The friend's email to follow
-        follower_email: userEmail, // The currently logged-in user's email
-      }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        // successful follow
-        console.log('Followed', friend);
-      })
-      .catch(error => {
-        // Handle error scenarios
-        console.error('Error following friend:', error);
-      });
-  };
-
-  const handleUnfollow = (friend: any) => {
-    // Replace
-    fetch('http://localhost:3000/api/users/remove/follow', {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        followed_email: friend, // The friend's email to unfollow
-        follower_email: userEmail, // The currently logged-in user's email
-      }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        // Handle the response for successful unfollow
-        console.log('Unfollowed', friend);
-      })
-      .catch(error => {
-        // Handle error scenarios
-        console.error('Error unfollowing friend:', error);
-      });
   };
 
   const renderDropdown = () => {

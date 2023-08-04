@@ -153,6 +153,7 @@ const styles = StyleSheet.create({
     padding: 10,
     // paddingRight: 15,
     color: '#FB8E40',
+    opacity: 0.7,
   },
   profileInfo: {
     flexDirection: 'row',

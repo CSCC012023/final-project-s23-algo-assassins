@@ -30,7 +30,7 @@ export const UserProfileHeader = ({email}: {email: string}) => {
 
   const isFocused = useIsFocused();
 
-  const [user, setUser] = useState({});
+  const [user, setUser]: any = useState({});
   //   const {emailNavigate} = route.params;
 
   const [name, setName] = useState<string>('Loading...');
@@ -45,6 +45,24 @@ export const UserProfileHeader = ({email}: {email: string}) => {
 
   const [isFollowed, setIsFollowed] = useState(false);
 
+  const [userEmail, setUserEmail] = useState('');
+
+  // Function to get the currently logged-in user's email
+  const getCurrentUserEmail = async () => {
+    // Replace with localhost
+    fetch('http://localhost:3000/api/users/me')
+      .then(response => response.json())
+      .then(data => {
+        if (data.email) {
+          setUserEmail(data.email);
+        }
+      })
+      .catch(error => console.error('Error fetching user:', error));
+  };
+  useEffect(() => {
+    getCurrentUserEmail();
+  }, []);
+
   const handleFollowToggle = () => {
     if (isFollowed) {
       // Show confirmation alert when unfollowing
@@ -56,19 +74,72 @@ export const UserProfileHeader = ({email}: {email: string}) => {
           {
             text: 'Unfollow',
             style: 'destructive',
-            onPress: () => setIsFollowed(false),
+            onPress: () => {
+              handleUnfollow(email);
+              setIsFollowed(false);
+              setFollowers(prevFollowers => prevFollowers - 1);
+            },
           },
         ],
         {cancelable: true},
       );
     } else {
-      // Toggle the follow state when following
-      setIsFollowed(prev => !prev);
+      handleFollow(email);
+      setIsFollowed(true);
+      setFollowers(prevFollowers => prevFollowers + 1);
     }
   };
 
-  const queryUser = async () => {
+  const handleFollow = (friend: any) => {
+    // Replace localhost
+    fetch('http://localhost:3000/api/users/create/follow', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        followed_email: friend, // The friend's email to follow
+        follower_email: userEmail, // The currently logged-in user's email
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        // successful follow
+        console.log('Followed', friend);
+      })
+      .catch(error => {
+        // Handle error scenarios
+        console.error('Error following friend:', error);
+      });
+  };
+
+  const handleUnfollow = (friend: any) => {
+    // Replace
+    fetch('http://localhost:3000/api/users/remove/follow', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        followed_email: friend, // The friend's email to unfollow
+        follower_email: userEmail, // The currently logged-in user's email
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        // Handle the response for successful unfollow
+        console.log('Unfollowed', friend);
+      })
+      .catch(error => {
+        // Handle error scenarios
+        console.error('Error unfollowing friend:', error);
+      });
+  };
+
+  const queryUser = useCallback(async () => {
     console.log('fetching user');
+    // console.log('HI');
+    // console.log(email);
     const user_: User | undefined = await getUserByEmail(email);
     if (user_ !== undefined) {
       console.log('user found');
@@ -81,16 +152,25 @@ export const UserProfileHeader = ({email}: {email: string}) => {
       setFollowers(user_.followers ? user_.followers.length : 0);
       setFollowing(user_.following ? user_.following.length : 0);
     }
-  };
+  }, [email]);
 
   useEffect(() => {
-    if (isFocused) {
-      console.log('called');
-      queryUser().catch(error => {
-        console.error('Error fetching user data:', error);
-      });
-    }
-  }, [isFocused]);
+    // Function to check if the current user is followed
+    const checkFollowStatus = () => {
+      const isUserFollowed = user.followers.includes(userEmail);
+      setIsFollowed(isUserFollowed);
+    };
+    const callQueryUser = async () => {
+      if (isFocused) {
+        console.log(isFollowed);
+        await queryUser().catch(error => {
+          console.error('Error fetching user data:', error);
+        });
+        checkFollowStatus(); // Check follow status after fetching user data
+      }
+    };
+    callQueryUser();
+  }, [isFocused, queryUser, userEmail, user.followers, followers, isFollowed]);
 
   const goToSettings = () => {
     navigation.navigate('Settings');
@@ -202,6 +282,7 @@ const styles = StyleSheet.create({
     padding: 10,
     // paddingRight: 15,
     color: '#FB8E40',
+    opacity: 0.7,
   },
   profileInfo: {
     flexDirection: 'row',
@@ -261,6 +342,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#3761F8',
+    // opacity: 0.5,
   },
   messageButtonContainer: {
     marginTop: 10,
@@ -271,6 +353,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FB8E40',
+    opacity: 0.7,
   },
   editProfileButtonText: {
     fontSize: 13,
