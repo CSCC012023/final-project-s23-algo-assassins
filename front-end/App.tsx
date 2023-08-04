@@ -25,6 +25,7 @@ import CreateRoutineScreen from './src/screens/CreateRoutineScreen';
 import RoutineAddExerciseScreen from './src/screens/RoutineAddExerciseScreen';
 import SavedRoutinesScreen from './src/screens/SavedRoutinesScreen';
 import FriendScreen from './src/screens/FriendScreen';
+import UserProfileScreen from './src/screens/UserProfileScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -54,6 +55,7 @@ function App() {
             component={RoutineAddExerciseScreen}
           />
           <Stack.Screen name="Profile" component={ProfileScreen} />
+          <Stack.Screen name="UserProfile" component={UserProfileScreen} />
           <Stack.Screen name="EditProfile" component={EditProfile} />
           <Stack.Screen name="SignUp" component={SignUpScreen} />
           <Stack.Screen

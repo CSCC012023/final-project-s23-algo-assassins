@@ -6,7 +6,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
-import {ProfileSetup} from '../screenComponents/ProfileHeader';
+import {UserProfileSetup} from '../screenComponents/UserProfileHeader';
 import {useIsFocused} from '@react-navigation/native';
 import {getUser} from '../utils/user';
 import {User} from '../types/user';
@@ -15,20 +15,10 @@ interface ProfileScreenProps {
   navigation: any;
 }
 
-const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
+const UserProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
   // Pass the navigation prop to access navigation functionalities
   const [user, setUser] = useState({});
   const isFocused = useIsFocused();
-
-  const handleFriendsButtonPress = () => {
-    // Navigate to the FriendScreen when the button is pressed
-    navigation.navigate('Friend');
-  };
-
-  const tempUserProfile = () => {
-    // Navigate to user profile
-    navigation.navigate('UserProfile');
-  };
 
   const queryUser = async () => {
     console.log('fetching user');
@@ -51,17 +41,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <ProfileSetup />
-      </View>
-      <View style={styles.bioContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={handleFriendsButtonPress}>
-          <Text style={styles.buttonText}>View Friends</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={tempUserProfile}>
-          <Text style={styles.buttonText}>Go To User Profile</Text>
-        </TouchableOpacity>
+        <UserProfileSetup />
       </View>
     </SafeAreaView>
   );
@@ -96,4 +76,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileScreen;
+export default UserProfileScreen;

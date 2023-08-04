@@ -170,7 +170,7 @@ const RoutineAddExerciseScreen = ({route, navigation: {navigate}}: Props) => {
           onPress={() => {
             navigate('StartWorkout', {navData: navData});
           }}>
-          <Ionicons name="chevron-back-outline" style={styles.closeIcon} />
+          <Ionicons name="chevron-back" style={styles.closeIcon} />
         </TouchableOpacity>
         <Text style={styles.title}>Routine</Text>
         <Text style={styles.placeholder}> Lol </Text>

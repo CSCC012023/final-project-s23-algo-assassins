@@ -39,7 +39,7 @@ const SettingsScreen = () => {
       ]}>
       <View style={[styles.header]}>
         <TouchableOpacity onPress={() => goBack()}>
-          <Ionicons name="chevron-back-outline" style={styles.closeIcon} />
+          <Ionicons name="chevron-back" style={styles.closeIcon} />
         </TouchableOpacity>
         <Text
           style={[

@@ -1,16 +1,26 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import {
   useNavigation,
   NavigationProp,
   useIsFocused,
 } from '@react-navigation/native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Entypo from 'react-native-vector-icons/Entypo';
 import {RootStackParamList} from '../types/navigation';
 import {User} from '../types/user';
 import {getUser} from '../utils/user';
 
-export const ProfileSetup = () => {
+export const UserProfileSetup = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const isFocused = useIsFocused();
@@ -26,6 +36,30 @@ export const ProfileSetup = () => {
   const [workouts, setWorkouts] = useState<number>(0);
   const [followers, setFollowers] = useState<number>(0);
   const [following, setFollowing] = useState<number>(0);
+
+  const [isFollowed, setIsFollowed] = useState(false);
+
+  const handleFollowToggle = () => {
+    if (isFollowed) {
+      // Show confirmation alert when unfollowing
+      Alert.alert(
+        'Unfollow User',
+        'Are you sure you want to unfollow this user?',
+        [
+          {text: 'Cancel', style: 'cancel'},
+          {
+            text: 'Unfollow',
+            style: 'destructive',
+            onPress: () => setIsFollowed(false),
+          },
+        ],
+        {cancelable: true},
+      );
+    } else {
+      // Toggle the follow state when following
+      setIsFollowed(prev => !prev);
+    }
+  };
 
   const queryUser = async () => {
     console.log('fetching user');
@@ -56,19 +90,28 @@ export const ProfileSetup = () => {
     navigation.navigate('Settings');
   };
 
+  const goBack = () => {
+    navigation.goBack();
+  };
+
   return (
     <View>
       <View style={styles.header}>
         <View style={styles.accountInfo}>
-          <Text style={styles.accountName}>{accountName}</Text>
-          <TouchableOpacity>
-            <Feather name="chevron-down" style={styles.chevronDownIcon} />
+          <TouchableOpacity onPress={goBack}>
+            <MaterialCommunityIcons
+              name="keyboard-backspace"
+              style={styles.closeIcon}
+            />
           </TouchableOpacity>
+          <Text style={styles.accountName}>{accountName}</Text>
         </View>
         <View style={styles.headerIcons}>
-          <Feather name="bell" style={styles.headerIcon} />
+          <TouchableOpacity>
+            <Feather name="bell" style={styles.headerIcon} />
+          </TouchableOpacity>
           <TouchableOpacity onPress={() => goToSettings()}>
-            <Feather name="settings" style={styles.headerIcon} />
+            <Entypo name="dots-three-horizontal" style={styles.headerIcon} />
           </TouchableOpacity>
         </View>
       </View>
@@ -96,27 +139,27 @@ export const ProfileSetup = () => {
         <Text style={styles.bioText}>{biography}</Text>
       </View>
       <View style={styles.editProfileContainer}>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('EditProfile', {
-              name: name,
-              accountName: accountName,
-              biography: biography,
-              profileImage: profileImage,
-            })
-          }
-          style={styles.editProfileButton}>
-          <View style={styles.editProfileButtonContainer}>
-            <Text style={styles.editProfileButtonText}>Edit Profile</Text>
+        <TouchableOpacity onPress={handleFollowToggle}>
+          <View
+            style={[
+              styles.editProfileButtonContainer,
+              {backgroundColor: isFollowed ? '#D9D9D9' : '#3761F8'}, // Change background color based on state
+              {},
+            ]}>
+            <Text
+              style={[
+                styles.editProfileButtonText,
+                {color: isFollowed ? 'black' : 'white'}, // Change text color based on state
+              ]}>
+              {isFollowed ? 'Followed' : 'Follow'}
+            </Text>
           </View>
         </TouchableOpacity>
-        <View style={styles.badgeContainer}>
-          <Text style={styles.badgeText}>Badge</Text>
-          <Image
-            style={styles.badgeSize}
-            source={require('../assets/images/immortal.png')}
-          />
-        </View>
+        <TouchableOpacity>
+          <View style={styles.messageButtonContainer}>
+            <Text style={styles.messageButtonText}>Message</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -204,7 +247,19 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   editProfileButtonContainer: {
-    width: '100%',
+    marginTop: 10,
+    marginRight: 10,
+    width: 130,
+    height: 35,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#3761F8',
+  },
+  messageButtonContainer: {
+    marginTop: 10,
+    marginRight: 10,
+    width: 130,
     height: 35,
     borderRadius: 8,
     justifyContent: 'center',
@@ -212,6 +267,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#FB8E40',
   },
   editProfileButtonText: {
+    fontSize: 13,
+    fontFamily: 'Inter-Regular',
+    fontWeight: '600',
+    color: 'white',
+    letterSpacing: 1,
+    opacity: 0.8,
+  },
+  messageButtonText: {
     fontSize: 13,
     fontFamily: 'Inter-Regular',
     fontWeight: '600',
@@ -229,5 +292,10 @@ const styles = StyleSheet.create({
   badgeText: {
     opacity: 0.6,
     fontFamily: 'Inter-Regular',
+  },
+  closeIcon: {
+    fontSize: 28,
+    opacity: 0.7,
+    paddingRight: 14,
   },
 });

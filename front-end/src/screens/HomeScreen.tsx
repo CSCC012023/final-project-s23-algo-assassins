@@ -59,7 +59,7 @@ const HomeScreen = () => {
   };
 
   const handleUserButtonClick = () => {
-    navigation.navigate('Profile');
+    navigation.navigate('UserProfile');
   };
 
   const handleFollow = friend => {
@@ -124,7 +124,7 @@ const HomeScreen = () => {
               <Text style={styles.nameEmailText}>{userDisplayName}</Text>
             </TouchableOpacity>
 
-            <View style={styles.followUnfollowContainer}>
+            {/* <View style={styles.followUnfollowContainer}>
               <TouchableOpacity
                 style={[styles.dropdownButton, styles.followButton]}
                 onPress={() => handleFollow(userData.email)}>
@@ -136,7 +136,7 @@ const HomeScreen = () => {
                 onPress={() => handleUnfollow(userData.email)}>
                 <Text style={styles.dropdownButtonText}>Unfollow</Text>
               </TouchableOpacity>
-            </View>
+            </View> */}
           </View>
         </View>
       );

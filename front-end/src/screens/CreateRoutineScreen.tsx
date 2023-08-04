@@ -363,7 +363,7 @@ const CreateRoutineScreen = ({route, navigation}: Props) => {
 
             return true; // By returning true, the default behavior of back button is overwritten
           }}>
-          <Ionicons name="chevron-back-outline" style={styles.closeIcon} />
+          <Ionicons name="chevron-back" style={styles.closeIcon} />
         </TouchableOpacity>
         <Text style={styles.title}>New Routine</Text>
         <Text style={styles.placeholder}> Lol </Text>
