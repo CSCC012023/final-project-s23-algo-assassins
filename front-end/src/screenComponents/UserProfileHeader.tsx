@@ -69,7 +69,7 @@ export const UserProfileHeader = ({email: string}) => {
 
   const queryUser = async () => {
     console.log('fetching user');
-    const user_: User | undefined = await getUser();
+    const user_: User | undefined = await getUserByEmail(email);
     if (user_ !== undefined) {
       console.log('user found');
       setUser(user_);
