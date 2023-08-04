@@ -129,3 +129,36 @@ export const updateProfilePicture = async (
     }
   }
 };
+
+export const getUserByEmail = async (
+  email: string,
+): Promise<User | undefined> => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/users/find?email=${email}`,
+    );
+
+    const data = await response.json();
+
+    if (response.ok) {
+      console.log('User found:', data);
+      const user: User = {
+        name: data.name,
+        username: data.username,
+        email: data.email,
+        img: data.img,
+        age: data.age ? data.age : 0,
+        weight: data.weight ? data.weight : 0,
+        height: data.height ? data.height : 0,
+        followers: data.followers ? data.followers : [],
+        following: data.following ? data.following : [],
+        biography: data.biography ? data.biography : '',
+      };
+      return user;
+    } else {
+      console.log('User not found');
+    }
+  } catch (error) {
+    console.log('Error:', error);
+  }
+};
