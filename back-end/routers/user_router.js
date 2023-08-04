@@ -92,7 +92,6 @@ const upload = (0, multer_1.default)({ dest: "uploads/" });
 // Requires email, password, name of user
 // Signup the user and create session for user
 exports.userRouter.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("signup reached");
     if (req.body.password === undefined) {
         res.status(400).json({ message: "Password is required" });
         return;
@@ -128,15 +127,6 @@ exports.userRouter.post("/signup", (req, res) => __awaiter(void 0, void 0, void 
         height: 0,
         followers: [],
         following: [],
-    });
-    req.session.user_email = user.email;
-    user
-        .save()
-        .then((data) => {
-        return res.json(data);
-    })
-        .catch((err) => {
-        return res.status(500).json({ message: err });
     });
 }));
 // Requires email and password to identify
