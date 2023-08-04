@@ -25,13 +25,13 @@ import {getUser, getUserByEmail} from '../utils/user';
 //   route: any;
 // }
 
-export const UserProfileHeader = () => {
+export const UserProfileHeader = ({email: string}) => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const isFocused = useIsFocused();
 
   const [user, setUser] = useState({});
-//   const {emailNavigate} = route.params;
+  //   const {emailNavigate} = route.params;
 
   const [name, setName] = useState<string>('Loading...');
   const [accountName, setAccountName] = useState<string>('Loading...');

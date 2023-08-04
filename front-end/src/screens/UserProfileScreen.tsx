@@ -28,17 +28,14 @@ import {useRoute, RouteProp, NavigationProp} from '@react-navigation/native';
 // }
 
 interface UserProfileProps {
-  navigation: any;
-  route: {email: string};
+  route: {params: {email: string}};
 }
 
-const UserProfileScreen: React.FC<UserProfileProps> = ({
-  route: {email: string},
-}) => {
+const UserProfileScreen: React.FC<UserProfileProps> = ({route}) => {
   // Pass the navigation prop to access navigation functionalities
   const [user, setUser] = useState({});
   const isFocused = useIsFocused();
-  const {emailNavigate} = route.params;
+  const emailNavigate = route.params.email;
 
   const queryUser = useCallback(async () => {
     console.log('fetching user');
