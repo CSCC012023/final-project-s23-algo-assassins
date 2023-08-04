@@ -11,6 +11,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigation';
 import {CheckBox} from 'react-native-elements';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import Toast from 'react-native-toast-message';
 
 const {width, height} = Dimensions.get('window');
@@ -119,9 +120,9 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({navigation}) => {
   return (
     <View style={styles.bg_white}>
       <TouchableOpacity
-        style={{marginTop: 0.05 * height, marginHorizontal: 0.05 * width}}
+        style={{marginTop: 0.06 * height, marginHorizontal: 0.05 * width}}
         onPress={() => navigation.goBack()}>
-        <AntDesign name="left" size={30} color="grey" />
+        <Ionicons name="chevron-back" size={32} color="grey" />
       </TouchableOpacity>
       <View style={[styles.mg_v_8, styles.mg_h_16]}>
         <Text style={[styles.mg_t_8, styles.font_inter_input]}>Username</Text>
@@ -214,11 +215,12 @@ const styles = StyleSheet.create({
     width: width * 0.86,
   },
   font_inter_input: {
-    fontFamily: 'Inter-Regular',
+    fontFamily: 'Inter-Light',
     fontStyle: 'normal',
-    fontWeight: '300',
+    fontWeight: '400',
     fontSize: 18,
     lineHeight: 22,
+    opacity: 0.8,
   },
   font_inter_forgot: {
     fontFamily: 'Inter-Regular',
@@ -240,5 +242,6 @@ const styles = StyleSheet.create({
   },
   buttonFont: {
     fontSize: Math.round(width * 0.04),
+    opacity: 0.8,
   },
 });

@@ -8,20 +8,29 @@ import {
 } from 'react-native';
 import {TextInput, Text, Button, Divider} from '@react-native-material/core';
 import React from 'react';
+import useState from 'react';
 import {GoogleSigninButton} from '@react-native-google-signin/google-signin';
 //import React, { useState } from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigation';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Feather from 'react-native-vector-icons/Feather';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import Toast from 'react-native-toast-message';
 
-const {width} = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 const LoginScreen = ({navigation}: Props) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(prevState => !prevState);
+  };
 
   // will display the login status
   const [loginStatus, setLoginStatus] = React.useState('');
@@ -95,45 +104,61 @@ const LoginScreen = ({navigation}: Props) => {
       <TouchableOpacity
         style={{marginHorizontal: 0.05 * width}}
         onPress={() => navigation.goBack()}>
-        <AntDesign name="left" size={30} color="grey" />
+        <Ionicons name="chevron-back" size={32} color="grey" />
       </TouchableOpacity>
       <View style={[styles.mg_h_16, styles.mg_v_8]}>
         <Text style={[styles.mg_t_8, styles.font_inter_input]}>Email</Text>
         <TextInput
-          style={[styles.mg_b_8]}
+          placeholder="example@gmail.com"
+          style={[styles.mg_v_8, styles.text_input]}
           color="rgba(251, 142, 64, 0.5)"
-          placeholderTextColor={'rgba(0, 0, 0, 0.3)'}
           variant="standard"
           value={email} // Bind the value to the 'email' state
           onChangeText={text => setEmail(text)}
           autoCapitalize="none"
         />
+      </View>
+      <View style={[styles.mg_h_16, styles.mg_v_8]}>
         <Text style={[styles.mg_t_8, styles.font_inter_input]}>Password</Text>
-        <TextInput
-          style={[styles.mg_b_8]}
-          color="rgba(251, 142, 64, 0.5)"
-          placeholderTextColor={'rgba(0, 0, 0, 0.3)'}
-          variant="standard"
-          value={password} // Bind the value to the 'password' state
-          onChangeText={text => setPassword(text)}
-          autoCapitalize="none"
-          secureTextEntry={true}
-        />
+        <View style={styles.passwordContainer}>
+          <TextInput
+            style={[styles.mg_v_8, styles.text_input]}
+            color="rgba(251, 142, 64, 0.5)"
+            variant="standard"
+            value={password} // Bind the value to the 'password' state
+            onChangeText={text => setPassword(text)}
+            autoCapitalize="none"
+            secureTextEntry={!showPassword}
+          />
+          <TouchableOpacity
+            style={styles.iconContainer}
+            onPress={togglePasswordVisibility}>
+            <Feather
+              name={showPassword ? 'eye' : 'eye-off'}
+              size={22}
+              color={showPassword ? '#ccc' : '#777'}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+      <View style={styles.mg_h_16}>
         <TouchableWithoutFeedback onPress={handleForgotPass}>
-          <Text style={[styles.mg_v_8, styles.font_inter_forgot]}>
-            Forgot password?
-          </Text>
+          <Text style={[styles.font_inter_forgot]}>Forgot password?</Text>
         </TouchableWithoutFeedback>
-        <View style={styles.mg_v_8}></View>
-        <Button
-          title="Login!"
-          style={[styles.mg_v_8]}
-          variant="contained"
-          color="rgba(251, 142, 64, 0.5)"
-          onPress={() => {
-            handleLogin();
-          }} // Connect handleLogin function to the onPress event
-        />
+        <View style={[styles.mg_v_8, styles.loginContainer]} />
+        <TouchableOpacity
+          style={[styles.button, styles.mg_t_8]}
+          onPress={() => handleLogin()}>
+          <View
+            style={[
+              styles.buttonContent,
+              {
+                backgroundColor: 'rgba(251, 142, 64, 0.5)',
+              },
+            ]}>
+            <Text style={styles.buttonFont}>Login</Text>
+          </View>
+        </TouchableOpacity>
         <View
           style={{
             flexDirection: 'row',
@@ -146,7 +171,7 @@ const LoginScreen = ({navigation}: Props) => {
           <Divider style={{flex: 1}} />
         </View>
         <GoogleSigninButton
-          style={{width: '100%', height: 48}}
+          style={{width: '100%', height: 50}}
           size={GoogleSigninButton.Size.Wide}
           color={GoogleSigninButton.Color.Dark}
           onPress={() => {
@@ -163,10 +188,13 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
   mg_h_16: {
-    marginHorizontal: 16,
+    marginHorizontal: width * 0.07,
   },
   mg_v_8: {
     marginVertical: 8,
+  },
+  mg_v_4: {
+    marginVertical: 4,
   },
   mg_t_8: {
     marginTop: 8,
@@ -189,19 +217,20 @@ const styles = StyleSheet.create({
   },
   text_input: {
     color: 'rgba(0, 0, 0, 0.3)',
+    width: width * 0.86,
   },
   font_inter_input: {
-    fontFamily: 'Inter-Regular',
+    fontFamily: 'Inter-Light',
     fontStyle: 'normal',
-    fontWeight: '300',
+    fontWeight: '400',
     fontSize: 18,
     lineHeight: 22,
   },
   font_inter_forgot: {
     fontFamily: 'Inter-Regular',
     fontStyle: 'normal',
-    fontWeight: '300',
-    fontSize: 15,
+    fontWeight: '400',
+    fontSize: 13,
     lineHeight: 18,
     color: '#FB8E40',
   },
@@ -216,5 +245,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
     paddingVertical: 0,
     borderRadius: 0,
+  },
+  passwordContainer: {
+    flexDirection: 'row',
+  },
+  iconContainer: {
+    position: 'absolute',
+    right: 10,
+    top: 15,
+  },
+  button: {
+    width: width * 0.86,
+    height: height * 0.058,
+  },
+  loginContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

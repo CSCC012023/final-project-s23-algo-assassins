@@ -135,6 +135,15 @@ exports.userRouter.post("/signup", (req, res) => __awaiter(void 0, void 0, void 
         return res.json(data);
     })
         .catch((err) => {
+        return res.status(500).json({ message: err });
+    });
+    req.session.user_email = user.email;
+    user
+        .save()
+        .then((data) => {
+        return res.json(data);
+    })
+        .catch((err) => {
         console.log(err);
         return res.status(500).json({ message: err });
     });

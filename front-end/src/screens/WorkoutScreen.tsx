@@ -7,9 +7,11 @@ import {
 } from 'react-native';
 import {TextInput, Text, Pressable} from '@react-native-material/core';
 import React from 'react';
+import {useState} from 'react';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Octicons from 'react-native-vector-icons/Octicons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+// import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import SearchPrograms from '../components/searchBar/SearchPrograms';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigation';
 
@@ -33,21 +35,24 @@ const ProgramButton = (props: any) => {
 };
 
 const WorkoutScreen = ({navigation: {navigate}}: Props) => {
+  const [search, setSearch] = useState('');
+
+  const updateSearch = (search_: string) => {
+    setSearch(search_);
+  };
+
   return (
     <SafeAreaView style={styles.bg_white}>
-      <View
-        style={[styles.flex_row, styles.flex_wrap, styles.flex_align_center]}>
-        <Text style={[styles.mg_16, styles.pd_8, styles.font_inter_20]}>
-          Workout
-        </Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>Workout</Text>
       </View>
       <View style={[styles.mg_h_16, styles.mg_v_8]}>
         <View style={[styles.btn_new_workout]}>
           <TouchableOpacity
             onPress={() => navigate('StartWorkout', {navData: {}})}
-            style={[styles.pd_h_4]}>
+            style={[styles.pd_h_4, styles.headerWorkout]}>
             <Text style={[styles.mg_v_16, styles.font_inter_20]}>
-              <Fontisto name={'plus-a'} size={20} color={'#0561F880'} /> Start
+              <Fontisto name={'plus-a'} size={18} color={'#0561F880'} /> Start
               New Workout
             </Text>
           </TouchableOpacity>
@@ -62,26 +67,29 @@ const WorkoutScreen = ({navigation: {navigate}}: Props) => {
             styles.flex_justify_between,
           ]}>
           <ProgramButton
+            // style={styles.spacing}
             icon="sun"
-            text="New Routine"
-            onPress={() =>
-              navigate('CreateRoutine', {navData: {}})
-            }></ProgramButton>
+            text="New 
+            Routine"
+            onPress={() => navigate('CreateRoutine', {navData: {}})}
+          />
           <ProgramButton
+            // style={styles.spacing}
             icon="file"
             text="Saved Routine"
-            onPress={() =>
-              navigate('SavedRoutines')
-            }></ProgramButton>
+            onPress={() => navigate('SavedRoutines')}
+          />
         </View>
 
-        <TextInput
+        <SearchPrograms value={search} onChange={updateSearch} />
+        {/* <TextInput
           label="Search Programs"
           color="rgba(0, 0, 0, 0.3)"
-          leading={props => (
+          // eslint-disable-next-line react/no-unstable-nested-components
+          leading={() => (
             <MaterialIcons name={'search'} size={28} color={'#00000080'} />
           )}
-        />
+        /> */}
       </View>
     </SafeAreaView>
   );
@@ -117,6 +125,9 @@ const styles = StyleSheet.create({
   },
   mg_t_16: {
     marginTop: 16,
+  },
+  mg_b_32: {
+    marginBottom: 32,
   },
   mg_b_64: {
     marginBottom: 64,
@@ -176,14 +187,14 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter-Regular',
     fontStyle: 'normal',
     fontWeight: '300',
-    fontSize: 20,
+    fontSize: 18,
     lineHeight: 22,
   },
   font_inter_sb_20: {
     fontFamily: 'Inter-SemiBold',
     fontStyle: 'normal',
-    fontWeight: '300',
-    fontSize: 20,
+    fontWeight: '500',
+    fontSize: 18,
     lineHeight: 22,
   },
   // flex
@@ -202,7 +213,7 @@ const styles = StyleSheet.create({
     flexWrap: 'nowrap',
   },
   flex_justify_between: {
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
   },
   flex_justify_center: {
     justifyContent: 'center',
@@ -228,18 +239,19 @@ const styles = StyleSheet.create({
   btn_new_workout: {
     borderWidth: 2,
     borderColor: 'transparent',
-    borderRadius: 8,
+    width: '90%',
+    borderRadius: 15,
     overflow: 'hidden',
   },
   // StartWorkoutScreen Related
   btn_container: {
     borderWidth: 2,
     borderColor: 'transparent',
-    borderRadius: 8,
+    borderRadius: 15,
     overflow: 'hidden',
   },
   btn: {
-    borderRadius: 5,
+    borderRadius: 20,
     paddingHorizontal: 16,
     paddingVertical: 12,
     display: 'flex',
@@ -275,6 +287,52 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     display: 'flex',
     alignItems: 'center',
+  },
+  // Refactor
+  title: {
+    fontSize: 16,
+    fontWeight: '500',
+    fontFamily: 'Inter-Regular',
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingBottom: 10,
+  },
+  headerWorkout: {
+    paddingLeft: 10,
+  },
+  startWorkoutHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingBottom: 10,
+  },
+  spacing: {
+    padding: 5,
+    alignItems: 'center',
+  },
+  closeIcon: {
+    fontSize: 35,
+    opacity: 0.7,
+  },
+  placeholder: {
+    opacity: 0.0,
+  },
+  body: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  workoutText: {
+    fontSize: 16,
+    fontWeight: '500',
+    fontFamily: 'Inter-Regular',
   },
 });
 

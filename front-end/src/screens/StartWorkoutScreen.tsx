@@ -19,9 +19,14 @@ import {RootStackParamList} from '../types/navigation';
 import {styles} from './WorkoutScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Dictionary, Exercise, Set} from '../types/workout';
+<<<<<<< HEAD
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+=======
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+>>>>>>> main
 import {Alert} from 'react-native';
 import Toast from 'react-native-toast-message';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'StartWorkout'>;
 
@@ -409,13 +414,7 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
 
   return (
     <SafeAreaView style={styles.bg_white}>
-      <View
-        style={[
-          styles.mg_16,
-          styles.pd_8,
-          styles.flex_row,
-          styles.flex_align_center,
-        ]}>
+      <View style={styles.startWorkoutHeader}>
         <TouchableOpacity
           onPress={() => {
             Alert.alert(
@@ -427,18 +426,19 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
                   onPress: () => {}, // If the user cancels, do nothing
                   style: 'cancel',
                 },
-                { 
-                  text: "Discard", 
+                {
+                  text: 'Discard',
                   onPress: () => navigation.goBack(),
-                  style: "destructive"
-                }
-              ]
+                  style: 'destructive',
+                },
+              ],
             );
 
             return true; // By returning true, the default behavior of back button is overwritten
           }}>
-          <MaterialIcons name={'arrow-back-ios'} size={20} color={'#000000'} />
+          <Ionicons name="chevron-back" style={styles.closeIcon} />
         </TouchableOpacity>
+<<<<<<< HEAD
         <Text style={[styles.font_inter_20]}>Workout</Text>
         <Pressable
           pressEffectColor="#fff"
@@ -462,6 +462,13 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
             Finish
           </Text>
         </Pressable>
+=======
+        <Text style={styles.title}>New Workout</Text>
+        <Text style={styles.placeholder}> Lol </Text>
+      </View>
+      <View style={styles.body}>
+        <MaterialCommunityIcons name="weight-lifter" style={styles.closeIcon} />
+>>>>>>> main
       </View>
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -504,7 +511,7 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
               }>
               <Text
                 style={[
-                  styles.font_inter_sb_16,
+                  styles.workoutText,
                   styles.text_center,
                   {color: '#fff'},
                 ]}>
@@ -516,7 +523,7 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
             <Pressable
               pressEffectColor="#fff"
               style={[styles.btn, {backgroundColor: '#d9d9d9'}]}>
-              <Text style={[styles.font_inter_sb_16, styles.text_center]}>
+              <Text style={[styles.workoutText, styles.text_center]}>
                 Options
               </Text>
             </Pressable>
@@ -526,7 +533,7 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
       <View
         style={[
           styles.mg_h_32,
-          styles.mg_b_64,
+          styles.mg_b_32,
           styles.flex_row,
           styles.flex_justify_between,
         ]}>
@@ -540,6 +547,38 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
           <Text style={[styles.text_center]}>Total Volume</Text>
           <Text style={[styles.text_center]}>{totalVolume} lbs</Text>
         </View>
+      </View>
+      <View
+        style={[
+          // styles.mg_16,
+          styles.pd_8,
+          styles.flex_row,
+          styles.flex_align_center,
+        ]}>
+        <Pressable
+          pressEffectColor="#fff"
+          style={[
+            styles.btn,
+            {
+              backgroundColor: 'rgba(55, 97, 248, 0.8)',
+              //display: 'flex',
+              marginLeft: 95,
+              width: '50%',
+              border: 'rounded',
+              padding: 0,
+            },
+          ]}
+          onPress={handleFinishWorkout}>
+          <Text
+            style={[
+              styles.font_inter_sb_16,
+              styles.text_center,
+              styles.title,
+              {color: '#fff'},
+            ]}>
+            Finish
+          </Text>
+        </Pressable>
       </View>
     </SafeAreaView>
   );

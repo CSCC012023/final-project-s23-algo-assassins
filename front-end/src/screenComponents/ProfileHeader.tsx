@@ -61,7 +61,9 @@ export const ProfileSetup = () => {
       <View style={styles.header}>
         <View style={styles.accountInfo}>
           <Text style={styles.accountName}>{accountName}</Text>
-          <Feather name="chevron-down" style={styles.chevronDownIcon} />
+          <TouchableOpacity>
+            <Feather name="chevron-down" style={styles.chevronDownIcon} />
+          </TouchableOpacity>
         </View>
         <View style={styles.headerIcons}>
           <Feather name="bell" style={styles.headerIcon} />
@@ -151,6 +153,7 @@ const styles = StyleSheet.create({
     padding: 10,
     // paddingRight: 15,
     color: '#FB8E40',
+    opacity: 0.7,
   },
   profileInfo: {
     flexDirection: 'row',
@@ -207,14 +210,14 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(251, 142, 64, 0.15)',
+    backgroundColor: '#FB8E40',
   },
   editProfileButtonText: {
-    fontSize: 12,
+    fontSize: 13,
     fontFamily: 'Inter-Regular',
-    fontWeight: '500',
+    fontWeight: '600',
     letterSpacing: 1,
-    opacity: 0.8,
+    opacity: 0.5,
   },
   badgeContainer: {
     paddingLeft: 70,
