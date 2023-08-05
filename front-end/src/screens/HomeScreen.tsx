@@ -13,6 +13,7 @@ import WelcomeCard from '../components/welcomeCard/WelcomeCard';
 import PostCard from '../components/postCard/PostCard';
 import { RootStackParamList } from '../types/navigation';
 import SuggestFollowCard from '../components/suggestFollowCard/SuggestFollowCard';
+import { useIsFocused } from '@react-navigation/native';
 
 interface HomeScreenProps {
   navigation: any;
@@ -27,6 +28,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   const [userEmail, setUserEmail] = useState('');
   const [userName, setUserName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const isFocused = useIsFocused();
 
   // Function to get the currently logged-in user's email
   const getCurrentUserEmail = async () => {
@@ -88,15 +90,17 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
 
   useEffect(() => {
     getCurrentUserEmail();
-    fetchWorkouts().then(workouts => {
-      workouts.forEach(workout => {
-        workout.exercises = workout.exercises.map(exercise =>
-          JSON.parse(exercise),
-        );
+    if (isFocused) {
+      fetchWorkouts().then(workouts => {
+        workouts.forEach(workout => {
+          workout.exercises = workout.exercises.map(exercise =>
+            JSON.parse(exercise),
+          );
+        });
+        setWorkouts(workouts);
       });
-      setWorkouts(workouts);
-    });
-  }, []);
+    }
+  }, [isFocused]);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const updateSearch = async (searchText: React.SetStateAction<string>) => {
