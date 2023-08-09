@@ -6,6 +6,7 @@ import {
   View,
   SafeAreaView,
   TouchableOpacity,
+  useColorScheme,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
@@ -23,16 +24,31 @@ const SettingsScreen = () => {
     navigation.navigate('LandingScreen');
   };
 
+  const theme = useColorScheme();
+  const isDarkTheme = theme === 'dark';
+
   const handleToggle = () => {
     setIsToggled(!isToggled);
   };
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
+    <SafeAreaView
+      style={[
+        styles.container,
+        isDarkTheme ? styles.darkBackground : styles.lightBackground,
+      ]}>
+      <View style={[styles.header]}>
         <TouchableOpacity onPress={() => goBack()}>
-          <Ionicons name="chevron-back-outline" style={styles.closeIcon} />
+          <Ionicons name="chevron-back" style={styles.closeIcon} />
         </TouchableOpacity>
-        <Text style={styles.title}> Settings </Text>
+        <Text
+          style={[
+            styles.title,
+            isDarkTheme ? styles.whiteText : styles.blackText,
+          ]}>
+          {' '}
+          Settings{' '}
+        </Text>
         <Text style={styles.placeholder}> Lol </Text>
       </View>
       <View style={styles.bodyContainer}>
@@ -193,6 +209,18 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: 'red',
     opacity: 0.7,
+  },
+  darkBackground: {
+    backgroundColor: 'black',
+  },
+  lightBackground: {
+    backgroundColor: 'white',
+  },
+  whiteText: {
+    color: 'white',
+  },
+  blackText: {
+    color: 'black',
   },
 });
 

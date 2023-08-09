@@ -5,36 +5,110 @@ import {
   View,
   Text,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {
+  NavigationProp,
+  useNavigation,
+  RouteProp,
+} from '@react-navigation/native';
 import SearchBarHeader from '../components/searchBar/SearchBar';
 import WelcomeCard from '../components/welcomeCard/WelcomeCard';
+import PostCard from '../components/postCard/PostCard';
+import {RootStackParamList} from '../types/navigation';
 import SuggestFollowCard from '../components/suggestFollowCard/SuggestFollowCard';
+import {useIsFocused} from '@react-navigation/native';
 
-const HomeScreen = () => {
+interface HomeScreenProps {
+  navigation: any;
+  route: any;
+}
+
+const HomeScreen: React.FC<HomeScreenProps> = () => {
   const [search, setSearch] = useState('');
+  const [workouts, setWorkouts] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [userData, setUserData] = useState(null);
   const [userEmail, setUserEmail] = useState('');
+  const [userName, setUserName] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const isFocused = useIsFocused();
 
   // Function to get the currently logged-in user's email
   const getCurrentUserEmail = async () => {
     // Replace with localhost
-    fetch('http://localhost:3000/api/users/me')
+    await fetch('http://localhost:3000/api/users/me')
       .then(response => response.json())
       .then(data => {
         if (data.email) {
           setUserEmail(data.email);
+          setUserName(data.name);
         }
       })
       .catch(error => console.error('Error fetching user:', error));
   };
+  // Fetch workouts of all followed users and self
+  const fetchWorkouts = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(
+        'http://localhost:3000/api/users/get/follow',
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+
+      const data = await response.json();
+
+      // Fetch the current user email
+      const userEmailResponse = await fetch(
+        'http://localhost:3000/api/users/me',
+      );
+      const userEmailData = await userEmailResponse.json();
+      setUserEmail(userEmailData.email);
+      data.push(userEmailData.email);
+
+      const res = await fetch(
+        `http://localhost:3000/api/workouts/followingWorkouts?following=${data.join(
+          ',',
+        )}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      const workouts = await res.json();
+      setIsLoading(false);
+
+      return Array.isArray(workouts) ? workouts : [];
+    } catch (error) {
+      console.error('Error:', error);
+      return [];
+    }
+  };
+
   useEffect(() => {
     getCurrentUserEmail();
-  }, []);
-  const navigation = useNavigation();
+    if (isFocused) {
+      fetchWorkouts().then(workouts => {
+        workouts.forEach(workout => {
+          workout.exercises = workout.exercises.map(exercise =>
+            JSON.parse(exercise),
+          );
+        });
+        setWorkouts(workouts);
+      });
+    }
+  }, [isFocused]);
 
-  const updateSearch = async searchText => {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+  const updateSearch = async (searchText: React.SetStateAction<string>) => {
     setSearch(searchText);
 
     try {
@@ -58,54 +132,12 @@ const HomeScreen = () => {
     }
   };
 
-  const handleUserButtonClick = () => {
-    navigation.navigate('Profile');
-  };
-
-  const handleFollow = friend => {
-    // Replace localhost
-    fetch('http://localhost:3000/api/users/create/follow', {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        followed_email: friend, // The friend's email to follow
-        follower_email: userEmail, // The currently logged-in user's email
-      }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        // successful follow
-        console.log('Followed', friend);
-      })
-      .catch(error => {
-        // Handle error scenarios
-        console.error('Error following friend:', error);
-      });
-  };
-
-  const handleUnfollow = friend => {
-    // Replace
-    fetch('http://localhost:3000/api/users/remove/follow', {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        followed_email: friend, // The friend's email to unfollow
-        follower_email: userEmail, // The currently logged-in user's email
-      }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        // Handle the response for successful unfollow
-        console.log('Unfollowed', friend);
-      })
-      .catch(error => {
-        // Handle error scenarios
-        console.error('Error unfollowing friend:', error);
-      });
+  const navigateUserProfile = () => {
+    const email: string = userData.email;
+    console.log('Email:');
+    console.log(email);
+    navigation.navigate('UserProfile', {email: email}); // need to pass in userData.email
+    setShowDropdown(false);
   };
 
   const renderDropdown = () => {
@@ -120,23 +152,9 @@ const HomeScreen = () => {
           <View style={styles.userInfoContainer}>
             <TouchableOpacity
               style={styles.dropdownButton}
-              onPress={handleUserButtonClick}>
+              onPress={navigateUserProfile}>
               <Text style={styles.nameEmailText}>{userDisplayName}</Text>
             </TouchableOpacity>
-
-            <View style={styles.followUnfollowContainer}>
-              <TouchableOpacity
-                style={[styles.dropdownButton, styles.followButton]}
-                onPress={() => handleFollow(userData.email)}>
-                <Text style={styles.dropdownButtonText}>Follow</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={[styles.dropdownButton, styles.unfollowButton]}
-                onPress={() => handleUnfollow(userData.email)}>
-                <Text style={styles.dropdownButtonText}>Unfollow</Text>
-              </TouchableOpacity>
-            </View>
           </View>
         </View>
       );
@@ -148,11 +166,15 @@ const HomeScreen = () => {
   return (
     <SafeAreaView style={styles.background}>
       <SearchBarHeader value={search} onChange={updateSearch} />
-      <WelcomeCard />
-      <View style={styles.container}>
-        <SuggestFollowCard name="John Doe" />
-        <SuggestFollowCard name="Jane Doe" />
-      </View>
+      <ScrollView>
+        {isLoading ? null : workouts.length == 0 ? (
+          <WelcomeCard username={userName} />
+        ) : (
+          workouts.map((workout, index) => (
+            <PostCard key={index} workout={workout} />
+          ))
+        )}
+      </ScrollView>
       {renderDropdown()}
     </SafeAreaView>
   );

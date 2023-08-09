@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import {ProfileSetup} from '../screenComponents/ProfileHeader';
 import {useIsFocused} from '@react-navigation/native';
-import {Image} from 'react-native-elements';
 import {getUser} from '../utils/user';
 import {User} from '../types/user';
 import ProgressChart from '../components/progressChart/ProgressChart';
@@ -21,11 +20,6 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
   // Pass the navigation prop to access navigation functionalities
   const [user, setUser] = useState({});
   const isFocused = useIsFocused();
-
-  const handleFriendsButtonPress = () => {
-    // Navigate to the FriendScreen when the button is pressed
-    navigation.navigate('Friend');
-  };
 
   const queryUser = async () => {
     console.log('fetching user');
@@ -49,22 +43,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         <ProfileSetup />
-        {/* <ProfileButtons
-          id={0}
-          name=""
-          accountName=""
-          profileImage={require('../assets/images/levi_pfp.png')}
-        /> */}
       </View>
-      <View style={styles.bioContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={handleFriendsButtonPress}>
-          <Text style={styles.buttonText}>View Friends</Text>
-        </TouchableOpacity>
-        <Text style={[{marginTop: 12}]}>Progress Data</Text>
-        <ProgressChart></ProgressChart>
-      </View>
+      <View style={styles.bioContainer} />
     </SafeAreaView>
   );
 };
@@ -75,7 +55,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   content: {
-    width: '130%',
+    width: '100%',
     paddingLeft: 20,
     paddingRight: 20,
   },
