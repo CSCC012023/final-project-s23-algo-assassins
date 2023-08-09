@@ -44,7 +44,10 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
       <View style={styles.content}>
         <ProfileSetup />
       </View>
-      <View style={styles.bioContainer} />
+      <View style={styles.bioContainer}>
+        <Text style={[{marginTop: 12}]}>Progress Data</Text>
+        <ProgressChart></ProgressChart>
+      </View>
     </SafeAreaView>
   );
 };
