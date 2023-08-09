@@ -80,3 +80,32 @@ exports.workoutRouter.get('/followingWorkouts', (req, res) => __awaiter(void 0, 
         return res.status(500).json({ message: err.message });
     }
 }));
+// Get array of workout progress
+exports.workoutRouter.get('/getProgress', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield User_1.User.findOne({ email: req.session.user_email });
+    if (!user) {
+        return res.status(400).json({ message: "User not found" });
+    }
+    Workout_1.Workout.find({ userId: user._id })
+        .sort({ date: -1 })
+        .then((data) => {
+        const workoutprogress = [];
+        data.forEach((d) => {
+            const exercises = JSON.parse(JSON.parse(JSON.stringify(d["exercises"])));
+            console.log(JSON.stringify(exercises, null, 4));
+            workoutprogress.push({
+                createdAt: d["createdAt"],
+                duration: d["duration"],
+                totalReps: Object.keys(exercises).reduce((a, c) => a +
+                    exercises[c]["sets"]
+                        .filter((s) => s.isComplete != undefined && s.isComplete)
+                        .reduce((b, d) => b + d["reps"], 0), 0),
+                totalVolume: d['totalVolume']
+            });
+        });
+        res.json(workoutprogress);
+    })
+        .catch((err) => {
+        res.status(500).json({ message: err.message });
+    });
+}));

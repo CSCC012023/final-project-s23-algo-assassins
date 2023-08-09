@@ -65,10 +65,10 @@ export const ProfileSetup = () => {
     <View>
       <View style={styles.header}>
         <View style={styles.accountInfo}>
-          <Text style={styles.accountName}>{accountName}</Text>
-          <TouchableOpacity>
+          <Text style={styles.accountName}>{name}</Text>
+          {/* <TouchableOpacity>
             <Feather name="chevron-down" style={styles.chevronDownIcon} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity>
             <Feather name="chevron-down" style={styles.chevronDownIcon} />
           </TouchableOpacity>

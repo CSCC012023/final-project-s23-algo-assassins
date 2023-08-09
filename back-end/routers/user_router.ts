@@ -130,16 +130,6 @@ userRouter.post("/signup", async (req, res) => {
     .catch((err: any) => {
       return res.status(500).json({ message: err });
     });
-    req.session.user_email = user.email;
-    user
-        .save()
-        .then((data: any) => {
-            return res.json(data);
-        })
-        .catch((err: any) => {
-            console.log(err);
-            return res.status(500).json({ message: err });
-        });
 });
 
 // Requires email and password to identify
