@@ -3,12 +3,12 @@ import React from 'react';
 import {Button, Card, Image, Text} from '@rneui/themed';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const WelcomeCard = () => (
+const WelcomeCard = (props: any) => (
   <Card>
     <View style={styles.cardContainer}>
       <Text>
         Welcome to fitbook, {/* Text bold */}
-        <Text style={styles.bold}>firstName!</Text>
+        <Text style={styles.bold}>{props.username}!</Text>
       </Text>
       <TouchableOpacity
         onPress={() => {

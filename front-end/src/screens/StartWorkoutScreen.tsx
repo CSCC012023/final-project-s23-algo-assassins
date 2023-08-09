@@ -22,7 +22,6 @@ import {Dictionary, Exercise, Set} from '../types/workout';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Alert} from 'react-native';
 import Toast from 'react-native-toast-message';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'StartWorkout'>;
 
@@ -352,7 +351,7 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
       if (response.ok) {
         // Handler for successful response
         console.log('Success');
-        navigation.goBack();
+        navigation.navigate('HomeTabs', {screen: 'Home'});
       } else {
         const errorMessage = data.message; //|| 'SignUp Failed';
         let errorMessageInfo = 'Unknown Error';

@@ -18,6 +18,7 @@ workoutRouter.post('/create', async (req, res) => {
     createdAt: req.body.date,
     exercises: req.body.exercises,
     totalVolume: req.body.totalVolume,
+    email: req.session.user_email,
   })
   workout.save()
       .then((data: any) => {
@@ -42,4 +43,37 @@ workoutRouter.get('/get', async (req, res) => {
       .catch((err: any) => {
         res.status(500).json({ message: err.message });
       });
+});
+
+// Fetch workouts of a list of following, and the user himself
+workoutRouter.get('/followingWorkouts', async (req, res) => {
+  const following = req.query.following; // Following list from query params
+  
+  if (!following) {
+    return res.status(400).json({ error: "No following list provided" });
+  }
+  const user = await User.findOne({ email: req.session.user_email });
+  if (!user) {
+    return res.status(400).json({ message: "User not found" });
+  }
+  
+  try {
+    // Parse the emails from the string into an array
+    let emails = following.split(",");
+    console.log(emails);
+
+    // Fetch all users who are followed by the current user
+    const followedUsers = await User.find({ email: { $in: emails } });
+
+    // Extract their ids
+    let userIds = followedUsers.map(user => user._id);
+
+    // Fetch workouts of these users
+    const workouts = await Workout.find({
+      userId: { $in: userIds }
+    }).sort({ 'createdAt': -1 }); // Sorting by descending creation time
+    return res.status(200).json(workouts);
+  } catch (err: any) {
+    return res.status(500).json({ message: err.message });
+  }
 });

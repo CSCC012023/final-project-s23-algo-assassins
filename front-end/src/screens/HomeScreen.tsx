@@ -5,15 +5,17 @@ import {
   View,
   Text,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import {
-  useNavigation,
   NavigationProp,
+  useNavigation,
   RouteProp,
 } from '@react-navigation/native';
-import {RootStackParamList} from '../types/navigation';
 import SearchBarHeader from '../components/searchBar/SearchBar';
 import WelcomeCard from '../components/welcomeCard/WelcomeCard';
+import PostCard from '../components/postCard/PostCard';
+import {RootStackParamList} from '../types/navigation';
 import SuggestFollowCard from '../components/suggestFollowCard/SuggestFollowCard';
 
 interface HomeScreenProps {
@@ -23,25 +25,86 @@ interface HomeScreenProps {
 
 const HomeScreen: React.FC<HomeScreenProps> = () => {
   const [search, setSearch] = useState('');
+  const [workouts, setWorkouts] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [userData, setUserData] = useState(null);
   const [userEmail, setUserEmail] = useState('');
+  const [userName, setUserName] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const isFocused = useIsFocused();
 
   // Function to get the currently logged-in user's email
   const getCurrentUserEmail = async () => {
     // Replace with localhost
-    fetch('http://localhost:3000/api/users/me')
+    await fetch('http://localhost:3000/api/users/me')
       .then(response => response.json())
       .then(data => {
         if (data.email) {
           setUserEmail(data.email);
+          setUserName(data.name);
         }
       })
       .catch(error => console.error('Error fetching user:', error));
   };
+  // Fetch workouts of all followed users and self
+  const fetchWorkouts = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(
+        'http://localhost:3000/api/users/get/follow',
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+
+      const data = await response.json();
+
+      // Fetch the current user email
+      const userEmailResponse = await fetch(
+        'http://localhost:3000/api/users/me',
+      );
+      const userEmailData = await userEmailResponse.json();
+      setUserEmail(userEmailData.email);
+      data.push(userEmailData.email);
+
+      const res = await fetch(
+        `http://localhost:3000/api/workouts/followingWorkouts?following=${data.join(
+          ',',
+        )}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      const workouts = await res.json();
+      setIsLoading(false);
+
+      return Array.isArray(workouts) ? workouts : [];
+    } catch (error) {
+      console.error('Error:', error);
+      return [];
+    }
+  };
+
   useEffect(() => {
     getCurrentUserEmail();
-  }, []);
+    if (isFocused) {
+      fetchWorkouts().then(workouts => {
+        workouts.forEach(workout => {
+          workout.exercises = workout.exercises.map(exercise =>
+            JSON.parse(exercise),
+          );
+        });
+        setWorkouts(workouts);
+      });
+    }
+  }, [isFocused]);
+
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const updateSearch = async (searchText: React.SetStateAction<string>) => {
@@ -102,11 +165,15 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   return (
     <SafeAreaView style={styles.background}>
       <SearchBarHeader value={search} onChange={updateSearch} />
-      <WelcomeCard />
-      <View style={styles.container}>
-        <SuggestFollowCard name="John Doe" />
-        <SuggestFollowCard name="Jane Doe" />
-      </View>
+      <ScrollView>
+        {isLoading ? null : workouts.length == 0 ? (
+          <WelcomeCard username={userName} />
+        ) : (
+          workouts.map((workout, index) => (
+            <PostCard key={index} workout={workout} />
+          ))
+        )}
+      </ScrollView>
       {renderDropdown()}
     </SafeAreaView>
   );

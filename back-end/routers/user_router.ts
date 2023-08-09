@@ -130,6 +130,16 @@ userRouter.post("/signup", async (req, res) => {
     .catch((err: any) => {
       return res.status(500).json({ message: err });
     });
+    req.session.user_email = user.email;
+    user
+        .save()
+        .then((data: any) => {
+            return res.json(data);
+        })
+        .catch((err: any) => {
+            console.log(err);
+            return res.status(500).json({ message: err });
+        });
 });
 
 // Requires email and password to identify
@@ -512,4 +522,19 @@ userRouter.get("/friends", async (req, res) => {
     user.followers.includes(email)
   );
   return res.json(friends);
+});
+
+// Fetch the list of users being followed by the current user
+userRouter.get("/get/follow", async (req, res) => {
+    const userEmail = req.session.user_email;
+    if (!userEmail) {
+        res.status(400).json({ message: "User not found" });
+        return;
+    }
+    const user = await User.findOne({ email: userEmail });
+    if (!user) {
+        res.status(400).json({ message: "User not found" });
+        return;
+    }
+    return res.json(user.following);
 });

@@ -137,6 +137,16 @@ exports.userRouter.post("/signup", (req, res) => __awaiter(void 0, void 0, void 
         .catch((err) => {
         return res.status(500).json({ message: err });
     });
+    req.session.user_email = user.email;
+    user
+        .save()
+        .then((data) => {
+        return res.json(data);
+    })
+        .catch((err) => {
+        console.log(err);
+        return res.status(500).json({ message: err });
+    });
 }));
 // Requires email and password to identify
 // Log in the user and creates a session
@@ -494,4 +504,18 @@ exports.userRouter.get("/friends", (req, res) => __awaiter(void 0, void 0, void 
     }
     const friends = user.following.filter((email) => user.followers.includes(email));
     return res.json(friends);
+}));
+// Fetch the list of users being followed by the current user
+exports.userRouter.get("/get/follow", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userEmail = req.session.user_email;
+    if (!userEmail) {
+        res.status(400).json({ message: "User not found" });
+        return;
+    }
+    const user = yield User_1.User.findOne({ email: userEmail });
+    if (!user) {
+        res.status(400).json({ message: "User not found" });
+        return;
+    }
+    return res.json(user.following);
 }));
