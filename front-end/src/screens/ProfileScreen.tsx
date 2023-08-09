@@ -5,12 +5,14 @@ import {
   View,
   SafeAreaView,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import {ProfileSetup} from '../screenComponents/ProfileHeader';
 import {useIsFocused} from '@react-navigation/native';
 import {getUser} from '../utils/user';
 import {User} from '../types/user';
 import ProgressChart from '../components/progressChart/ProgressChart';
+import PostCard from '../components/postCard/PostCard';
 
 interface ProfileScreenProps {
   navigation: any;
@@ -20,6 +22,9 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
   // Pass the navigation prop to access navigation functionalities
   const [user, setUser] = useState({});
   const isFocused = useIsFocused();
+  const [isLoading, setIsLoading] = useState(false);
+  const [userEmail, setUserEmail] = useState('');
+  const [workouts, setWorkouts] = useState([]);
 
   const queryUser = async () => {
     console.log('fetching user');
@@ -30,17 +35,62 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
     }
   };
 
+  const fetchWorkouts = async () => {
+    try {
+      setIsLoading(true);
+
+      const data = [];
+
+      // Fetch the current user email
+      const userEmailResponse = await fetch(
+        'http://localhost:3000/api/users/me',
+      );
+      const userEmailData = await userEmailResponse.json();
+      setUserEmail(userEmailData.email);
+      data.push(userEmailData.email);
+
+      const res = await fetch(
+        `http://localhost:3000/api/workouts/followingWorkouts?following=${data.join(
+          ',',
+        )}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      const workouts = await res.json();
+      setIsLoading(false);
+
+      return Array.isArray(workouts) ? workouts : [];
+    } catch (error) {
+      console.error('Error:', error);
+      return [];
+    }
+  };
+
   useEffect(() => {
     if (isFocused) {
       console.log('called');
       queryUser().catch(error => {
         console.error('Error fetching user data:', error);
       });
+
+      fetchWorkouts().then(workouts => {
+        workouts.forEach(workout => {
+          workout.exercises = workout.exercises.map(exercise =>
+            JSON.parse(exercise),
+          );
+        });
+        setWorkouts(workouts);
+      });
     }
   }, [isFocused]);
 
   return (
     <SafeAreaView style={styles.container}>
+      <ScrollView>
       <View style={styles.content}>
         <ProfileSetup />
       </View>
@@ -48,6 +98,12 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
         <Text style={[{marginTop: 12}]}>Progress Data</Text>
         <ProgressChart></ProgressChart>
       </View>
+      
+        {
+          workouts.map((workout, index) => 
+          <PostCard key={index} workout={workout}/>)
+        }
+      </ScrollView>
     </SafeAreaView>
   );
 };

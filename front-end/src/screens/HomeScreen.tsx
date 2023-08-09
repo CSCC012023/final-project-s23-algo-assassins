@@ -11,6 +11,7 @@ import {
   NavigationProp,
   useNavigation,
   RouteProp,
+  useIsFocused,
 } from '@react-navigation/native';
 import SearchBarHeader from '../components/searchBar/SearchBar';
 import WelcomeCard from '../components/welcomeCard/WelcomeCard';
