@@ -7,13 +7,17 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import {NavigationProp, useNavigation, RouteProp} from '@react-navigation/native';
+import {
+  NavigationProp,
+  useNavigation,
+  RouteProp,
+} from '@react-navigation/native';
 import SearchBarHeader from '../components/searchBar/SearchBar';
 import WelcomeCard from '../components/welcomeCard/WelcomeCard';
 import PostCard from '../components/postCard/PostCard';
-import { RootStackParamList } from '../types/navigation';
+import {RootStackParamList} from '../types/navigation';
 import SuggestFollowCard from '../components/suggestFollowCard/SuggestFollowCard';
-import { useIsFocused } from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 
 interface HomeScreenProps {
   navigation: any;
@@ -80,7 +84,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
       );
       const workouts = await res.json();
       setIsLoading(false);
-  
+
       return Array.isArray(workouts) ? workouts : [];
     } catch (error) {
       console.error('Error:', error);
@@ -101,6 +105,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
       });
     }
   }, [isFocused]);
+
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const updateSearch = async (searchText: React.SetStateAction<string>) => {
@@ -162,12 +167,13 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
     <SafeAreaView style={styles.background}>
       <SearchBarHeader value={search} onChange={updateSearch} />
       <ScrollView>
-      {
-        isLoading ? null : 
-        workouts.length == 0 ? <WelcomeCard username={userName}/>:
-        workouts.map((workout, index) => 
-        <PostCard key={index} workout={workout}/>)
-      }
+        {isLoading ? null : workouts.length == 0 ? (
+          <WelcomeCard username={userName} />
+        ) : (
+          workouts.map((workout, index) => (
+            <PostCard key={index} workout={workout} />
+          ))
+        )}
       </ScrollView>
       {renderDropdown()}
     </SafeAreaView>

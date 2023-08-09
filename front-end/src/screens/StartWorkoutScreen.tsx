@@ -351,7 +351,7 @@ const StartWorkoutScreen = ({route, navigation}: Props) => {
       if (response.ok) {
         // Handler for successful response
         console.log('Success');
-        navigation.navigate('HomeTabs', {randomParam: Math.random()});
+        navigation.navigate('HomeTabs');
       } else {
         const errorMessage = data.message; //|| 'SignUp Failed';
         let errorMessageInfo = 'Unknown Error';
